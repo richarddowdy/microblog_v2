@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Home(){
+function Home(){
   return (
     <>
       <h1>Welcome to home of Microblog</h1>
@@ -9,3 +9,5 @@ export function Home(){
     </>
   )
 };
+
+export default Home;
