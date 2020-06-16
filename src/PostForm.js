@@ -23,7 +23,7 @@ function PostForm() {
       <form className="col-8 m-auto">
         <hr />
         <div className="form-group">
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Title:</label>
           <input
             className="form-control"
             type="text"
@@ -34,7 +34,7 @@ function PostForm() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">Description:</label>
           <input
             className="form-control"
             type="text"
@@ -45,8 +45,9 @@ function PostForm() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="body">Body</label>
+          <label htmlFor="body">Body:</label>
           <textarea
+            style={{height: "150px"}}
             className="form-control"
             type="text"
             name="body"
@@ -58,7 +59,7 @@ function PostForm() {
         <input
           className="btn btn-primary"
           type="submit"
-          value="Submit"
+          value="Save"
           // onSubmit={handleSubmit}
         />
         <Link to="/" className="btn btn-secondary ml-5">
