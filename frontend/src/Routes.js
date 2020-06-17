@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
+import Post from './Post';
 import NewPost from './NewPost.js';
 import NotFound from './NotFound';
 
@@ -11,9 +12,9 @@ function Routes() {
       <Route exact path="/">
         <Home />
       </Route>
-      {/* <Route exact path="/posts/:id">
+      <Route exact path="/posts/:id">
         <Post />
-      </Route> */}
+      </Route>
       <Route exact path="/new">
         <NewPost />
       </Route>

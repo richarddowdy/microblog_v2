@@ -1,6 +1,6 @@
 import axios from "axios";
 import { gotTitles, } from './actions/titlesActions';
-import { addPost, } from './actions/postsActions';
+import { addPost, gotPost } from './actions/postsActions';
 
 const BASE_API_URL = "http://localhost:5000/api";
 
@@ -27,6 +27,14 @@ export function sendPostToApi(data) {
     const res = await axios.post(`${BASE_API_URL}/posts`, data)
     const newPost = res.data
     dispatch(addPost(newPost));
+  }
+}
+
+export function getOnePostFromApi(id) {
+  return async function(dispatch){
+    const res = await axios.get(`${BASE_API_URL}/posts/${id}`)
+    const post = res.data;
+    dispatch(gotPost(post));
   }
 }
 

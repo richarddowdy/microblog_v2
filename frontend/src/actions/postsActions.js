@@ -1,7 +1,8 @@
-import { LOAD_POSTS, ADD_POST } from '../actionTypes';
+import { FETCH_POST, ADD_POST } from '../actionTypes';
 
-function gotPosts(posts) {
-  return { type: LOAD_POSTS, posts };
+export function gotPost(post) {
+  console.log("action", post)
+  return { type: FETCH_POST, post };
 }
 
 export function addPost(post){

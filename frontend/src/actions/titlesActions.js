@@ -1,5 +1,5 @@
-import { LOAD_TITLES } from '../actionTypes';
+import { FETCH_TITLES } from '../actionTypes';
 
 export function gotTitles(titles) {
-  return { type: LOAD_TITLES, titles };
+  return { type: FETCH_TITLES, titles };
 }

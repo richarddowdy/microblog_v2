@@ -6,6 +6,6 @@
 
 
 
-export const LOAD_TITLES = "LOAD_TITLES";
-export const LOAD_POSTS = "LOAD_POSTS";
+export const FETCH_TITLES = "FETCH_TITLES";
+export const FETCH_POST = "FETCH_POST";
 export const ADD_POST = "ADD_POST";
