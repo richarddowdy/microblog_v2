@@ -1,4 +1,5 @@
-import { LOAD_TITLES } from '../actionTypes';
+import { LOAD_TITLES, ADD_POST } from '../actionTypes';
+
 
 const INITIAL_STATE = [];
 
@@ -36,11 +37,18 @@ state = {
 }
 **/
 
+function makeTitleFromPost({ id, title, description, votes }){
+  return { id, title, description, votes }
+}
+
 const titlesReducers = (state=INITIAL_STATE, action) => {
   switch(action.type){
 
     case LOAD_TITLES:
       return action.titles
+
+    case ADD_POST:
+      return [ ...state, makeTitleFromPost(action.post)];
       
 
     default:

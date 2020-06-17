@@ -4,6 +4,6 @@ function gotPosts(posts) {
   return { type: LOAD_POSTS, posts };
 }
 
-function addPost(post){
+export function addPost(post){
   return { type: ADD_POST, post }
 }

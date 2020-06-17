@@ -1,6 +1,6 @@
 import { 
-  LOAD_POSTS, 
-  // ADD_POST,
+  ADD_POST, 
+  // LOAD_POSTS,
   // REMOVE_POST,
   // LOAD_POST,
   // EDIT_POST
@@ -44,10 +44,18 @@ state = {
 
 const postsReducer = (state = INITIAL_STATE, action) => {
   switch(action.type){
-    case LOAD_POSTS:
+
+    case ADD_POST:
       return {
-        ...state, posts: {...action.posts}
-      }
+        ...state,
+        [action.post_id]: action.post,
+      };
+
+
+    // case LOAD_POSTS:
+    //   return {
+    //     ...state, posts: {...action.posts}
+    //   }
 
     default:
       console.warn('No type found', action.type);

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {  sendPostToApi } from './actionCreators';
 
-function PostForm() {
+function PostForm({ save, cancel }) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     body: "",
-    comments: [],
+    // comments: [],
   });
 
   const handleChange = (evt) => {
@@ -18,9 +19,14 @@ function PostForm() {
     }));
   };
 
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    save(formData);
+  };
+
   return (
     <div className="">
-      <form className="col-8 m-auto">
+      <form className="col-8 m-auto" onSubmit={handleSubmit}>
         <hr />
         <div className="form-group">
           <label htmlFor="title">Title:</label>
@@ -56,15 +62,8 @@ function PostForm() {
             onChange={handleChange}
           />
         </div>
-        <input
-          className="btn btn-primary"
-          type="submit"
-          value="Save"
-          // onSubmit={handleSubmit}
-        />
-        <Link to="/" className="btn btn-secondary ml-5">
-          Cancel
-        </Link>
+        <button className="btn btn-primary">Save</button>
+        <button onClick={cancel} className='btn btn-secondary ml-5'>Cancel</button>
       </form>
     </div>
   );
