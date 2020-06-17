@@ -2,40 +2,30 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import TitleCard from './TitleCard';
-import Post from './Post';
+// import Post from './Post';
+
+import { getAllTitlesFromApi, } from './actionCreators'
 
 function TitleList(){
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   
-  // let posts = useSelector((st) => { st.posts })
+  const titles = useSelector((st) => st.titles)
 
-  // useEffect(() => {
-  //   async function fetchAllPosts(){
-  //     dispatch(getAllTitlesFromApi()); *** TODO ***
-  //   }
-  // },[dispatch])
+  useEffect(() => {
+    async function fetchAllTitles(){
+      dispatch(getAllTitlesFromApi());
+    }
+    fetchAllTitles()
+  },[dispatch])
 
   return (
     <div className="d-flex flex-wrap justify-content-around">
-      {/* { loadSuccess ? posts.map(post => {
-        return <TitleCard id={post.id} title={post.title} description={post.description}/>
+      {/* Need to make this depend on success */}
+      { titles.length ? titles.map(p => {
+        return <TitleCard key={p.id} id={p.id} title={p.title} description={p.description}/>
       }): 
       <h2>Loading...</h2>
-      } */}
-
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
-      <TitleCard />
+      }
     </div>
   )
 }

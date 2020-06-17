@@ -1,6 +1,12 @@
-import { ADD_POST, REMOVE_POST, ADD_COMMENT, DELETE_COMMENT, LOAD_POSTS, LOAD_POST, EDIT_POST, LOAD_TITLES} from '../actionTypes';
+import { 
+  LOAD_POSTS, 
+  // ADD_POST,
+  // REMOVE_POST,
+  // LOAD_POST,
+  // EDIT_POST
+} from '../actionTypes';
 
-const INITIAL_STATE = [];
+const INITIAL_STATE = {};
 
 /*
 state = {
@@ -35,13 +41,12 @@ state = {
 }
 **/
 
-const titlesReducers = (state=INITIAL_STATE, action) => {
-  switch(action.type){
 
-    case LOAD_TITLES:
+const postsReducer = (state = INITIAL_STATE, action) => {
+  switch(action.type){
+    case LOAD_POSTS:
       return {
-        ...state,
-        titles: [...action.titles]
+        ...state, posts: {...action.posts}
       }
 
     default:
@@ -50,4 +55,4 @@ const titlesReducers = (state=INITIAL_STATE, action) => {
   }
 }
 
-export default titlesReducers;
+export default postsReducer;

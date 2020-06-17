@@ -1,6 +1,6 @@
-import { ADD_POST, REMOVE_POST, ADD_COMMENT, DELETE_COMMENT, LOAD_POSTS, LOAD_POST, EDIT_POST} from '../actionTypes';
+import { LOAD_TITLES } from '../actionTypes';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = [];
 
 /*
 state = {
@@ -9,6 +9,7 @@ state = {
       id: 1,
       title: "first post title",
       description: "first post description",
+      votes: 1
     },
     {...},
     {...},
@@ -35,13 +36,12 @@ state = {
 }
 **/
 
-
-const postsReducer = (state = INITIAL_STATE, action) => {
+const titlesReducers = (state=INITIAL_STATE, action) => {
   switch(action.type){
-    case LOAD_POSTS:
-      return {
-        ...state, posts: {...action.posts}
-      }
+
+    case LOAD_TITLES:
+      return action.titles
+      
 
     default:
       console.warn('No type found', action.type);
@@ -49,4 +49,4 @@ const postsReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default postsReducer;
+export default titlesReducers;
