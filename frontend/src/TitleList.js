@@ -11,7 +11,7 @@ function TitleList(){
 
   // useEffect(() => {
   //   async function fetchAllPosts(){
-  //     dispatch(getAllPostsFromApi());
+  //     dispatch(getAllTitlesFromApi()); *** TODO ***
   //   }
   // },[dispatch])
 
