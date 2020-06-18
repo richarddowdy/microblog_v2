@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getOnePostFromApi, addCommentToApi } from './actionCreators'
+import { getOnePostFromApi, addCommentToApi, removeCommentFromApi } from './actionCreators'
 import CommentsForm from './CommentsForm';
 import CommentsList from './CommentsList';
 
@@ -26,6 +26,10 @@ function PostContainer(){
   function addComment({ postId, text }){
     dispatch(addCommentToApi({ postId, text }));
   }
+
+  function remove(data){
+    dispatch(removeCommentFromApi(data))
+  }
   
   return (
     <div className="col-8">
@@ -37,7 +41,7 @@ function PostContainer(){
           <hr/>
           <h1>Comments Container</h1>
           <CommentsForm addComment={addComment} postId={postId}/>
-          <CommentsList comments={post.comments} postId={postId}/>
+          <CommentsList remove={remove} comments={post.comments} postId={postId}/>
           {/* <CommentsContainer /> */}
         </>
       :

@@ -2,6 +2,7 @@ import {
   ADD_POST, 
   FETCH_POST,
   ADD_COMMENT,
+  DELETE_COMMENT,
   // LOAD_POSTS,
   // REMOVE_POST,
   // LOAD_POST,
@@ -45,8 +46,10 @@ state = {
 
 
 const postsReducer = (state = INITIAL_STATE, action) => {
+  // let postId = state[action.commentObj.postId]; // TODO possible refactor later
+  // console.log(postId)
   switch(action.type){
-
+    
     case ADD_POST:
       return {
         ...state,
@@ -69,6 +72,18 @@ const postsReducer = (state = INITIAL_STATE, action) => {
             ...state[postId].comments, 
             { id, text }
           ]
+        }
+      }
+
+    case DELETE_COMMENT:
+      const commentId = action.commentObj.id
+      const pId = action.commentObj.postId
+      const filteredComments = state[pId].comments.filter((c) => c.id !== commentId)
+      return {
+        ...state,
+        [pId]: {
+          ...state[pId],
+          comments: filteredComments
         }
       }
 

@@ -52,7 +52,7 @@ const titlesReducers = (state=INITIAL_STATE, action) => {
       
 
     default:
-      console.warn('No type found', action.type);
+      // console.warn('No type found', action.type);
       return state;
   }
 }
