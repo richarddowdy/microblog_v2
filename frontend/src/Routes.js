@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
-import Post from './Post';
+import PostContainer from './PostContainer';
 import NewPost from './NewPost.js';
 import NotFound from './NotFound';
 
@@ -13,7 +13,7 @@ function Routes() {
         <Home />
       </Route>
       <Route exact path="/posts/:id">
-        <Post />
+        <PostContainer />
       </Route>
       <Route exact path="/new">
         <NewPost />

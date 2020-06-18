@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import {  sendPostToApi } from './actionCreators';
 
 function PostForm({ save, cancel }) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     body: "",
-    // comments: [],
   });
 
   const handleChange = (evt) => {
