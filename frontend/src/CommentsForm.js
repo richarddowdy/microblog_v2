@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
-function CommentsForm({ id, addComment }){
+function CommentsForm({ postId, addComment }){
   
-  const [formData, setFormData] = useState({
-    id,
-    comment: "",
-  });
+  const INITIAL_FORM_STATE = {
+    postId,
+    text: "",
+  }
+
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
 
   function handleChange(evt){
     evt.preventDefault();
@@ -18,7 +20,8 @@ function CommentsForm({ id, addComment }){
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
+    addComment(formData);
+    setFormData(INITIAL_FORM_STATE);
   }
 
 
@@ -29,9 +32,9 @@ function CommentsForm({ id, addComment }){
         <input 
           className="form-control" 
           type="text" 
-          name="comment" 
+          name="text" 
           id="commentInput" 
-          value={formData.comment} 
+          value={formData.text} 
           onChange={handleChange}
           placeholder="New Comment" 
         />

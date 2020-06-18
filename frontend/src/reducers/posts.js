@@ -1,6 +1,7 @@
 import { 
   ADD_POST, 
   FETCH_POST,
+  ADD_COMMENT,
   // LOAD_POSTS,
   // REMOVE_POST,
   // LOAD_POST,
@@ -56,6 +57,19 @@ const postsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         [action.post.id]: {...action.post}
+      }
+
+    case ADD_COMMENT:
+      const { postId, id, text } = action.commentObj
+      return {
+        ...state,
+        [postId]: { 
+          ...state[postId], 
+          comments: [ 
+            ...state[postId].comments, 
+            { id, text }
+          ]
+        }
       }
 
     default:

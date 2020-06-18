@@ -1,22 +1,23 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Comment from './Comment';
 
-function CommentsList() {
+function CommentsList({ comments, postId }) {
 
-  const id = Number(useParams().id);
-  let comments = useSelector((st) => st.posts[id].comments)
+  // const id = postId;
+  // let comments = useSelector((st) => st.posts[id].comments)
 
   function deleteComment(){
     //TODO
   }
 
-  console.log("comments", comments);
   return (
     <>
       {comments.map((c) => (
-        <Comment key={c.id} text={c.text} deleteComment={deleteComment} />
+        <div key={c.id}>
+          <p>{c.text}</p>
+          <button>Delete</button>
+        </div>
       ))}
     </>
   )
