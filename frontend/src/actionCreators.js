@@ -1,6 +1,6 @@
 import axios from "axios";
 import { gotTitles, } from './actions/titlesActions';
-import { addPost, gotPost, removePost, addComment, deleteComment } from './actions/postsActions';
+import { addPost, gotPost, removePost, addComment, deleteComment, editPost } from './actions/postsActions';
 
 const BASE_API_URL = "http://localhost:5000/api";
 
@@ -69,6 +69,16 @@ export function removePostFromApi(postId){
     // else {
     //   dispatch(showError({message}))
     // }
+  }
+}
+
+export function updatePostToApi(data){
+  console.log("action creater", data);
+  return async function(dispatch){
+    const res = await axios.put(`${BASE_API_URL}/posts/${data.postId}`, data);
+    const updatedPost = res.data;
+    console.log("AC", updatedPost)
+    dispatch(editPost(updatedPost));
   }
 }
 

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
-function PostForm({ save, cancel }) {
+function PostForm({ post, save, cancel }) {
+
+  
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    body: "",
+    title: post.title,
+    description: post.description,
+    body: post.body,
   });
 
   const handleChange = (evt) => {

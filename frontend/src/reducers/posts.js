@@ -1,12 +1,12 @@
-import { 
-  ADD_POST, 
+import {
+  ADD_POST,
   FETCH_POST,
   ADD_COMMENT,
   DELETE_COMMENT,
   REMOVE_POST,
+  EDIT_POST,
   // LOAD_POSTS,
   // LOAD_POST,
-  // EDIT_POST
 } from '../actionTypes';
 
 const INITIAL_STATE = {};
@@ -48,8 +48,8 @@ state = {
 const postsReducer = (state = INITIAL_STATE, action) => {
   // let postId = state[action.commentObj.postId]; // TODO possible refactor later
   // console.log(postId)
-  switch(action.type){
-    
+  switch (action.type) {
+
     case ADD_POST:
       return {
         ...state,
@@ -59,7 +59,17 @@ const postsReducer = (state = INITIAL_STATE, action) => {
     case FETCH_POST:
       return {
         ...state,
-        [action.post.id]: {...action.post}
+        [action.post.id]: { ...action.post }
+      }
+
+
+    case EDIT_POST:
+      return {
+        ...state,
+        [action.post.id]: {
+          ...action.post,
+          comments: state[action.post.id].comments
+        }
       }
 
     case REMOVE_POST:
@@ -71,10 +81,10 @@ const postsReducer = (state = INITIAL_STATE, action) => {
       const { postId, id, text } = action.commentObj
       return {
         ...state,
-        [postId]: { 
-          ...state[postId], 
-          comments: [ 
-            ...state[postId].comments, 
+        [postId]: {
+          ...state[postId],
+          comments: [
+            ...state[postId].comments,
             { id, text }
           ]
         }

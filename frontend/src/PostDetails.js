@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-function PostDetails({ remove, post }){
+function PostDetails({ toggleEditing, remove, post }){
   const { id, title, description, body } = post
   const history = useHistory();
 
@@ -16,7 +16,10 @@ function PostDetails({ remove, post }){
         <button 
           className="btn btn-danger"
           onClick={() => handleDelete(id)}>Delete Post</button>
-        <button className="btn btn-info">Edit Post</button>
+        <button
+          className="btn btn-info"
+          onClick={() => toggleEditing()}
+          >Edit Post</button>
       </div>
       <h1>{title}</h1>
       <p>{description}</p>

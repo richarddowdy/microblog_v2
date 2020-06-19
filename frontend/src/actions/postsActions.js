@@ -1,4 +1,4 @@
-import { FETCH_POST, ADD_POST, REMOVE_POST, ADD_COMMENT, DELETE_COMMENT } from '../actionTypes';
+import { FETCH_POST, ADD_POST, REMOVE_POST, ADD_COMMENT, DELETE_COMMENT, EDIT_POST } from '../actionTypes';
 
 export function gotPost(post) {
   return { type: FETCH_POST, post };
@@ -10,6 +10,10 @@ export function addPost(post){
 
 export function removePost(postId){
   return { type: REMOVE_POST, postId }
+}
+
+export function editPost(post){
+  return { type: EDIT_POST, post }
 }
 
 export function addComment(commentObj){
