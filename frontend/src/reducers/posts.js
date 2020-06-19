@@ -3,8 +3,8 @@ import {
   FETCH_POST,
   ADD_COMMENT,
   DELETE_COMMENT,
+  REMOVE_POST,
   // LOAD_POSTS,
-  // REMOVE_POST,
   // LOAD_POST,
   // EDIT_POST
 } from '../actionTypes';
@@ -61,6 +61,11 @@ const postsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         [action.post.id]: {...action.post}
       }
+
+    case REMOVE_POST:
+      let posts = { ...state };
+      delete posts[action.post_id]
+      return posts;
 
     case ADD_COMMENT:
       const { postId, id, text } = action.commentObj

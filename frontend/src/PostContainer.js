@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getOnePostFromApi, addCommentToApi, removeCommentFromApi } from './actionCreators'
+import { getOnePostFromApi, removePostFromApi, addCommentToApi, removeCommentFromApi } from './actionCreators'
+import PostDetails from './PostDetails';
 import CommentsForm from './CommentsForm';
 import CommentsList from './CommentsList';
 
@@ -23,26 +24,32 @@ function PostContainer(){
     }
   }, [post, postId, dispatch])
 
+  function removePost(postId){
+    dispatch(removePostFromApi(postId))
+  }
+
   function addComment({ postId, text }){
     dispatch(addCommentToApi({ postId, text }));
   }
 
-  function remove(data){
-    dispatch(removeCommentFromApi(data))
+  function removeComment(comment){
+    dispatch(removeCommentFromApi(comment))
   }
+
+
   
   return (
     <div className="col-8">
       { post !== undefined ?
         <>
-          <h1>{post.title}</h1>
+          <PostDetails remove={removePost} post={post}/>
+          {/* <h1>{post.title}</h1>
           <p>{post.description}</p>
-          <p>{post.body}</p>
+          <p>{post.body}</p> */}
           <hr/>
           <h1>Comments Container</h1>
           <CommentsForm addComment={addComment} postId={postId}/>
-          <CommentsList remove={remove} comments={post.comments} postId={postId}/>
-          {/* <CommentsContainer /> */}
+          <CommentsList remove={removeComment} comments={post.comments} postId={postId}/>
         </>
       :
       <p>Nope</p>}

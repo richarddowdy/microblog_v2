@@ -1,6 +1,6 @@
 import axios from "axios";
 import { gotTitles, } from './actions/titlesActions';
-import { addPost, gotPost, addComment, deleteComment } from './actions/postsActions';
+import { addPost, gotPost, removePost, addComment, deleteComment } from './actions/postsActions';
 
 const BASE_API_URL = "http://localhost:5000/api";
 
@@ -47,7 +47,6 @@ export function addCommentToApi(data){
 }
 
 export function removeCommentFromApi(data){
-  console.log(data)
   return async function(dispatch){
     const res = await axios.delete(`${BASE_API_URL}/posts/${data.postId}/comments/${data.id}`);
     const { message } = res.data;
@@ -59,6 +58,20 @@ export function removeCommentFromApi(data){
     // }
   }
 }
+
+export function removePostFromApi(postId){
+  return async function(dispatch){
+    const res = await axios.delete(`${BASE_API_URL}/posts/${postId}`)
+    const { message } = res.data;
+    if(message === "deleted"){
+      dispatch(removePost(postId));
+    }
+    // else {
+    //   dispatch(showError({message}))
+    // }
+  }
+}
+
 
 // function gotPosts(posts) {
 //   return { type: 'LOAD_POSTS', posts };
