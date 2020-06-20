@@ -24,6 +24,9 @@ function PostDetails({ toggleEditing, remove, post }){
       <h1>{title}</h1>
       <p>{description}</p>
       <p>{body}</p>
+      <i className="fa fa-arrow-up fa-3x text-success mr-3"></i>
+      <i className="fa fa-arrow-down fa-3x text-danger"></i>
+
     </>
   )
 }
