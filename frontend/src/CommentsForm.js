@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function CommentsForm({ postId, addComment, resetAlert }){
+function CommentsForm({ postId, addComment }){
   
   const INITIAL_FORM_STATE = {
     postId,
@@ -37,7 +37,7 @@ function CommentsForm({ postId, addComment, resetAlert }){
           value={formData.text} 
           onChange={handleChange}
           placeholder="New Comment" 
-          onClick={resetAlert}
+          required
         />
       </div>
       <button

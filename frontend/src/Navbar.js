@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 function NavBar() {
 
   return (
-    <div style={{height: "200px", backgroundColor: "#d2d2dc" }} className="navbar text-dark">
+    <div style={{height: "200px", backgroundColor: "#d7d7dc" }} className="navbar text-dark">
       <h1 style={{display: "block", fontSize: "70px"}} className="col-12">Microblog</h1>
       <h3 className="col-12">Share your post!</h3>
       <div style={{display: "block"}} className="text-light col-12">

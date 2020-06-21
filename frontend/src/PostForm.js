@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 
 function PostForm({ post, save, cancel }) {
-  if(post === undefined){
-    post = {
-      title: "",
-      description: "",
-      body: "",
-    }
-  }
+
   const [formData, setFormData] = useState({
     title: post.title,
     description: post.description,
@@ -41,6 +35,7 @@ function PostForm({ post, save, cancel }) {
             id="title"
             value={formData.title}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -52,6 +47,7 @@ function PostForm({ post, save, cancel }) {
             id="description"
             value={formData.description}
             onChange={handleChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -64,6 +60,7 @@ function PostForm({ post, save, cancel }) {
             id="body"
             value={formData.body}
             onChange={handleChange}
+            required
           />
         </div>
         <button className="btn btn-primary">Save</button>

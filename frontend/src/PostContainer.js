@@ -16,7 +16,6 @@ import CommentsList from "./CommentsList";
 
 function PostContainer() {
   let [isEditing, setIsEditing] = useState(false);
-  let [emptyComment, setEmptyComment] = useState(false);
 
   const dispatch = useDispatch();
   const postId = Number(useParams().id);
@@ -38,9 +37,6 @@ function PostContainer() {
   }
 
   function addComment({ postId, text }) {
-    if (!text.length) {
-      return setEmptyComment(true);
-    }
     dispatch(addCommentToApi({ postId, text }));
   }
 
@@ -53,9 +49,9 @@ function PostContainer() {
     setIsEditing(false);
   }
 
-  function resetAlert() {
-    setEmptyComment(false);
-  }
+  // function resetAlert() {
+  //   setEmptyComment(false);
+  // }
 
   function toggleEdit() {
     setIsEditing((editing) => !editing);
@@ -80,11 +76,10 @@ function PostContainer() {
             <hr />
             <h1>Comments</h1>
             <CommentsForm
-              resetAlert={resetAlert}
               addComment={addComment}
               postId={postId}
             />
-            {emptyComment ? <div className="alert alert-warning">You forgot to write a comment before adding it!</div> : null}
+            {/* {emptyComment ? <div className="alert alert-warning">You forgot to write a comment before adding it!</div> : null} */}
             <CommentsList
               remove={removeComment}
               comments={post.comments}
