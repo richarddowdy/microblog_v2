@@ -41,14 +41,12 @@ function PostContainer(){
   }
 
   function editPost({ title, description, body}){
-    console.log("editing", {postId, title,description, body})
     dispatch(updatePostToApi({ postId, title, description, body }));
     setIsEditing(false);
   }
 
   function toggleEdit(){
-    console.log("toggle", isEditing);
-    setIsEditing(!isEditing);
+    setIsEditing(editing => !editing);
   }
 
   if(!post){
@@ -62,10 +60,12 @@ function PostContainer(){
         :
         <>
           <PostDetails remove={removePost} toggleEditing={toggleEdit} post={post}/>
+          <div className="ml-5 mt-5">
           <hr/>
           <h1>Comments Container</h1>
           <CommentsForm addComment={addComment} postId={postId}/>
           <CommentsList remove={removeComment} comments={post.comments} postId={postId}/>
+          </div>
         </>
       }
     </div>

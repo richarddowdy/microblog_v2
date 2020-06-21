@@ -1,5 +1,4 @@
-import { FETCH_TITLES, ADD_POST } from '../actionTypes';
-
+import { FETCH_TITLES, ADD_POST, UP_VOTE, DOWN_VOTE, REMOVE_POST } from "../actionTypes";
 
 const INITIAL_STATE = [];
 
@@ -37,24 +36,38 @@ state = {
 }
 **/
 
-function makeTitleFromPost({ id, title, description, votes }){
-  return { id, title, description, votes }
+function makeTitleFromPost({ id, title, description, votes }) {
+  return { id, title, description, votes };
 }
 
-const titlesReducers = (state=INITIAL_STATE, action) => {
-  switch(action.type){
+function sortByVotes(titles){
+  return titles.sort((a,b) => b.votes - a.votes);
+}
 
+const titlesReducers = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
     case FETCH_TITLES:
-      return action.titles
+      return sortByVotes(action.titles);
 
     case ADD_POST:
-      return [ ...state, makeTitleFromPost(action.post)];
+      return sortByVotes([...state, makeTitleFromPost(action.post)]);
+
+    case REMOVE_POST:
+      return state.filter(title => title.id !== action.postId)
+
+    case UP_VOTE:
+      const post_id = action.data.postId;
+      const post = state.find(post => post.id === post_id)
+      return sortByVotes(state.map(title => title.id === post_id ? {...title , votes: action.data.updatedVotes} : title ));
+
+    case DOWN_VOTE:
+      const postID = action.data.postId;
+      return sortByVotes(state.map(title => title.id === postID ? {...title, votes: action.data.updatedVotes } : title));
       
 
     default:
-      // console.warn('No type found', action.type);
       return state;
   }
-}
+};
 
 export default titlesReducers;

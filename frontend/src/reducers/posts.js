@@ -5,8 +5,8 @@ import {
   DELETE_COMMENT,
   REMOVE_POST,
   EDIT_POST,
-  // LOAD_POSTS,
-  // LOAD_POST,
+  UP_VOTE,
+  DOWN_VOTE,
 } from '../actionTypes';
 
 const INITIAL_STATE = {};
@@ -62,7 +62,6 @@ const postsReducer = (state = INITIAL_STATE, action) => {
         [action.post.id]: { ...action.post }
       }
 
-
     case EDIT_POST:
       return {
         ...state,
@@ -99,6 +98,27 @@ const postsReducer = (state = INITIAL_STATE, action) => {
         [pId]: {
           ...state[pId],
           comments: filteredComments
+        }
+      }
+
+    case UP_VOTE:
+      const post_id = action.data.postId
+      console.log(action)
+      return {
+        ...state,
+        [post_id]: {
+          ...state[post_id],
+          votes: action.data.updatedVotes
+        }
+      }
+
+    case DOWN_VOTE:
+      const postID = action.data.postId
+      return {
+        ...state,
+        [postID]: {
+          ...state[postID],
+          votes: action.data.updatedVotes
         }
       }
 

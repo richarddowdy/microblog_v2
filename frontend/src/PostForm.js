@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 
 function PostForm({ post, save, cancel }) {
-
-  
+  if(post === undefined){
+    post = {
+      title: "",
+      description: "",
+      body: "",
+    }
+  }
   const [formData, setFormData] = useState({
     title: post.title,
     description: post.description,
@@ -52,7 +57,7 @@ function PostForm({ post, save, cancel }) {
         <div className="form-group">
           <label htmlFor="body">Body:</label>
           <textarea
-            style={{height: "150px"}}
+            style={{ height: "150px" }}
             className="form-control"
             type="text"
             name="body"
@@ -62,7 +67,9 @@ function PostForm({ post, save, cancel }) {
           />
         </div>
         <button className="btn btn-primary">Save</button>
-        <button onClick={cancel} className='btn btn-secondary ml-5'>Cancel</button>
+        <button onClick={cancel} className="btn btn-secondary ml-5">
+          Cancel
+        </button>
       </form>
     </div>
   );

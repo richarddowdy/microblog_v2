@@ -1,34 +1,38 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { useHistory } from "react-router-dom";
 
-function PostDetails({ toggleEditing, remove, post }){
-  const { id, title, description, body } = post
+import Votes from "./Votes";
+
+function PostDetails({ toggleEditing, remove, post }) {
+  const { id, title, description, body, votes } = post;
   const history = useHistory();
 
-  function handleDelete(id){
+  function handleDelete(id) {
     remove(id);
-    history.push('/')
+    history.push("/");
   }
 
   return (
-    <>
-      <div className="controls float-right">
-        <button 
-          className="btn btn-danger"
-          onClick={() => handleDelete(id)}>Delete Post</button>
-        <button
-          className="btn btn-info"
-          onClick={() => toggleEditing()}
-          >Edit Post</button>
+    <div className="mt-5 ml-5">
+      <div className="float-right">
+        <div className="text-right">
+          <i
+            className="far fa-edit fa-2x text-info mr-4 pointer"
+            onClick={() => toggleEditing()}
+          ></i>
+          <i
+            className="fas fa-times fa-2x text-danger pointer"
+            onClick={() => handleDelete(id)}
+          ></i>
+        </div>
+        <br />
+        <Votes postId={id} votes={votes} />
       </div>
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <p>{body}</p>
-      <i className="fa fa-arrow-up fa-3x text-success mr-3"></i>
-      <i className="fa fa-arrow-down fa-3x text-danger"></i>
-
-    </>
-  )
+      <h1 className="display-3 font-weight-bold">{title}</h1>
+      <h2 className="mt-3">{description}</h2>
+      <p className="mt-5">{body}</p>
+    </div>
+  );
 }
 
 export default PostDetails;
