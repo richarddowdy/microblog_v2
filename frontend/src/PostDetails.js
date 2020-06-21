@@ -1,4 +1,5 @@
 import React from "react";
+import './PostDetails.css';
 import { useHistory } from "react-router-dom";
 
 import Votes from "./Votes";
@@ -30,7 +31,7 @@ function PostDetails({ toggleEditing, remove, post }) {
       </div>
       <h1 className="display-3 font-weight-bold">{title}</h1>
       <h2 className="mt-3">{description}</h2>
-      <p className="mt-5">{body}</p>
+      <p className="mt-5" >{body}</p>
     </div>
   );
 }

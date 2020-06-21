@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function CommentsForm({ postId, addComment }){
+function CommentsForm({ postId, addComment, resetAlert }){
   
   const INITIAL_FORM_STATE = {
     postId,
@@ -26,8 +26,8 @@ function CommentsForm({ postId, addComment }){
 
 
   return (
-  <div>
-    <form onSubmit={handleSubmit}>
+  <div className="mb-4">
+    <form onSubmit={handleSubmit} autoComplete="off">
       <div className="form-group">
         <input 
           className="form-control" 
@@ -37,6 +37,7 @@ function CommentsForm({ postId, addComment }){
           value={formData.text} 
           onChange={handleChange}
           placeholder="New Comment" 
+          onClick={resetAlert}
         />
       </div>
       <button

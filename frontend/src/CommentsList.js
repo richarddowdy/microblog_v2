@@ -1,11 +1,6 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 function CommentsList({ remove, comments, postId }) {
-
-  // const id = postId;
-  // let comments = useSelector((st) => st.posts[id].comments)
 
   function handleDelete(postId, commentId){
     remove({ postId, id: commentId });
@@ -14,9 +9,9 @@ function CommentsList({ remove, comments, postId }) {
   return (
     <>
       {comments.map((c) => (
-        <div key={c.id}>
-          <p>{c.text}</p>
-          <button onClick={() => handleDelete(postId, c.id)}>Delete</button>
+        <div className="mb-4" key={c.id}>
+          <i className="fa fa-times text-danger mr-4" onClick={() => handleDelete(postId, c.id)}></i>
+          <span className="">{c.text}</span>
         </div>
       ))}
     </>

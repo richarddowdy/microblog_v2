@@ -3,11 +3,10 @@ import TitleList from './TitleList';
 
 function Home(){
   return (
-    <>
-      <h1>Welcome to home of Microblog</h1>
-      <p>This is where all the stuff goes.</p>
+    <div className="">
+      <h3 className="m-3">Welcome to <strong>Microblog</strong> where you can share your post.</h3>
       <TitleList />
-    </>
+    </div>
   )
 };
 
