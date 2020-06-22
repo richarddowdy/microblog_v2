@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-
 import Home from './Home';
 import PostContainer from './PostContainer';
 import NewPost from './NewPost.js';
@@ -18,9 +17,6 @@ function Routes() {
       <Route exact path="/new">
         <NewPost />
       </Route>
-      {/* <Route exact path="/edit/:id">
-        <EditPostForm />
-      </Route> */}
       <Route>
         <NotFound />
       </Route>

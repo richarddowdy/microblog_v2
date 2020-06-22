@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
 import {
   getOnePostFromApi,
   removePostFromApi,
@@ -15,13 +14,11 @@ import CommentsForm from "./CommentsForm";
 import CommentsList from "./CommentsList";
 
 function PostContainer() {
-  let [isEditing, setIsEditing] = useState(false);
 
+  let [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const postId = Number(useParams().id);
   const post = useSelector((st) => st.posts[postId]);
-
-  const state = useSelector((st) => st);
 
   useEffect(() => {
     async function fetchPost() {
@@ -49,37 +46,29 @@ function PostContainer() {
     setIsEditing(false);
   }
 
-  // function resetAlert() {
-  //   setEmptyComment(false);
-  // }
-
   function toggleEdit() {
     setIsEditing((editing) => !editing);
   }
 
   if (!post) {
-    return <h2>Loading...</h2>;
+    return <h2 style={{ textAlign: "center" }}>Unable to locate that post.</h2>;
   }
-
+ 
   return (
-    <div className="col-8 post-container mb-5">
+    <div className="col-12 col-md-10 col-lg-10 post-container mb-5">
       {isEditing ? (
         <PostForm post={post} save={editPost} cancel={toggleEdit} />
-      ) : (
+       ) : (
         <>
           <PostDetails
             remove={removePost}
             toggleEditing={toggleEdit}
             post={post}
           />
-          <div className="ml-5 mt-5">
+          <div className="ml-4 mt-4">
             <hr />
             <h1>Comments</h1>
-            <CommentsForm
-              addComment={addComment}
-              postId={postId}
-            />
-            {/* {emptyComment ? <div className="alert alert-warning">You forgot to write a comment before adding it!</div> : null} */}
+            <CommentsForm addComment={addComment} postId={postId} />
             <CommentsList
               remove={removeComment}
               comments={post.comments}

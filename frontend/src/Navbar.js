@@ -1,16 +1,15 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import './Navbar.css';
 
 function NavBar() {
 
   return (
     <div style={{height: "200px", backgroundColor: "#d7d7dc" }} className="navbar text-dark">
-      <h1 style={{display: "block", fontSize: "70px"}} className="col-12">Microblog</h1>
-      <h3 className="col-12">Share your post!</h3>
+      <NavLink to="/" className="col-12 app-brand text-dark">Microblog</NavLink>
       <div style={{display: "block"}} className="text-light col-12">
-        <NavLink to="/" className="mr-4 font-weight-bold">Blog</NavLink>
-        <NavLink to="/new" className="font-weight-bold">Add a new post</NavLink>
+        <NavLink to="/" className="mr-4 font-weight-bold navbar-link">Blog</NavLink>
+        <NavLink to="/new" className="font-weight-bold navbar-link">Add a new post</NavLink>
       </div>
     </div>
   );

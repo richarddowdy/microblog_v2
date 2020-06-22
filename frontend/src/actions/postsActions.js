@@ -34,11 +34,9 @@ export function deleteComment(commentObj) {
 }
 
 export function upVote(data){
-  console.log(data)
   return { type: UP_VOTE, data }
 }
 
 export function downVote(data){
-  console.log(data)
   return { type: DOWN_VOTE, data}
 }

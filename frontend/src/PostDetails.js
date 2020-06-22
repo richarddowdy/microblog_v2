@@ -1,10 +1,10 @@
 import React from "react";
-import './PostDetails.css';
 import { useHistory } from "react-router-dom";
-
 import Votes from "./Votes";
+import './PostDetails.css';
 
 function PostDetails({ toggleEditing, remove, post }) {
+
   const { id, title, description, body, votes } = post;
   const history = useHistory();
 
@@ -14,9 +14,9 @@ function PostDetails({ toggleEditing, remove, post }) {
   }
 
   return (
-    <div className="mt-5 ml-5">
-      <div className="float-right">
-        <div className="text-right">
+    <div className="mt-4 ml-4">
+      <div className="post-controls">
+        <div className="api-buttons">
           <i
             className="far fa-edit fa-2x text-info mr-4 pointer"
             onClick={() => toggleEditing()}
@@ -29,7 +29,7 @@ function PostDetails({ toggleEditing, remove, post }) {
         <br />
         <Votes postId={id} votes={votes} />
       </div>
-      <h1 className="display-3 font-weight-bold">{title}</h1>
+      <h1>{title}</h1>
       <h2 className="mt-3">{description}</h2>
       <p className="mt-5" >{body}</p>
     </div>

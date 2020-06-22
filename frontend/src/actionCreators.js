@@ -71,7 +71,7 @@ export function removePostFromApi(postId) {
       dispatch(removePost(postId));
     }
     // else {
-    //   dispatch(showError({message}))
+    //   dispatch(showError({ message }))
     // }
   };
 }
@@ -85,7 +85,6 @@ export function updatePostToApi(data) {
 }
 
 export function sendUpVoteToApi(postId) {
-  console.log("vote AC", postId);
   return async function (dispatch) {
     const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/up`);
     const updatedVotes = res.data.votes;
@@ -94,11 +93,9 @@ export function sendUpVoteToApi(postId) {
 }
 
 export function sendDownVoteToApi(postId) {
-  console.log("vote AC", postId);
   return async function (dispatch) {
     const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/down`);
     const updatedVotes = res.data.votes;
-    console.log(updatedVotes);
     dispatch(downVote({postId, updatedVotes}));
   };
 }

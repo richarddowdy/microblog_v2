@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import TitleCard from "./TitleCard";
-// import Post from './Post';
-
 import { getAllTitlesFromApi } from "./actionCreators";
 
 function TitleList() {
@@ -20,7 +17,6 @@ function TitleList() {
 
   return (
     <div className="d-flex flex-wrap justify-content-around">
-      {/* Need to make this depend on success */}
       {titles.length ? (
         titles.map((p) => {
           return (

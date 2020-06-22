@@ -24,7 +24,6 @@ function CommentsForm({ postId, addComment }){
     setFormData(INITIAL_FORM_STATE);
   }
 
-
   return (
   <div className="mb-4">
     <form onSubmit={handleSubmit} autoComplete="off">
