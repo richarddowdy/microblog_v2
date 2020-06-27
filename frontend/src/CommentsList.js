@@ -6,6 +6,11 @@ function CommentsList({ remove, comments, postId }) {
     remove({ postId, id: commentId });
   }
 
+  // Sorts comments in descending order of id
+  // so that the newest comment appears a the top of the list
+  // and pushes older comments down.
+  comments.sort((a,b) => b.id - a.id)
+
   return (
     <>
       {comments.map((c) => (
