@@ -1,3 +1,8 @@
+.navbar{
+  /* background: linear-gradient(45deg, #E4E5E6, #3599d6, #E4E5E6); */
+  background: linear-gradient(90deg, #0ED2F7, #B2FEFA)
+}
+
 .app-brand {
   font-size: 70px;
   display: block; 
