@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const postsRoutes = require("./routes/posts");
 const postCommentsRoutes = require("./routes/postComments");
+const usersRoutes = require("./routes/users");
 const cors = require("cors");
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use("/api/users", usersRoutes);
 app.use("/api/posts/:post_id/comments", postCommentsRoutes);
 app.use("/api/posts", postsRoutes);
 
