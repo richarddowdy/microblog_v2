@@ -61,18 +61,19 @@ router.post("/", async function(req, res, next){
     console.log("passwords", password, hashedPassword);
 
     // this can be made more elegant by moving all db queries to MODELS
-    let dbResponse = await db.query(
+    const userResult = await db.query(
       `INSERT INTO users (username, password)
        VALUES ($1, $2)
-       RETURNING id, username`,
+       RETURNING id, username, is_admin`,
        [username, hashedPassword]
     )
-    let createdUser = dbResponse.rows[0]
+    let createdUser = userResult.rows[0]
 
     console.log(createdUser);
 
-    const TOKEN = jwt.sign( { username : createdUser.username,
-      //is_admin : createdUser.is_admin
+    const TOKEN = jwt.sign( { 
+      username : createdUser.username,
+      is_admin : createdUser.is_admin
     }, SECRET_KEY);
 
     return res.status(201).json({ user: createdUser, _token : TOKEN });

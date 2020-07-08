@@ -1,12 +1,13 @@
--- DROP DATABASE IF EXISTS "microblog";
+DROP DATABASE IF EXISTS "microblog";
 
--- CREATE DATABASE "microblog";
+CREATE DATABASE "microblog";
 
--- \c "microblog"
+\c "microblog"
 
 CREATE TABLE users (id SERIAL PRIMARY KEY,
                     username TEXT NOT NULL,
-                    password TEXT NOT NULL);
+                    password TEXT NOT NULL,
+                    is_admin BOOLEAN NOT NULL DEFAULT 'false');
 
 CREATE TABLE posts (id SERIAL PRIMARY KEY, 
                     title TEXT NOT NULL, 
@@ -22,9 +23,9 @@ CREATE TABLE comments (id SERIAL PRIMARY KEY,
 
 
 
-INSERT INTO users (username, password) VALUES
-    ('admin', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG'),
-    ('user', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC');
+INSERT INTO users (username, password, is_admin) VALUES
+    ('admin', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', true),
+    ('user', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', false);
 
 INSERT INTO posts (title, description, body, user_id) VALUES
     ('First Post', 'Best post ever!', 'Everyone loves posting first. I win!', 1),

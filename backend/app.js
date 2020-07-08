@@ -12,6 +12,11 @@ const app = express();
 
 app.use(morgan("tiny"));
 app.use(bodyParser.json());
+
+const {authenticateJWT} = require("./middleware/auth")
+
+app.use(authenticateJWT);
+
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
