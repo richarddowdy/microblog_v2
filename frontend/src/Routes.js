@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import PostContainer from './PostContainer';
 import NewPost from './NewPost.js';
+import LoginPage from './LoginPage';
 import NotFound from './NotFound';
 
 function Routes() {
@@ -16,6 +17,9 @@ function Routes() {
       </Route>
       <Route exact path="/new">
         <NewPost />
+      </Route>
+      <Route exact path="/login">
+        <LoginPage />
       </Route>
       <Route>
         <NotFound />
