@@ -101,9 +101,24 @@ export function sendDownVoteToApi(postId) {
   };
 }
 
-export function userLoginToApi(user) {
+export function postNewUserToApi(userData){
+  return async function(dispatch) {
+    const res = await axios.post(`${BASE_API_URL}/users`, userData );
+    const token = res.data.token;
+    const user = res.data.user;
+    if(user){
+      localStorage.setItem("_token", token);
+      dispatch(loginUser({ user }));
+    }
+    // else{
+    //   dispatch(showError({ message }))
+    // }
+  }
+}
+
+export function userLoginToApi(userData) {
   return async function (dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/login`, { user });
+    const res = await axios.post(`${BASE_API_URL}/login`, userData );
     const token = res.data.token;
     const user = res.data.user;
     if (user) {
