@@ -1,4 +1,5 @@
 import axios from "axios";
+import { loginUser, logoutUser } from "./actions/userActions";
 import { gotTitles } from "./actions/titlesActions";
 import {
   addPost,
@@ -88,7 +89,7 @@ export function sendUpVoteToApi(postId) {
   return async function (dispatch) {
     const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/up`);
     const updatedVotes = res.data.votes;
-    dispatch(upVote({postId, updatedVotes}));
+    dispatch(upVote({ postId, updatedVotes }));
   };
 }
 
@@ -96,7 +97,28 @@ export function sendDownVoteToApi(postId) {
   return async function (dispatch) {
     const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/down`);
     const updatedVotes = res.data.votes;
-    dispatch(downVote({postId, updatedVotes}));
+    dispatch(downVote({ postId, updatedVotes }));
   };
 }
 
+export function userLoginToApi(user) {
+  return async function (dispatch) {
+    const res = await axios.post(`${BASE_API_URL}/login`, { user });
+    const token = res.data.token;
+    const user = res.data.user;
+    if (user) {
+      localStorage.setItem("_token", token);
+      dispatch(loginUser({ user }));
+    } 
+    // else{
+    //   dispatch(showError({message}))
+    // }
+  };
+}
+
+export function userLogout() {
+  return function (dispatch){
+    localStorage.removeItem("_token");
+    dispatch(logoutUser());
+  }
+}

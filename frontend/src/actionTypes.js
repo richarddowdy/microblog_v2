@@ -7,3 +7,5 @@ export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const UP_VOTE = "UP_VOTE";
 export const DOWN_VOTE = "DOWN_VOTE";
+export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
