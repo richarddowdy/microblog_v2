@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Votes from "./Votes";
+import "./TitleCard.css";
 
 function TitleCard({ id, title, description, votes }) {
   return (
