@@ -24,7 +24,6 @@ function ensureLoggedIn(req, res, next){
 
 function ensureCorrectUser(req, res, next){
   try{
-
     if(req.user.username === req.params.username){
       return next()
     } else {

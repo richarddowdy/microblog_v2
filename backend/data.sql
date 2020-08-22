@@ -24,8 +24,8 @@ CREATE TABLE comments (id SERIAL PRIMARY KEY,
 
 
 INSERT INTO users (username, password, is_admin) VALUES
-    ('admin', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', true),
-    ('user', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', false);
+    ('adminUser', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', true),
+    ('normalUser', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', false);
 
 INSERT INTO posts (title, description, body, user_id) VALUES
     ('First Post', 'Best post ever!', 'Everyone loves posting first. I win!', 1),

@@ -10,7 +10,7 @@ const bcrypt = require("bcrypt")
 const {BCRYPT_WORK_FACTOR} = require("../config")
 const jsonscema = require("jsonschema");
 const userSchema = require("../schema/userSchema.json");
-
+const { ensureCorrectUser, ensureLoggedIn, ensureAdmin } = require("./auth");
 const process = require('process');
 process.env.NODE_ENV = "test";
 
@@ -18,7 +18,7 @@ process.env.NODE_ENV = "test";
 router.get("/", async function(req, res, next) {
   try {
     const result = await db.query(
-      `SELECT id, username FROM users ORDER BY id;`
+      `SELECT id, username, is_admin FROM users ORDER BY id;`
     );
     return res.json(result.rows);
   } catch (err){
@@ -78,6 +78,22 @@ router.post("/", async function(req, res, next){
 
     return res.status(201).json({ user: createdUser, _token : TOKEN });
 
+  } catch (err){
+    return next(err);
+  }
+})
+
+router.delete("/:id", async function( req, res, next) {
+  try{
+    const id = req.params.id
+    const result = await db.query(
+      `DELETE FROM users 
+      WHERE id = $1
+      RETURNING username`,
+      [req.params.id]
+    )
+    deletedUsername = result.rows[0].username
+    return res.json({message: `User ${deletedUsername} Deleted`, username: deletedUsername})
   } catch (err){
     return next(err);
   }
