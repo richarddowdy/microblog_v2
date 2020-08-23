@@ -10,7 +10,7 @@ const bcrypt = require("bcrypt")
 const {BCRYPT_WORK_FACTOR} = require("../config")
 const jsonscema = require("jsonschema");
 const userSchema = require("../schema/userSchema.json");
-const { ensureCorrectUser, ensureLoggedIn, ensureAdmin } = require("./auth");
+const { ensureCorrectUser, ensureLoggedIn, ensureAdmin } = require("../middleware/auth");
 const process = require('process');
 process.env.NODE_ENV = "test";
 
@@ -78,6 +78,22 @@ router.post("/", async function(req, res, next){
 
     return res.status(201).json({ user: createdUser, _token : TOKEN });
 
+  } catch (err){
+    return next(err);
+  }
+})
+
+router.patch("/:id", async function (req, res, next){
+  const { id } = req.params;
+  const { username, password } = req.body;
+  try{
+    const result = db.query(
+      `UPDATE users 
+      SET username = $2, password = $3
+      WHERE id = $1
+      RETURNING *`,
+      [id, username, password]
+    )
   } catch (err){
     return next(err);
   }
