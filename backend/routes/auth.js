@@ -17,14 +17,15 @@ router.post("/login", async function (req, res, next) {
 
     // console.log("Request body and username:", req.body, username);
     if (await User.authenticate({ username, password })) {
-      // console.log("inside if")
-      const is_admin = await User.adminStatus(username);
-      let TOKEN = jwt.sign({ username, is_admin }, SECRET_KEY);
-      return res.json({ _token: TOKEN })
+      let user = await User.findOne(username);
+      // const is_admin = await User.adminStatus(username);
+      let TOKEN = jwt.sign({ username, is_admin: user.is_admin }, SECRET_KEY);
+      return res.json({ token: TOKEN, user })
     } else {
-      throw new ExpressError("Invalid username/password", 400);
+      throw new ExpressError("Invalid username/password", 401);
     }
   } catch (err) {
+    console.log("ERROR!!!!!!!!!!!!!!!!")
     return next(err);
   }
 });

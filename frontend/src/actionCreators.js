@@ -101,12 +101,12 @@ export function sendDownVoteToApi(postId) {
   };
 }
 
-export function postNewUserToApi(userData){
-  return async function(dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/users`, userData );
+export function postNewUserToApi(userData) {
+  return async function (dispatch) {
+    const res = await axios.post(`${BASE_API_URL}/users`, userData);
     const token = res.data.token;
     const user = res.data.user;
-    if(user){
+    if (user) {
       localStorage.setItem("_token", token);
       dispatch(loginUser({ user }));
     }
@@ -117,22 +117,32 @@ export function postNewUserToApi(userData){
 }
 
 export function userLoginToApi(userData) {
+  console.log("AC RUnning")
+  console.log("sending user data", userData);
   return async function (dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/login`, userData );
-    const token = res.data.token;
-    const user = res.data.user;
-    if (user) {
-      localStorage.setItem("_token", token);
-      dispatch(loginUser({ user }));
-    } 
-    // else{
-    //   dispatch(showError({message}))
-    // }
+    try {
+      console.log("inside async")
+      const res = await axios.post(`${BASE_API_URL}/login`, userData);
+      const token = res.data.token;
+      const user = res.data.user;
+      console.log("AC RESPONSE DATA", res.data)
+      if (user) {
+        localStorage.setItem("_token", token);
+        dispatch(loginUser({ user }));
+      }
+      else {
+        console.log("AC Failed Login")
+        // dispatch(showError({message}))
+      }
+    } catch (err) {
+      console.log("failed")
+      console.log(err.message)
+    }
   };
 }
 
 export function userLogout() {
-  return function (dispatch){
+  return function (dispatch) {
     localStorage.removeItem("_token");
     dispatch(logoutUser());
   }

@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { userLoginToApi } from './actionCreators'
+// import { authenticate } from "../../backend/models/usersModel";
 
 function LoginForm({ login, signUp}) {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -17,7 +21,8 @@ function LoginForm({ login, signUp}) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(formData);
+    dispatch(userLoginToApi(formData));
+    console.log("clicked login");
   };
 
   return (
