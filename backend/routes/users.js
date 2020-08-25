@@ -60,7 +60,7 @@ router.post("/", async function(req, res, next){
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
     console.log("passwords", password, hashedPassword);
 
-    // this can be made more elegant by moving all db queries to MODELS
+    // this can be cleaned up by moving all db queries to MODELS
     const userResult = await db.query(
       `INSERT INTO users (username, password)
        VALUES ($1, $2)
@@ -94,6 +94,7 @@ router.patch("/:id", async function (req, res, next){
       RETURNING *`,
       [id, username, password]
     )
+    // return res.json(result.rows[0])
   } catch (err){
     return next(err);
   }
