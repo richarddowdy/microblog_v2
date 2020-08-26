@@ -30,8 +30,7 @@ class User {
         return user;
       }
     }
-    console.log("throw the error in model")
-    throw new ExpressError("Stupid Error Message", 401);
+    return false;
   }
 
   // /** Register user with data. Returns new user data. */

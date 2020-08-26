@@ -25,7 +25,6 @@ router.post("/login", async function (req, res, next) {
       throw new ExpressError("Invalid username/password", 401);
     }
   } catch (err) {
-    console.log("ERROR!!!!!!!!!!!!!!!!")
     return next(err);
   }
 });
