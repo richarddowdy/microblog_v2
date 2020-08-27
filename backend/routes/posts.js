@@ -4,6 +4,7 @@ const db = require("../db");
 const express = require("express");
 const router = new express.Router();
 const process = require('process');
+const { authenticateJWT } = require('../middleware/auth')
 
 /** GET /   get overview of posts
  *
@@ -19,7 +20,7 @@ const process = require('process');
  *
  */
 
-router.get("/", async function (req, res, next) {
+router.get("/", authenticateJWT, async function (req, res, next) {
   try {
     const result = await db.query(
       `SELECT p.id,

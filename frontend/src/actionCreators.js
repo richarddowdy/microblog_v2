@@ -125,17 +125,17 @@ export function userLoginToApi(userData) {
       const res = await axios.post(`${BASE_API_URL}/login`, userData);
       const token = res.data.token;
       const user = res.data.user;
-      console.log("AC RESPONSE DATA", res.data)
+      console.log("AC RESPONSE DATA", res)
       if (user) {
         localStorage.setItem("_token", token);
-        dispatch(loginUser({ user }));
+        dispatch(loginUser({ ...user }));
       }
       else {
         console.log("AC Failed Login")
         // dispatch(showError({message}))
       }
     } catch (err) {
-      console.log("failed")
+      console.log("failed", err.message)
       console.log(err.message)
     }
   };

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
+import { useSelector } from 'react-redux';
 
 function NavBar() {
-
+  
+  const user = useSelector((st) => st.user);
+  
+  // useEffect(() => {
+    
+  // }, [user])
+  
+  console.log("Navbar", user);
   return (
     <div style={{height: "200px"}} className="navbar text-dark">
       <NavLink to="/" className=" app-brand text-dark">Microblog</NavLink>
