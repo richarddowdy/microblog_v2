@@ -13,6 +13,9 @@ const userReducers = (state = INITIAL_STATE, action) => {
 
     default:
       return state;
+
+    // case CURRENT_USER:
+    //   return { ...state, ...action.user };
   }
 }
 

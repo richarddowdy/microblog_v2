@@ -1,5 +1,5 @@
 import axios from "axios";
-import { loginUser, logoutUser } from "./actions/userActions";
+import { loginUser, userLogout, currentUser } from "./actions/userActions";
 import { gotTitles } from "./actions/titlesActions";
 import {
   addPost,
@@ -128,7 +128,7 @@ export function userLoginToApi(userData) {
       console.log("AC RESPONSE DATA", res)
       if (user) {
         localStorage.setItem("_token", token);
-        dispatch(loginUser({ ...user }));
+        dispatch(loginUser(user));
       }
       else {
         console.log("AC Failed Login")
@@ -141,9 +141,19 @@ export function userLoginToApi(userData) {
   };
 }
 
-export function userLogout() {
+export function logoutUser() {
   return function (dispatch) {
     localStorage.removeItem("_token");
-    dispatch(logoutUser());
+    dispatch(userLogout());
+  }
+}
+
+export function getCurrentUserFromApi(username) {// username and token
+  return async function (dispatch) {
+    // console.log("AC RUNNING")
+    const res = await axios.get(`${BASE_API_URL}/${username}`)
+    const user = res.data;
+    // console.log("AC USER", user);
+    dispatch(loginUser(user));
   }
 }

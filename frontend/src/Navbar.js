@@ -11,7 +11,7 @@ function NavBar() {
     
   // }, [user])
   
-  console.log("Navbar", user);
+  // console.log("Navbar", user);
   return (
     <div style={{height: "200px"}} className="navbar text-dark">
       <NavLink to="/" className=" app-brand text-dark">Microblog</NavLink>

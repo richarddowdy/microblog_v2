@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { userLoginToApi } from './actionCreators'
 // import { authenticate } from "../../backend/models/usersModel";
+import { useHistory } from 'react-router-dom';
 
 function LoginForm({ login, signUp}) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -23,6 +25,7 @@ function LoginForm({ login, signUp}) {
     evt.preventDefault();
     dispatch(userLoginToApi(formData));
     console.log("clicked login");
+    history.push("/")// TODO: On successful login
   };
 
   return (
