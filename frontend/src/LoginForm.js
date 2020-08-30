@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { userLoginToApi } from './actionCreators'
+import { userLoginToApi, userSignUpToApi } from './actionCreators'
 // import { authenticate } from "../../backend/models/usersModel";
 import { useHistory } from 'react-router-dom';
 
@@ -23,8 +23,13 @@ function LoginForm({ login, signUp}) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(userLoginToApi(formData));
-    console.log("clicked login");
+    if(signUp){
+      // dispatch(userSignUpToApi(formData)); //TODO
+      dispatch(userLoginToApi(formData, signUp));
+    } else {
+      dispatch(userLoginToApi(formData));
+    }
+    console.log("clicked login/signup");
     history.push("/")// TODO: On successful login
   };
 

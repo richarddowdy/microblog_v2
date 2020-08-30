@@ -71,7 +71,7 @@ router.post("/", async function (req, res, next) {
       [username, hashedPassword]
     )
     let createdUser = userResult.rows[0]
-
+    console.log(userResult);
     console.log(createdUser);
 
     const TOKEN = jwt.sign({
@@ -79,7 +79,7 @@ router.post("/", async function (req, res, next) {
       is_admin: createdUser.is_admin
     }, SECRET_KEY);
 
-    return res.status(201).json({ user: createdUser, _token: TOKEN });
+    return res.status(201).json({ user: createdUser, token: TOKEN });
 
   } catch (err) {
     return next(err);

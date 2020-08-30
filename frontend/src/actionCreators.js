@@ -116,13 +116,18 @@ export function postNewUserToApi(userData) {
   }
 }
 
-export function userLoginToApi(userData) {
+export function userLoginToApi(userData, signUp=false) {
   console.log("AC RUnning")
   console.log("sending user data", userData);
   return async function (dispatch) {
     try {
       console.log("inside async")
-      const res = await axios.post(`${BASE_API_URL}/login`, userData);
+      let res;
+      if(signUp){
+        res = await axios.post(`${BASE_API_URL}/users`, userData);
+      } else{
+        res = await axios.post(`${BASE_API_URL}/login`, userData);
+      }
       const token = res.data.token;
       const user = res.data.user;
       console.log("AC RESPONSE DATA", res)
@@ -140,6 +145,24 @@ export function userLoginToApi(userData) {
     }
   };
 }
+
+// export function userSignUpToApi(userData){
+//   return async function (dispatch) {
+//     try{
+//       console.log("signing up", userData);
+//       const res = await axios.post(`${BASE_API_URL}/users`, userData);
+//       const token = res.data.token;
+//       const user = res.data.user;
+//       if(user){
+//         localStorage.setItem("_token", token);
+//         dispatch(loginUser(user));
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       // dispatch(errorMessage(err));
+//     }
+//   }
+// }
 
 export function logoutUser() {
   return function (dispatch) {
