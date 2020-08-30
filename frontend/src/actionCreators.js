@@ -144,16 +144,14 @@ export function userLoginToApi(userData) {
 export function logoutUser() {
   return function (dispatch) {
     localStorage.removeItem("_token");
-    dispatch(userLogout());
+    dispatch(userLogout(null));
   }
 }
 
-export function getCurrentUserFromApi(username) {// username and token
+export function getCurrentUserFromApi(username) {
   return async function (dispatch) {
-    // console.log("AC RUNNING")
     const res = await axios.get(`${BASE_API_URL}/${username}`)
     const user = res.data;
-    // console.log("AC USER", user);
     dispatch(loginUser(user));
   }
 }

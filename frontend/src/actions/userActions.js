@@ -5,7 +5,8 @@ export function loginUser(user){
   return { type: LOGIN_USER, user };
 }
 
-export function userLogout(user){
+export function userLogout(){
+  console.log("LOGOUT")
   return { type: LOGOUT_USER };
 }
 

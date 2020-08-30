@@ -9,7 +9,7 @@ const userReducers = (state = INITIAL_STATE, action) => {
 
   
     case LOGOUT_USER:
-      return { ...state, INITIAL_STATE }
+      return { }
 
     default:
       return state;

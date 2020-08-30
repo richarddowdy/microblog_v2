@@ -38,7 +38,7 @@ router.get("/:username", async function (req, res, next) {
   // console.log("USERNAME HIT")
   try {
     const result = await db.query(
-      `SELECT username, is_admin 
+      `SELECT id, username, is_admin 
       FROM users 
       WHERE username = $1`,
       [username]

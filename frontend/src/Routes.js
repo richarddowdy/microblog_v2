@@ -5,6 +5,7 @@ import PostContainer from './PostContainer';
 import NewPost from './NewPost.js';
 import LoginPage from './LoginPage';
 import NotFound from './NotFound';
+import PrivateRoute from './PrivateRoute';
 
 function Routes() {
   return (
@@ -15,9 +16,9 @@ function Routes() {
       <Route exact path="/posts/:id">
         <PostContainer />
       </Route>
-      <Route exact path="/new">
+      <PrivateRoute exact path="/new">
         <NewPost />
-      </Route>
+      </PrivateRoute>
       <Route exact path="/login">
         <LoginPage />
       </Route>

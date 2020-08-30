@@ -16,8 +16,8 @@ function App() {
   const dispatch = useDispatch();
   const store = useSelector((st) => st);
   let currentUser = useSelector((st) => st.user);
-  // console.log("currentUser", currentUser);
-  // console.log("entire store", store);
+  console.log("currentUser", currentUser);
+  console.log("entire store", store);
   
   // let currentUser;
   // console.log(token);
