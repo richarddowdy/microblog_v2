@@ -19,6 +19,7 @@ function PostContainer() {
   const dispatch = useDispatch();
   const postId = Number(useParams().id);
   const post = useSelector((st) => st.posts[postId]);
+  const currentUser = useSelector((st) => st.user);
 
   useEffect(() => {
     async function fetchPost() {
@@ -68,7 +69,11 @@ function PostContainer() {
           <div className="ml-4 mt-4">
             <hr />
             <h1>Comments</h1>
-            <CommentsForm addComment={addComment} postId={postId} />
+            { currentUser.username ? (
+              <CommentsForm addComment={addComment} postId={postId} />
+            ) : 
+              null
+            }
             <CommentsList
               remove={removeComment}
               comments={post.comments}

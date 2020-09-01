@@ -26,6 +26,7 @@ function TitleList() {
               title={p.title}
               description={p.description}
               votes={p.votes}
+              author={p.username}
             />
           );
         })

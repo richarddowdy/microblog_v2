@@ -117,29 +117,21 @@ export function postNewUserToApi(userData) {
 }
 
 export function userLoginToApi(userData, signUp=false) {
-  console.log("AC RUnning")
-  console.log("sending user data", userData);
   return async function (dispatch) {
     try {
-      console.log("inside async")
-      let res;
-      if(signUp){
-        res = await axios.post(`${BASE_API_URL}/users`, userData);
-      } else{
-        res = await axios.post(`${BASE_API_URL}/login`, userData);
-      }
+      let authType = signUp ? "users" : "login";
+      const res = await axios.post(`${BASE_API_URL}/${authType}`, userData);
       const token = res.data.token;
       const user = res.data.user;
-      console.log("AC RESPONSE DATA", res)
       if (user) {
         localStorage.setItem("_token", token);
         dispatch(loginUser(user));
       }
-      else {
+      else {//TODO
         console.log("AC Failed Login")
         // dispatch(showError({message}))
       }
-    } catch (err) {
+    } catch (err) { //TODO
       console.log("failed", err.message)
       console.log(err.message)
     }

@@ -1,11 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Votes from "./Votes";
 import './PostDetails.css';
+import { useSelector } from "react-redux";
 
 function PostDetails({ toggleEditing, remove, post }) {
-
-  const { id, title, description, body, votes } = post;
+  const { id, title, description, body, votes, username } = post;
   const history = useHistory();
 
   function handleDelete(id) {
@@ -31,6 +32,15 @@ function PostDetails({ toggleEditing, remove, post }) {
       </div>
       <h1>{title}</h1>
       <h2 className="mt-3">{description}</h2>
+      <div>
+        Author: 
+        <Link
+          to="#"//TODO
+          className="ml-2 "
+        >
+          {username}
+        </Link>
+      </div>
       <p className="mt-5" >{body}</p>
     </div>
   );

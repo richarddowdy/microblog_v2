@@ -26,11 +26,15 @@ router.get("/", authenticateJWT, async function (req, res, next) {
       `SELECT p.id,
               p.title,
               p.description,
-              p.votes
+              p.votes,
+              p.user_id,
+              u.username
       FROM posts p 
+      JOIN users u ON p.user_id = u.id
       ORDER BY p.id
       `
     );
+
     return res.json(result.rows);
   } catch (err) {
     return next(err);
@@ -58,13 +62,15 @@ router.get("/:id", async function (req, res, next) {
               p.description,
               p.body,
               p.votes,
+              u.username,
               CASE WHEN COUNT(c.id) = 0 THEN JSON '[]' ELSE JSON_AGG(
                     JSON_BUILD_OBJECT('id', c.id, 'text', c.text)
                 ) END AS comments
       FROM posts p 
-        LEFT JOIN comments c ON c.post_id = p.id
+      LEFT JOIN comments c ON c.post_id = p.id
+      JOIN users u ON p.user_id = p.id
       WHERE p.id = $1
-      GROUP BY p.id    
+      GROUP BY p.id, u.username    
       ORDER BY p.id
       `, [req.params.id]
     );
