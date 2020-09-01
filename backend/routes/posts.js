@@ -55,6 +55,7 @@ router.get("/", authenticateJWT, async function (req, res, next) {
  */
 
 router.get("/:id", async function (req, res, next) {
+  console.log(req.params.id)
   try {
     const result = await db.query(
       `SELECT p.id,
@@ -68,12 +69,13 @@ router.get("/:id", async function (req, res, next) {
                 ) END AS comments
       FROM posts p 
       LEFT JOIN comments c ON c.post_id = p.id
-      JOIN users u ON p.user_id = p.id
+      JOIN users u ON u.id = p.user_id
       WHERE p.id = $1
-      GROUP BY p.id, u.username    
-      ORDER BY p.id
+      GROUP BY p.id, u.username 
+      ORDER BY p.id;
       `, [req.params.id]
     );
+    console.log(result)
     return res.json(result.rows[0]);
   } catch (err) {
     return next(err);

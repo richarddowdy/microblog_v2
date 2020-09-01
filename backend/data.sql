@@ -31,7 +31,8 @@ INSERT INTO users (username, password, is_admin) VALUES
 INSERT INTO posts (title, description, body, user_id) VALUES
     ('First Post', 'Best post ever!', 'Everyone loves posting first. I win!', 1),
     ('Second Post', 'A very good post!', 'Oh well. Didn''t get to be first.', 2),
-    ('Third Post', 'Why not add another to the list?', 'Of course, I saved the best for last', 1);
+    ('Third Post', 'Why not add another to the list?', 'Of course, I saved the best for last', 1),
+    ('Fourth Post', 'Fourth time is the Charm?', 'Of course, I saved the best for last, for real this time', 2);
 
 INSERT INTO comments (text, post_id, user_id) VALUES
     ('This is a really great post.', 1, 1),
