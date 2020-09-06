@@ -39,13 +39,14 @@ export function getOnePostFromApi(id) {
 }
 
 export function addCommentToApi(data) {
+  console.log(data)
   return async function (dispatch) {
     const res = await axios.post(
       `${BASE_API_URL}/posts/${data.postId}/comments`,
       data
     );
-    const { id, text } = res.data;
-    dispatch(addComment({ postId: data.postId, id, text }));
+    const { id, text, author } = res.data;
+    dispatch(addComment({ postId: data.postId, id, text, author }));
   };
 }
 

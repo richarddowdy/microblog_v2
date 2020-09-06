@@ -30,15 +30,14 @@ router.get("/", async function (req, res, next) {
  */
 
 router.post("/", async function (req, res, next) {
-  //TODO: Add user ID's to this and remove the hard coded value of "1"
   const postId = req.params.post_id;
-  const { text, userId, /*user.id, user.username*/ } = req.body; // TODO: replace comments when the user is sent
+  const { text, userId, author } = req.body;
   try {
     const result = await db.query(
       `INSERT INTO comments (text, post_id, user_id) VALUES ($1, $2, $3) 
         RETURNING id, text`,
-      [text, postId, 1]); // TODO: replace hard coded "1" with user_id; add username
-    return res.json(result.rows[0]);
+      [text, postId, userId]);
+    return res.json({...result.rows[0], author });
   } catch (err) {
     return next(err);
   }

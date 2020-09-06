@@ -42,14 +42,14 @@ const postsReducer = (state = INITIAL_STATE, action) => {
       return posts;
 
     case ADD_COMMENT:// TODO add user_id
-      const { postId, id, text } = action.commentObj
+      const { postId, id, text, author } = action.commentObj
       return {
         ...state,
         [postId]: {
           ...state[postId],
           comments: [
             ...state[postId].comments,
-            { id, text }
+            { id, text, author }
           ]
         }
       }

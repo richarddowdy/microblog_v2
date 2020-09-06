@@ -34,8 +34,8 @@ function PostContainer() {
     dispatch(removePostFromApi(postId));
   }
 
-  function addComment({ postId, text }) {
-    dispatch(addCommentToApi({ postId, text }));
+  function addComment(data) {
+    dispatch(addCommentToApi(data));
   }
 
   function removeComment(comment) {
