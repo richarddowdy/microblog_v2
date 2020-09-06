@@ -16,7 +16,7 @@ function CommentsList({ remove, comments, postId }) {
       {comments.map((c) => (
         <div className="mb-4" key={c.id}>
           <i className="fa fa-times text-danger mr-4" onClick={() => handleDelete(postId, c.id)}></i>
-          <span className="" style={{fontFamily: "Orbitron, sans-serif", fontSize: "18px", fontWeight: "900", color: "darkgray"}}>{c.author}: </span>
+          <span className="" style={{fontFamily: "Orbitron, sans-serif", fontSize: "18px", fontWeight: "900", color: "#2F4F4F", letterSpacing: "1px"}}>{c.author} : </span>
           <span className="">{c.text}</span>
         </div>
       ))}
