@@ -65,17 +65,17 @@ router.get("/:id", async function (req, res, next) {
               p.votes,
               u.username,
               CASE WHEN COUNT(c.id) = 0 THEN JSON '[]' ELSE JSON_AGG(
-                    JSON_BUILD_OBJECT('id', c.id, 'text', c.text)
+                    JSON_BUILD_OBJECT('id', c.id, 'text', c.text, 'author', a.username)
                 ) END AS comments
       FROM posts p 
-      LEFT JOIN comments c ON c.post_id = p.id
-      JOIN users u ON u.id = p.user_id
+      JOIN comments c ON p.id = c.post_id
+      JOIN users u ON p.user_id = u.id
+      JOIN users a ON a.id = c.user_id 
       WHERE p.id = $1
       GROUP BY p.id, u.username 
       ORDER BY p.id;
       `, [req.params.id]
     );
-    console.log(result)
     return res.json(result.rows[0]);
   } catch (err) {
     return next(err);
