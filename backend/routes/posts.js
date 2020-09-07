@@ -68,14 +68,15 @@ router.get("/:id", async function (req, res, next) {
                     JSON_BUILD_OBJECT('id', c.id, 'text', c.text, 'author', a.username)
                 ) END AS comments
       FROM posts p 
-      JOIN comments c ON p.id = c.post_id
+      LEFT JOIN comments c ON p.id = c.post_id
       JOIN users u ON p.user_id = u.id
-      JOIN users a ON a.id = c.user_id 
+      LEFT JOIN users a ON a.id = c.user_id 
       WHERE p.id = $1
       GROUP BY p.id, u.username 
       ORDER BY p.id;
       `, [req.params.id]
     );
+    console.log(result.rows[0])
     return res.json(result.rows[0]);
   } catch (err) {
     return next(err);

@@ -6,6 +6,7 @@ import './PostDetails.css';
 import { useSelector } from "react-redux";
 
 function PostDetails({ toggleEditing, remove, post }) {
+  const currentUser = useSelector((st) => (st.user.username)) || null;
   const { id, title, description, body, votes, username } = post;
   const history = useHistory();
 
@@ -18,10 +19,14 @@ function PostDetails({ toggleEditing, remove, post }) {
     <div className="mt-4 ml-4">
       <div className="post-controls">
         <div className="api-buttons">
-          <i
-            className="far fa-edit fa-2x text-info mr-4 pointer"
-            onClick={() => toggleEditing()}
-          ></i>
+          {currentUser === username ? 
+           <i
+           className="far fa-edit fa-2x text-info mr-4 pointer"
+           onClick={() => toggleEditing()}
+         ></i>
+          :
+            null
+          }
           <i
             className="fas fa-times fa-2x text-danger pointer"
             onClick={() => handleDelete(id)}

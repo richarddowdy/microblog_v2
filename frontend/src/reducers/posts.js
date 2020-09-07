@@ -41,7 +41,7 @@ const postsReducer = (state = INITIAL_STATE, action) => {
       delete posts[action.post_id]
       return posts;
 
-    case ADD_COMMENT:// TODO add user_id
+    case ADD_COMMENT:
       const { postId, id, text, author } = action.commentObj
       return {
         ...state,
