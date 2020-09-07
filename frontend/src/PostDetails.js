@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 function PostDetails({ toggleEditing, remove, post }) {
   const currentUser = useSelector((st) => (st.user.username)) || null;
-  const { id, title, description, body, votes, username } = post;
+  const { id, title, description, body, votes, username, user_id } = post;
   const history = useHistory();
 
   function handleDelete(id) {
@@ -40,7 +40,7 @@ function PostDetails({ toggleEditing, remove, post }) {
       <div>
         Author: 
         <Link
-          to="#"//TODO
+          to={`/users/${user_id}`}
           className="ml-2 "
         >
           {username}

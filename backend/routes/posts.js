@@ -62,6 +62,7 @@ router.get("/:id", async function (req, res, next) {
               p.description,
               p.body,
               p.votes,
+              p.user_id,
               u.username,
               CASE WHEN COUNT(c.id) = 0 THEN JSON '[]' ELSE JSON_AGG(
                     JSON_BUILD_OBJECT('id', c.id, 'text', c.text, 'author', a.username)
@@ -71,7 +72,7 @@ router.get("/:id", async function (req, res, next) {
       JOIN users u ON p.user_id = u.id
       LEFT JOIN users a ON a.id = c.user_id 
       WHERE p.id = $1
-      GROUP BY p.id, u.username 
+      GROUP BY p.id, u.username
       ORDER BY p.id;
       `, [req.params.id]
     );

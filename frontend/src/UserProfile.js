@@ -36,26 +36,28 @@ function UserProfile({}) {
   const { username, posts } = userData;
   console.log("PROFILE DATA", userData, posts);
   return (
-    <div>
-      <h2>{username}'s Profile</h2>
-      {/* Users info? email? bio? about? */}
-      <h2>Posts Made by {username}</h2>
-      {userPosts.length
-        ? userPosts.map((p) => {
-            return (
-              <TitleCard
-                key={p.id}
-                id={p.id}
-                title={p.title}
-                description={p.description}
-                votes={p.votes}
-                author={p.username}
-                userId={p.user_id}
-              />
-            );
-          })
-        : null}
-    </div>
+    <>
+      <h2 className="m-3">{username}'s Profile</h2>
+      <h2 className="m-3">Posts Made by {username}</h2>
+      <div className="d-flex flex-wrap justify-content-around">
+        {/* Users info? email? bio? about? */}
+        {userPosts.length
+          ? userPosts.map((p) => {
+              return (
+                <TitleCard
+                  key={p.id}
+                  id={p.id}
+                  title={p.title}
+                  description={p.description}
+                  votes={p.votes}
+                  author={p.username}
+                  userId={p.user_id}
+                />
+              );
+            })
+          : null}
+      </div>
+    </>
   );
 }
 
