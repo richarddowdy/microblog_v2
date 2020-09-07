@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import PostContainer from './PostContainer';
+import UserProfile from './UserProfile';
 import NewPost from './NewPost.js';
 import LoginPage from './LoginPage';
 import NotFound from './NotFound';
@@ -15,6 +16,9 @@ function Routes() {
       </Route>
       <Route exact path="/posts/:id">
         <PostContainer />
+      </Route>
+      <Route exact path="/users/:id">
+        <UserProfile />
       </Route>
       <PrivateRoute exact path="/new">
         <NewPost />

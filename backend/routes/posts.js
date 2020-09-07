@@ -20,7 +20,7 @@ const { authenticateJWT } = require('../middleware/auth')
  *
  */
 
-router.get("/", authenticateJWT, async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   try {
     const result = await db.query(
       `SELECT p.id,
@@ -34,7 +34,6 @@ router.get("/", authenticateJWT, async function (req, res, next) {
       ORDER BY p.id
       `
     );
-
     return res.json(result.rows);
   } catch (err) {
     return next(err);

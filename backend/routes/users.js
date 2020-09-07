@@ -35,14 +35,14 @@ router.get("/:id", async function (req, res, next) {
       JSON_AGG(DISTINCT p.id) AS posts,
       JSON_AGG(DISTINCT c.id) AS comments
       FROM users u
-      JOIN posts p ON p.user_id = u.id
-      JOIN comments c ON c.user_id = u.id
+      LEFT JOIN posts p ON p.user_id = u.id
+      LEFT JOIN comments c ON c.user_id = u.id
       WHERE u.id = $1
       GROUP BY u.id
       ORDER BY u.id`,
       [req.params.id]
     )
-    return res.json(result.rows);
+    return res.json(result.rows[0]);
   } catch (err) {
     return next(err);
   }
