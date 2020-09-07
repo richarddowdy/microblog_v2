@@ -5,7 +5,7 @@ CREATE DATABASE "microblog";
 \c "microblog"
 
 CREATE TABLE users (id SERIAL PRIMARY KEY,
-                    username TEXT NOT NULL,
+                    username TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
                     is_admin BOOLEAN NOT NULL DEFAULT 'false');
 
@@ -24,12 +24,15 @@ CREATE TABLE comments (id SERIAL PRIMARY KEY,
 
 
 INSERT INTO users (username, password, is_admin) VALUES
-    ('admin', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', true),
-    ('user', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', false);
+    ('adminUser', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', true),
+    ('normalUser', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', false);
+    -- adminUser password = "admin" normalUser password = "password"
 
 INSERT INTO posts (title, description, body, user_id) VALUES
     ('First Post', 'Best post ever!', 'Everyone loves posting first. I win!', 1),
-    ('Second Post', 'A very good post!', 'Oh well. Didn''t get to be first.', 2);
+    ('Second Post', 'A very good post!', 'Oh well. Didn''t get to be first.', 2),
+    ('Third Post', 'Why not add another to the list?', 'Of course, I saved the best for last', 1),
+    ('Fourth Post', 'Fourth time is the Charm?', 'Of course, I saved the best for last, for real this time', 2);
 
 INSERT INTO comments (text, post_id, user_id) VALUES
     ('This is a really great post.', 1, 1),

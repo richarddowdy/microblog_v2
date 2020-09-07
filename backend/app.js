@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const postsRoutes = require("./routes/posts");
 const postCommentsRoutes = require("./routes/postComments");
 const usersRoutes = require("./routes/users");
+const authRoutes = require("./routes/auth");
 const cors = require("cors");
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(cors());
 app.use("/api/users", usersRoutes);
 app.use("/api/posts/:post_id/comments", postCommentsRoutes);
 app.use("/api/posts", postsRoutes);
+app.use("/api", authRoutes); // "/login"
 
 
 /** 404 Not Found handler. */

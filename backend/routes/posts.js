@@ -4,6 +4,7 @@ const db = require("../db");
 const express = require("express");
 const router = new express.Router();
 const process = require('process');
+const { authenticateJWT } = require('../middleware/auth')
 
 /** GET /   get overview of posts
  *
@@ -19,17 +20,21 @@ const process = require('process');
  *
  */
 
-router.get("/", async function (req, res, next) {
+router.get("/", authenticateJWT, async function (req, res, next) {
   try {
     const result = await db.query(
       `SELECT p.id,
               p.title,
               p.description,
-              p.votes
+              p.votes,
+              p.user_id,
+              u.username
       FROM posts p 
+      JOIN users u ON p.user_id = u.id
       ORDER BY p.id
       `
     );
+
     return res.json(result.rows);
   } catch (err) {
     return next(err);
@@ -50,6 +55,7 @@ router.get("/", async function (req, res, next) {
  */
 
 router.get("/:id", async function (req, res, next) {
+  console.log(req.params.id)
   try {
     const result = await db.query(
       `SELECT p.id,
@@ -57,16 +63,20 @@ router.get("/:id", async function (req, res, next) {
               p.description,
               p.body,
               p.votes,
+              u.username,
               CASE WHEN COUNT(c.id) = 0 THEN JSON '[]' ELSE JSON_AGG(
-                    JSON_BUILD_OBJECT('id', c.id, 'text', c.text)
+                    JSON_BUILD_OBJECT('id', c.id, 'text', c.text, 'author', a.username)
                 ) END AS comments
       FROM posts p 
-        LEFT JOIN comments c ON c.post_id = p.id
+      LEFT JOIN comments c ON p.id = c.post_id
+      JOIN users u ON p.user_id = u.id
+      LEFT JOIN users a ON a.id = c.user_id 
       WHERE p.id = $1
-      GROUP BY p.id    
-      ORDER BY p.id
+      GROUP BY p.id, u.username 
+      ORDER BY p.id;
       `, [req.params.id]
     );
+    console.log(result.rows[0])
     return res.json(result.rows[0]);
   } catch (err) {
     return next(err);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { loginUser, logoutUser } from "./actions/userActions";
+import { loginUser, userLogout, currentUser } from "./actions/userActions";
 import { gotTitles } from "./actions/titlesActions";
 import {
   addPost,
@@ -39,13 +39,14 @@ export function getOnePostFromApi(id) {
 }
 
 export function addCommentToApi(data) {
+  console.log(data)
   return async function (dispatch) {
     const res = await axios.post(
       `${BASE_API_URL}/posts/${data.postId}/comments`,
       data
     );
-    const { id, text } = res.data;
-    dispatch(addComment({ postId: data.postId, id, text }));
+    const { id, text, author } = res.data;
+    dispatch(addComment({ postId: data.postId, id, text, author }));
   };
 }
 
@@ -101,12 +102,12 @@ export function sendDownVoteToApi(postId) {
   };
 }
 
-export function postNewUserToApi(userData){
-  return async function(dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/users`, userData );
+export function postNewUserToApi(userData) {
+  return async function (dispatch) {
+    const res = await axios.post(`${BASE_API_URL}/users`, userData);
     const token = res.data.token;
     const user = res.data.user;
-    if(user){
+    if (user) {
       localStorage.setItem("_token", token);
       dispatch(loginUser({ user }));
     }
@@ -116,24 +117,57 @@ export function postNewUserToApi(userData){
   }
 }
 
-export function userLoginToApi(userData) {
+export function userLoginToApi(userData, signUp=false) {
   return async function (dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/login`, userData );
-    const token = res.data.token;
-    const user = res.data.user;
-    if (user) {
-      localStorage.setItem("_token", token);
-      dispatch(loginUser({ user }));
-    } 
-    // else{
-    //   dispatch(showError({message}))
-    // }
+    try {
+      let authType = signUp ? "users" : "login";
+      const res = await axios.post(`${BASE_API_URL}/${authType}`, userData);
+      const token = res.data.token;
+      const user = res.data.user;
+      if (user) {
+        localStorage.setItem("_token", token);
+        dispatch(loginUser(user));
+      }
+      else {//TODO
+        console.log("AC Failed Login")
+        // dispatch(showError({message}))
+      }
+    } catch (err) { //TODO
+      console.log("failed", err.message)
+      console.log(err.message)
+    }
   };
 }
 
-export function userLogout() {
-  return function (dispatch){
+// export function userSignUpToApi(userData){
+//   return async function (dispatch) {
+//     try{
+//       console.log("signing up", userData);
+//       const res = await axios.post(`${BASE_API_URL}/users`, userData);
+//       const token = res.data.token;
+//       const user = res.data.user;
+//       if(user){
+//         localStorage.setItem("_token", token);
+//         dispatch(loginUser(user));
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       // dispatch(errorMessage(err));
+//     }
+//   }
+// }
+
+export function logoutUser() {
+  return function (dispatch) {
     localStorage.removeItem("_token");
-    dispatch(logoutUser());
+    dispatch(userLogout(null));
+  }
+}
+
+export function getCurrentUserFromApi(username) {
+  return async function (dispatch) {
+    const res = await axios.get(`${BASE_API_URL}/${username}`)
+    const user = res.data;
+    dispatch(loginUser(user));
   }
 }

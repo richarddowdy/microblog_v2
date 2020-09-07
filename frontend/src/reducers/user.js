@@ -5,14 +5,17 @@ const INITIAL_STATE = {};
 const userReducers = (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case LOGIN_USER:
-      return { ...state, currentUser: action.user }
+      return { ...state, ...action.user }
 
   
     case LOGOUT_USER:
-      return { ...state, currentUser: {} }
+      return { }
 
     default:
       return state;
+
+    // case CURRENT_USER:
+    //   return { ...state, ...action.user };
   }
 }
 
