@@ -14,7 +14,7 @@ function UserProfile({}) {
     Comments: [],
     posts: [],
   });
-  const [userPosts, setUserPosts] = useState([]);
+  const [userTitles, setUserTitles] = useState([]);
 
   useEffect(() => {
     async function fetchUserInformation() {
@@ -25,9 +25,9 @@ function UserProfile({}) {
     async function fetchUserTitles(userId) {
       let result = await axios.get(`${BASE_API_URL}/posts`);
       console.log("USER TITLES QUERY", result.data, typeof userId, userId);
-      let usersPosts = result.data.filter((p) => p.user_id === Number(userId));
-      console.log("THIS PERSON'S POSTS", usersPosts);
-      setUserPosts(usersPosts);
+      let usersTitles = result.data.filter((p) => p.user_id === Number(userId));
+      console.log("THIS PERSON'S POSTS", userTitles);
+      setUserTitles(usersTitles);
     }
     fetchUserInformation();
     fetchUserTitles(userId);
@@ -38,11 +38,11 @@ function UserProfile({}) {
   return (
     <>
       <h2 className="m-3">{username}'s Profile</h2>
+        {/* Users info? email? bio? about? */}
       <h2 className="m-3">Posts Made by {username}</h2>
       <div className="d-flex flex-wrap justify-content-around">
-        {/* Users info? email? bio? about? */}
-        {userPosts.length
-          ? userPosts.map((p) => {
+        {userTitles.length
+          ? userTitles.map((p) => {
               return (
                 <TitleCard
                   key={p.id}

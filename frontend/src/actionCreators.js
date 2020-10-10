@@ -122,6 +122,7 @@ export function userLoginToApi(userData, signUp=false) {
     try {
       let authType = signUp ? "users" : "login";
       const res = await axios.post(`${BASE_API_URL}/${authType}`, userData);
+      console.log(res)
       const token = res.data.token;
       const user = res.data.user;
       if (user) {
@@ -133,6 +134,8 @@ export function userLoginToApi(userData, signUp=false) {
         // dispatch(showError({message}))
       }
     } catch (err) { //TODO
+      console.log(err)
+      // console.log(res)
       console.log("failed", err.message)
       console.log(err.message)
     }
