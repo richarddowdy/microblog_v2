@@ -8,25 +8,18 @@ const User = require("../models/usersModel");
 const { SECRET_KEY } = require("../config");
 const ExpressError = require("../helpers/expressError");
 const db = require("../db");
+const createToken = require("../helpers/createToken");
+
 
 let TOKEN;
 
-router.post("/login", async function (req, res, next) {
+
+router.post("/login", async function(req, res, next) {
   try {
-
-    const { username, password } = req.body;
-
-    // console.log("Request body and username:", req.body, username);
-    if (await User.authenticate({ username, password })) {
-      let user = await User.findOne(username);
-      // const is_admin = await User.adminStatus(username);
-      let TOKEN = jwt.sign({ username, is_admin: user.is_admin }, SECRET_KEY);
-      return res.json({ token: TOKEN, user })
-    } else {
-      throw new ExpressError("Invalid username/password", 401);
-    }
+    const user = await User.authenticate(req.body);
+    const token = createToken(user);
+    return res.json({ token });
   } catch (err) {
-    //TODO: Catch the correct error
     return next(err);
   }
 });

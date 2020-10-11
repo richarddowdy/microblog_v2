@@ -11,6 +11,8 @@ import {
   upVote,
   downVote,
 } from "./actions/postsActions";
+import { decode } from "jsonwebtoken";
+
 
 export const BASE_API_URL = "http://localhost:5000/api";
 
@@ -124,41 +126,17 @@ export function userLoginToApi(userData, signUp=false) {
       const res = await axios.post(`${BASE_API_URL}/${authType}`, userData);
       console.log(res)
       const token = res.data.token;
-      const user = res.data.user;
-      if (user) {
-        localStorage.setItem("_token", token);
-        dispatch(loginUser(user));
-      }
-      else {//TODO
-        console.log("AC Failed Login")
-        // dispatch(showError({message}))
-      }
-    } catch (err) { //TODO
-      console.log(err)
-      // console.log(res)
-      console.log("failed", err.message)
-      console.log(err.message)
+      const user = decode(token);
+      console.log("just logged in to this account" ,user)
+
+      localStorage.setItem("_token", token);
+      dispatch(loginUser(user));
+    } catch (err) { //TODO 
+      console.log(err.response.data) // <- this is the proper way to catch errors from backend
     }
   };
 }
 
-// export function userSignUpToApi(userData){
-//   return async function (dispatch) {
-//     try{
-//       console.log("signing up", userData);
-//       const res = await axios.post(`${BASE_API_URL}/users`, userData);
-//       const token = res.data.token;
-//       const user = res.data.user;
-//       if(user){
-//         localStorage.setItem("_token", token);
-//         dispatch(loginUser(user));
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       // dispatch(errorMessage(err));
-//     }
-//   }
-// }
 
 export function logoutUser() {
   return function (dispatch) {

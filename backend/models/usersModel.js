@@ -13,16 +13,17 @@ class User {
   static async authenticate(data) {
     // try to find the user first
     const result = await db.query(
-      `SELECT username, 
+      `SELECT id,
+              username, 
               password, 
               is_admin
         FROM users 
         WHERE username = $1`,
       [data.username]
     );
+
     const user = result.rows[0];
 
-    // console.log("user:", user)
     if (user) {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(data.password, user.password);
@@ -30,7 +31,7 @@ class User {
         return user;
       }
     }
-    return false;
+    throw new ExpressError("Invalid Password", 401);
   }
 
   // /** Register user with data. Returns new user data. */
