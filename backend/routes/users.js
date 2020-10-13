@@ -51,6 +51,7 @@ router.get("/:id", async function (req, res, next) {
 
 
 router.post("/", async function (req, res, next) {
+  console.log("creating a news user")
   try {
     let result = jsonscema.validate(req.body, userSchema)
     if (!result.valid) {
@@ -64,17 +65,25 @@ router.post("/", async function (req, res, next) {
     console.log("passwords", password, hashedPassword);
 
     // this can be cleaned up by moving all db queries to MODELS
-    const userResult = await db.query(
-      `INSERT INTO users (username, password)
-       VALUES ($1, $2)
-       RETURNING id, username, is_admin`,
-      [username, hashedPassword]
-    )
+    try{
+      const userResult = await db.query(
+        `INSERT INTO users (username, password)
+        VALUES ($1, $2)
+        RETURNING id, username, is_admin`,
+        [username, hashedPassword]
+      )
+    } catch {
+      throw new ExpressError(
+        `There already exists a user with username '${req.body.username}`,
+        400
+      ); 
+    }
     let createdUser = userResult.rows[0]
     console.log(userResult);
     console.log(createdUser);
 
     const TOKEN = jwt.sign({
+      id: createdUser.id,
       username: createdUser.username,
       is_admin: createdUser.is_admin
     }, SECRET_KEY);
@@ -82,7 +91,8 @@ router.post("/", async function (req, res, next) {
     return res.status(201).json({ user: createdUser, token: TOKEN });
 
   } catch (err) {
-    return next(err);
+    console.log("THROWING AN ERROR FOR EXISTING", err)
+    return next(err)
   }
 })
 

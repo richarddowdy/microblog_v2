@@ -10,3 +10,4 @@ export const DOWN_VOTE = "DOWN_VOTE";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const CURRENT_USER = "CURRENT_USER";
+export const AUTH_ERROR = "AUTH_ERROR";

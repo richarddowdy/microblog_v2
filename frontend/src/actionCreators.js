@@ -12,6 +12,7 @@ import {
   downVote,
 } from "./actions/postsActions";
 import { decode } from "jsonwebtoken";
+import { invalid_login } from "./actions/errorActions";
 
 
 export const BASE_API_URL = "http://localhost:5000/api";
@@ -119,29 +120,31 @@ export function postNewUserToApi(userData) {
   }
 }
 
-export function userLoginToApi(userData, signUp=false) {
-  return async function (dispatch) {
-    try {
-      let authType = signUp ? "users" : "login";
-      const res = await axios.post(`${BASE_API_URL}/${authType}`, userData);
-      console.log(res)
-      const token = res.data.token;
-      const user = decode(token);
-      console.log("just logged in to this account" ,user)
+// This has been moved to the login component
+// export function userLoginToApi(userData, signUp=false) {
+//   return async function (dispatch) {
+//     try {
+//       let authType = signUp ? "users" : "login";
+//       const res = await axios.post(`${BASE_API_URL}/${authType}`, userData);
+//       console.log(res)
+//       const token = res.data.token;
+//       const user = decode(token);
+//       console.log("just logged in to this account" ,user)
 
-      localStorage.setItem("_token", token);
-      dispatch(loginUser(user));
-    } catch (err) { //TODO 
-      console.log(err.response.data) // <- this is the proper way to catch errors from backend
-    }
-  };
-}
+//       localStorage.setItem("_token", token);
+//       dispatch(loginUser(user));
+//     } catch (err) { //TODO 
+//       console.log(err.response.data) // <- this is the proper way to catch errors from backend
+//       dispatch(invalid_login(err.response.data.message));
+//     }
+//   };
+// }
 
 
 export function logoutUser() {
   return function (dispatch) {
     localStorage.removeItem("_token");
-    dispatch(userLogout(null));
+    dispatch(userLogout());
   }
 }
 

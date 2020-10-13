@@ -1,7 +1,7 @@
 import { LOGIN_USER, LOGOUT_USER, CURRENT_USER } from '../actionTypes';
 
 export function loginUser(user){
-  // console.log("login action", user);
+  console.log("login action", user);
   return { type: LOGIN_USER, user };
 }
 
