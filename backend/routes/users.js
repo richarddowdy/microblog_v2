@@ -64,6 +64,7 @@ router.post("/", async function (req, res, next) {
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
     console.log("passwords", password, hashedPassword);
 
+    let createdUser;
     // this can be cleaned up by moving all db queries to MODELS
     try{
       const userResult = await db.query(
@@ -72,14 +73,13 @@ router.post("/", async function (req, res, next) {
         RETURNING id, username, is_admin`,
         [username, hashedPassword]
       )
+      createdUser = userResult.rows[0]
     } catch {
       throw new ExpressError(
-        `There already exists a user with username '${req.body.username}`,
+        'Sorry, that username is already taken',
         400
       ); 
     }
-    let createdUser = userResult.rows[0]
-    console.log(userResult);
     console.log(createdUser);
 
     const TOKEN = jwt.sign({
@@ -91,7 +91,7 @@ router.post("/", async function (req, res, next) {
     return res.status(201).json({ user: createdUser, token: TOKEN });
 
   } catch (err) {
-    console.log("THROWING AN ERROR FOR EXISTING", err)
+    console.log("Oops, something went wrong. Please refresh the page and try again.", err)
     return next(err)
   }
 })
