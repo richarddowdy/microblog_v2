@@ -18,7 +18,7 @@ function TitleCard({ id, title, description, votes, author, userId }) {
         <div className="pl-4">
           Author:
         <Link
-            to={`/users/${userId}`}
+            to={`/?profile=${author}`}
             className="pl-2"
             style={{ fontSize: "20px", color: "darkgray" }}
           >

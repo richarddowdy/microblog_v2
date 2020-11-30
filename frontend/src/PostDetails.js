@@ -42,7 +42,7 @@ function PostDetails({ toggleEditing, remove, post }) {
       <div>
         Author:
         <Link
-          to={`/users/${user_id}`}
+          to={`/?profile=${username}`}
           className="ml-2 "
         >
           {username}
