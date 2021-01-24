@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function CommentsForm({ postId, addComment }){
-  
+  let currentUser = useSelector((st) => st.user);
   const INITIAL_FORM_STATE = {
     postId,
     text: "",
   }
 
+  console.log("according to the comments", currentUser)
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);
 
   function handleChange(evt){
@@ -20,7 +22,7 @@ function CommentsForm({ postId, addComment }){
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    addComment(formData);
+    addComment({ ...formData, userId: currentUser.id, author: currentUser.username });
     setFormData(INITIAL_FORM_STATE);
   }
 

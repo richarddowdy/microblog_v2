@@ -3,7 +3,7 @@
 const db = require("../db");
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-
+const process = require('process');
 
 /** GET /        get comments for post
  *
@@ -30,12 +30,14 @@ router.get("/", async function (req, res, next) {
  */
 
 router.post("/", async function (req, res, next) {
+  const postId = req.params.post_id;
+  const { text, userId, author } = req.body;
   try {
     const result = await db.query(
-      `INSERT INTO comments (text, post_id) VALUES ($1, $2) 
+      `INSERT INTO comments (text, post_id, user_id) VALUES ($1, $2, $3) 
         RETURNING id, text`,
-      [req.body.text, req.params.post_id]);
-    return res.json(result.rows[0]);
+      [text, postId, userId]);
+    return res.json({...result.rows[0], author });
   } catch (err) {
     return next(err);
   }
