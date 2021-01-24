@@ -31,7 +31,7 @@ class User {
         return user;
       }
     }
-    throw new ExpressError("Invalid Password", 401);
+    throw new ExpressError("Invalid Username or Password", 401);
   }
 
   // /** Register user with data. Returns new user data. */

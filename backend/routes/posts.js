@@ -139,8 +139,8 @@ router.put("/:id", async function (req, res, next) {
         RETURNING id, title, description, body, votes`,
       [title, description, body, req.params.id]);
     return res.json(result.rows[0]);
-  } catch (e) {
-    return next(e);
+  } catch (err) {
+    return next(err);
   }
 });
 
