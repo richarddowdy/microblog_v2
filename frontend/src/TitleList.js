@@ -10,6 +10,7 @@ function TitleList({profile}) {
 
   useEffect(() => {
     async function fetchAllTitles() {
+      console.log("fetching");
       dispatch(getAllTitlesFromApi());
     }
     fetchAllTitles();

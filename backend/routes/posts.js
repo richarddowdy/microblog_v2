@@ -4,7 +4,8 @@ const db = require("../db");
 const express = require("express");
 const router = new express.Router();
 const process = require('process');
-const { authenticateJWT } = require('../middleware/auth')
+const { authenticateJWT } = require('../middleware/auth');
+const ExpressError = require("../helpers/expressError");
 
 /** GET /   get overview of posts
  *
@@ -110,13 +111,16 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
  */
 
 router.post("/", async function (req, res, next) {
+  console.log("trying to make a new post");
+  console.log(req.body);
   try {
-    const {title, body, description} = req.body;
+    const {title, body, description, userId} = req.body;
     const result = await db.query(
-      `INSERT INTO posts (title, description, body) 
-        VALUES ($1, $2, $3) 
-        RETURNING id, title, description, body, votes`,
-      [title, description, body]);
+      `INSERT INTO posts (title, description, body, user_id) 
+        VALUES ($1, $2, $3, $4) 
+        RETURNING id, title, description, body, votes, user_id`,
+      [title, description, body, userId]);
+    // if(!result.rows[0]) throw new ExpressError("Unable to create new post. Please refresh and try again.", 500);
     return res.status(201).json(result.rows[0]);
   } catch (err) {
     return next(err);

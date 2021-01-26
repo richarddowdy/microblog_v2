@@ -27,7 +27,9 @@ export function getAllTitlesFromApi() {
 
 export function sendPostToApi(data) {
   return async function (dispatch) {
+    console.log("trying with", data)
     const res = await axios.post(`${BASE_API_URL}/posts`, data);
+    console.log("response", res.data);
     const newPost = res.data;
     dispatch(addPost(newPost));
   };
