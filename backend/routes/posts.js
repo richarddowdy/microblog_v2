@@ -120,10 +120,16 @@ router.post("/", async function (req, res, next) {
         VALUES ($1, $2, $3, $4) 
         RETURNING id, title, description, body, votes, user_id`,
       [title, description, body, userId]);
-    // if(!result.rows[0]) throw new ExpressError("Unable to create new post. Please refresh and try again.", 500);
-    return res.status(201).json(result.rows[0]);
+
+    if(!result.rows[0]) throw new ExpressError("Unable to create new post. Please refresh and try again.", 500);
+
+    let username = await db.query(`SELECT username FROM users u WHERE u.id = $1`,[userId]);
+    username = username.rows[0]
+
+    const response = {...result.rows[0], ...username}
+    return res.status(201).json(response);
   } catch (err) {
-    return next(err);
+    return next(err)
   }
 });
 
