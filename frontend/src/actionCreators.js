@@ -21,6 +21,7 @@ export function getAllTitlesFromApi() {
   return async function (dispatch) {
     const res = await axios.get(`${BASE_API_URL}/posts`);
     const titles = res.data;
+    // console.log("all titles fetched", titles);
     dispatch(gotTitles(titles));
   };
 }
