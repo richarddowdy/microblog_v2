@@ -40,7 +40,7 @@ function LoginForm({ login, signUp }) {
       const user = decode(token);
       localStorage.setItem("_token", token);
       dispatch(loginUser(user));
-      history.push("/"); // TODO: On successful login
+      history.push("/");
     } catch (err) {
       dispatch(authError(err.response.data.message));
     }
