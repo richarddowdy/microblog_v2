@@ -25,7 +25,7 @@ export function getAllTitlesFromApi() {
       // console.log("all titles fetched", titles);
       dispatch(gotTitles(titles));
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, could not find all titles. Please refresh.");
     }
   };
 }
@@ -39,7 +39,7 @@ export function sendPostToApi(data) {
       const newPost = res.data;
       dispatch(addPost(newPost));
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, unable to create post. Please refresh and try again.");
     }
   };
 }
@@ -51,7 +51,7 @@ export function getOnePostFromApi(id) {
       const post = res.data;
       dispatch(gotPost(post));
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, could not find this post. Please refresh.");
     }
   };
 }
@@ -64,7 +64,7 @@ export function addCommentToApi(data) {
       const { id, text, author } = res.data;
       dispatch(addComment({ postId: data.postId, id, text, author }));
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, could not create comment. Please refresh and try again.");
     }
   };
 }
@@ -77,11 +77,12 @@ export function removeCommentFromApi(data) {
       if (message === "deleted") {
         dispatch(deleteComment({ postId: data.postId, id: data.id }));
       }
+      // ^^ TODO - do i really need to do this?
       // else {
       //   TODO - dispatch(showError({ message }));
       // }
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, could not remove that comment. Please refresh and try again.");
     }
   };
 }
@@ -94,11 +95,12 @@ export function removePostFromApi(postId) {
       if (message === "deleted") {
         dispatch(removePost(postId));
       }
+      // ^^ TODO - do i really need to do this?
       // else {
       //   TODO - dispatch(showError({ message }))
       // }
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, could not remove that post. Please refresh and try again.");
     }
   };
 }
@@ -110,7 +112,7 @@ export function updatePostToApi(data) {
       const updatedPost = res.data;
       dispatch(editPost(updatedPost));
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, could not update that post. Please refresh and try again.");
     }
   };
 }
@@ -122,7 +124,7 @@ export function sendUpVoteToApi(postId) {
       const updatedVotes = res.data.votes;
       dispatch(upVote({ postId, updatedVotes }));
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, upvote not saved. Please refresh and try again.");
     }
   };
 }
@@ -134,7 +136,7 @@ export function sendDownVoteToApi(postId) {
       const updatedVotes = res.data.votes;
       dispatch(downVote({ postId, updatedVotes }));
     } catch (err) {
-      //TODO - error handling
+      toast.error("Sorry, downvote not saved. Please refresh and try again.");
     }
   };
 }
@@ -153,7 +155,8 @@ export function postNewUserToApi(userData) {
       //   dispatch(showError({ message }))
       // }
     } catch (err) {
-      //TODO - error handling
+      console.warn(err.response.data.message); // TODO double check this.
+      toast.error("User not created. Please try again.");
     }
   };
 }
@@ -184,7 +187,7 @@ export function logoutUser() {
       localStorage.removeItem("_token");
       dispatch(userLogout());
     } catch (err) {
-      //TODO - error handling
+      toast.error("Logout failed. Refresh and try again.");
     }
   };
 }
@@ -196,7 +199,8 @@ export function getCurrentUserFromApi(username) {
       const user = res.data;
       dispatch(loginUser(user));
     } catch (err) {
-      //TODO - error handling
+      dispatch(userLogout());
+      toast.warn("Please login again.");
     }
   };
 }
