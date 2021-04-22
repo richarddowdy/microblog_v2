@@ -11,3 +11,4 @@ export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const CURRENT_USER = "CURRENT_USER";
 export const AUTH_ERROR = "AUTH_ERROR";
+export const SEND_POST_ERROR = "SEND_POST_ERROR";

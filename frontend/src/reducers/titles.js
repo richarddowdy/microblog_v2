@@ -8,8 +8,8 @@ import {
 
 const INITIAL_STATE = [];
 
-function makeTitleFromPost({ id, title, description, votes }) {
-  return { id, title, description, votes };
+function makeTitleFromPost({ id, title, description, votes, user_id, username}) {
+  return { id, title, description, votes, user_id, username };
 }
 
 function sortByVotes(titles) {

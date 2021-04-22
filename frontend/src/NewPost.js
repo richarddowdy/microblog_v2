@@ -1,13 +1,15 @@
 import React from 'react';
 import PostForm from './PostForm';
-import { sendPostToApi } from './actionCreators'
-import { useDispatch } from 'react-redux';
+import { sendPostToApi } from './actionCreators';
+import { sendPostError } from './actions/errorActions';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 function NewPost() {
   
   const dispatch = useDispatch();
   const history = useHistory();
+  const userId = useSelector((st) => st.user.id)
   
   const INITIAL_STATE = {
     title: "",
@@ -16,8 +18,12 @@ function NewPost() {
   }
 
   function add({ title, description, body }) {
-    dispatch(sendPostToApi({ title, description, body }));
-    history.push('/')
+    try{
+      dispatch(sendPostToApi({ title, description, body, userId }));
+      history.push('/')
+    } catch (err) {
+      dispatch(sendPostError(err.response.data.message));
+    }
   };
 
   function cancel() {

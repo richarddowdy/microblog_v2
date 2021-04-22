@@ -13,111 +13,152 @@ import {
 } from "./actions/postsActions";
 import { decode } from "jsonwebtoken";
 import { invalid_login } from "./actions/errorActions";
-
+import { toast } from "react-toastify";
 
 export const BASE_API_URL = "http://localhost:5000/api";
 
 export function getAllTitlesFromApi() {
   return async function (dispatch) {
-    const res = await axios.get(`${BASE_API_URL}/posts`);
-    const titles = res.data;
-    dispatch(gotTitles(titles));
+    try {
+      const res = await axios.get(`${BASE_API_URL}/posts`);
+      const titles = res.data;
+      // console.log("all titles fetched", titles);
+      dispatch(gotTitles(titles));
+    } catch (err) {
+      toast.error("Sorry, could not find all titles. Please refresh.");
+    }
   };
 }
 
 export function sendPostToApi(data) {
   return async function (dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/posts`, data);
-    const newPost = res.data;
-    dispatch(addPost(newPost));
+    try {
+      console.log("trying with", data);
+      const res = await axios.post(`${BASE_API_URL}/posts`, data);
+      console.log("response", res.data);
+      const newPost = res.data;
+      dispatch(addPost(newPost));
+    } catch (err) {
+      toast.error("Sorry, unable to create post. Please refresh and try again.");
+    }
   };
 }
 
 export function getOnePostFromApi(id) {
   return async function (dispatch) {
-    const res = await axios.get(`${BASE_API_URL}/posts/${id}`);
-    const post = res.data;
-    dispatch(gotPost(post));
+    try {
+      const res = await axios.get(`${BASE_API_URL}/posts/${id}`);
+      const post = res.data;
+      dispatch(gotPost(post));
+    } catch (err) {
+      toast.error("Sorry, could not find this post. Please refresh.");
+    }
   };
 }
 
 export function addCommentToApi(data) {
-  console.log(data)
+  console.log(data);
   return async function (dispatch) {
-    const res = await axios.post(
-      `${BASE_API_URL}/posts/${data.postId}/comments`,
-      data
-    );
-    const { id, text, author } = res.data;
-    dispatch(addComment({ postId: data.postId, id, text, author }));
+    try {
+      const res = await axios.post(`${BASE_API_URL}/posts/${data.postId}/comments`, data);
+      const { id, text, author } = res.data;
+      dispatch(addComment({ postId: data.postId, id, text, author }));
+    } catch (err) {
+      toast.error("Sorry, could not create comment. Please refresh and try again.");
+    }
   };
 }
 
 export function removeCommentFromApi(data) {
   return async function (dispatch) {
-    const res = await axios.delete(
-      `${BASE_API_URL}/posts/${data.postId}/comments/${data.id}`
-    );
-    const { message } = res.data;
-    if (message === "deleted") {
-      dispatch(deleteComment({ postId: data.postId, id: data.id }));
+    try {
+      const res = await axios.delete(`${BASE_API_URL}/posts/${data.postId}/comments/${data.id}`);
+      const { message } = res.data;
+      if (message === "deleted") {
+        dispatch(deleteComment({ postId: data.postId, id: data.id }));
+      }
+      // ^^ TODO - do i really need to do this?
+      // else {
+      //   TODO - dispatch(showError({ message }));
+      // }
+    } catch (err) {
+      toast.error("Sorry, could not remove that comment. Please refresh and try again.");
     }
-    // else {
-    //   dispatch(showError({ message }));
-    // }
   };
 }
 
 export function removePostFromApi(postId) {
   return async function (dispatch) {
-    const res = await axios.delete(`${BASE_API_URL}/posts/${postId}`);
-    const { message } = res.data;
-    if (message === "deleted") {
-      dispatch(removePost(postId));
+    try {
+      const res = await axios.delete(`${BASE_API_URL}/posts/${postId}`);
+      const { message } = res.data;
+      if (message === "deleted") {
+        dispatch(removePost(postId));
+      }
+      // ^^ TODO - do i really need to do this?
+      // else {
+      //   TODO - dispatch(showError({ message }))
+      // }
+    } catch (err) {
+      toast.error("Sorry, could not remove that post. Please refresh and try again.");
     }
-    // else {
-    //   dispatch(showError({ message }))
-    // }
   };
 }
 
 export function updatePostToApi(data) {
   return async function (dispatch) {
-    const res = await axios.put(`${BASE_API_URL}/posts/${data.postId}`, data);
-    const updatedPost = res.data;
-    dispatch(editPost(updatedPost));
+    try {
+      const res = await axios.put(`${BASE_API_URL}/posts/${data.postId}`, data);
+      const updatedPost = res.data;
+      dispatch(editPost(updatedPost));
+    } catch (err) {
+      toast.error("Sorry, could not update that post. Please refresh and try again.");
+    }
   };
 }
 
 export function sendUpVoteToApi(postId) {
   return async function (dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/up`);
-    const updatedVotes = res.data.votes;
-    dispatch(upVote({ postId, updatedVotes }));
+    try {
+      const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/up`);
+      const updatedVotes = res.data.votes;
+      dispatch(upVote({ postId, updatedVotes }));
+    } catch (err) {
+      toast.error("Sorry, upvote not saved. Please refresh and try again.");
+    }
   };
 }
 
 export function sendDownVoteToApi(postId) {
   return async function (dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/down`);
-    const updatedVotes = res.data.votes;
-    dispatch(downVote({ postId, updatedVotes }));
+    try {
+      const res = await axios.post(`${BASE_API_URL}/posts/${postId}/vote/down`);
+      const updatedVotes = res.data.votes;
+      dispatch(downVote({ postId, updatedVotes }));
+    } catch (err) {
+      toast.error("Sorry, downvote not saved. Please refresh and try again.");
+    }
   };
 }
 
 export function postNewUserToApi(userData) {
   return async function (dispatch) {
-    const res = await axios.post(`${BASE_API_URL}/users`, userData);
-    const token = res.data.token;
-    const user = res.data.user;
-    if (user) {
-      localStorage.setItem("_token", token);
-      dispatch(loginUser({ user }));
+    try {
+      const res = await axios.post(`${BASE_API_URL}/users`, userData);
+      const token = res.data.token;
+      const user = res.data.user;
+      if (user) {
+        localStorage.setItem("_token", token);
+        dispatch(loginUser({ user }));
+      }
+      // else{
+      //   dispatch(showError({ message }))
+      // }
+    } catch (err) {
+      console.warn(err.response.data.message); // TODO double check this.
+      toast.error("User not created. Please try again.");
     }
-    // else{
-    //   dispatch(showError({ message }))
-    // }
-  }
+  };
 }
 
 // This has been moved to the login component
@@ -133,25 +174,33 @@ export function postNewUserToApi(userData) {
 
 //       localStorage.setItem("_token", token);
 //       dispatch(loginUser(user));
-//     } catch (err) { //TODO 
+//     } catch (err) { //TODO
 //       console.log(err.response.data) // <- this is the proper way to catch errors from backend
 //       dispatch(invalid_login(err.response.data.message));
 //     }
 //   };
 // }
 
-
 export function logoutUser() {
   return function (dispatch) {
-    localStorage.removeItem("_token");
-    dispatch(userLogout());
-  }
+    try {
+      localStorage.removeItem("_token");
+      dispatch(userLogout());
+    } catch (err) {
+      toast.error("Logout failed. Refresh and try again.");
+    }
+  };
 }
 
 export function getCurrentUserFromApi(username) {
   return async function (dispatch) {
-    const res = await axios.get(`${BASE_API_URL}/${username}`)
-    const user = res.data;
-    dispatch(loginUser(user));
-  }
+    try {
+      const res = await axios.get(`${BASE_API_URL}/${username}`);
+      const user = res.data;
+      dispatch(loginUser(user));
+    } catch (err) {
+      dispatch(userLogout());
+      toast.warn("Please login again.");
+    }
+  };
 }
