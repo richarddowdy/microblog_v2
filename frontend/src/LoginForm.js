@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BASE_API_URL, userLoginToApi, userSignUpToApi } from "./actionCreators";
 // import { authenticate } from "../../backend/models/usersModel";
 import { useHistory } from "react-router-dom";
-import Axios from "axios";
+import axios from "axios";
 import { decode } from "jsonwebtoken";
 import { loginUser } from "./actions/userActions";
 import { authError } from "./actions/errorActions";
@@ -34,7 +34,7 @@ function LoginForm({ login, signUp }) {
     let authType = signUp ? "users" : "login";
     try {
       dispatch(authError(""));
-      let res = await Axios.post(`${BASE_API_URL}/${authType}`, formData);
+      let res = await axios.post(`${BASE_API_URL}/${authType}`, formData);
       console.log("NEW LOGIN RESPONSE", res);
       const token = res.data.token;
       const user = decode(token);
