@@ -7,6 +7,7 @@ import axios from "axios";
 import { decode } from "jsonwebtoken";
 import { loginUser } from "./actions/userActions";
 import { authError } from "./actions/errorActions";
+import acceptablePasswordLength from "./helpers/authHelpers";
 
 function LoginForm({ login, signUp }) {
   const dispatch = useDispatch();
@@ -34,6 +35,10 @@ function LoginForm({ login, signUp }) {
     let authType = signUp ? "users" : "login";
     try {
       dispatch(authError(""));
+      if (signUp && !acceptablePasswordLength(formData.password)) {
+        dispatch(authError("Password must be longer than 6 characters."));
+        return;
+      }
       let res = await axios.post(`${BASE_API_URL}/${authType}`, formData);
       console.log("NEW LOGIN RESPONSE", res);
       const token = res.data.token;
