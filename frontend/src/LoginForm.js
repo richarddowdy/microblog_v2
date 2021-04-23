@@ -53,7 +53,6 @@ function LoginForm({ login, signUp }) {
 
   return (
     <>
-      {errorMessage ? <div className="alert alert-danger">{errorMessage}</div> : null}
       <form className="col-lg-4 col-md-6 col-8 mt-3 mx-auto" onSubmit={handleSubmit}>
         <label>Username:</label>
         <input
@@ -75,6 +74,7 @@ function LoginForm({ login, signUp }) {
           onChange={handleChange}
           required
         />
+        {errorMessage ? <div className="mt-2 alert alert-danger">{errorMessage}</div> : null}
         <button className="btn btn-dark mt-3">Submit</button>
       </form>
     </>
