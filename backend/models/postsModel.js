@@ -18,7 +18,30 @@ class Post {
     return result.rows;
   }
 
-  static async findOne() {}
+  static async findOne(id) {
+    const result = await db.query(
+      `SELECT p.id,
+              p.title,
+              p.description,
+              p.body,
+              p.votes,
+              p.user_id,
+              u.username,
+              CASE WHEN COUNT(c.id) = 0 THEN JSON '[]' ELSE JSON_AGG(
+                    JSON_BUILD_OBJECT('id', c.id, 'text', c.text, 'author', a.username)
+                ) END AS comments
+      FROM posts p 
+      LEFT JOIN comments c ON p.id = c.post_id
+      JOIN users u ON p.user_id = u.id
+      LEFT JOIN users a ON a.id = c.user_id 
+      WHERE p.id = $1
+      GROUP BY p.id, u.username
+      ORDER BY p.id;
+      `,
+      [id]
+    );
+    return result.rows[0];
+  }
 
   static async createPost({ title, body, description, userId }) {
     const result = await db.query(

@@ -8,6 +8,8 @@ const { authenticateJWT } = require("../middleware/auth");
 const Post = require("../models/postsModel");
 const ExpressError = require("../helpers/expressError");
 
+//TODO - refactor these comments?
+
 /** GET /   get overview of posts
  *
  * Returns:
@@ -45,31 +47,10 @@ router.get("/", async function (req, res, next) {
  */
 
 router.get("/:id", async function (req, res, next) {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   try {
-    const result = await db.query(
-      `SELECT p.id,
-              p.title,
-              p.description,
-              p.body,
-              p.votes,
-              p.user_id,
-              u.username,
-              CASE WHEN COUNT(c.id) = 0 THEN JSON '[]' ELSE JSON_AGG(
-                    JSON_BUILD_OBJECT('id', c.id, 'text', c.text, 'author', a.username)
-                ) END AS comments
-      FROM posts p 
-      LEFT JOIN comments c ON p.id = c.post_id
-      JOIN users u ON p.user_id = u.id
-      LEFT JOIN users a ON a.id = c.user_id 
-      WHERE p.id = $1
-      GROUP BY p.id, u.username
-      ORDER BY p.id;
-      `,
-      [req.params.id]
-    );
-    console.log(result.rows[0]);
-    return res.json(result.rows[0]);
+    const post = await Post.findOne(req.params.id);
+    return res.json(post);
   } catch (err) {
     return next(err);
   }
