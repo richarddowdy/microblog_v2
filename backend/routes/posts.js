@@ -112,23 +112,10 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
  */
 
 router.post("/", async function (req, res, next) {
-  console.log("trying to make a new post");
-  console.log(req.body);
+  // console.log("trying to make a new post");
+  // console.log(req.body);
   try {
-    const { title, body, description, userId } = req.body;
-    const result = await db.query(
-      `INSERT INTO posts (title, description, body, user_id) 
-        VALUES ($1, $2, $3, $4) 
-        RETURNING id, title, description, body, votes, user_id`,
-      [title, description, body, userId]
-    );
-
-    if (!result.rows[0]) throw new ExpressError("Unable to create new post. Please refresh and try again.", 500);
-
-    let username = await db.query(`SELECT username FROM users u WHERE u.id = $1`, [userId]);
-    username = username.rows[0];
-
-    const response = { ...result.rows[0], ...username };
+    const response = await Post.createPost(req.body);
     return res.status(201).json(response);
   } catch (err) {
     return next(err);
