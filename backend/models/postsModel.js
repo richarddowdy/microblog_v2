@@ -37,7 +37,10 @@ class Post {
     return "deleted";
   }
 
-  static async sendVote() {}
+  static async sendVote(delta, id) {
+    const result = await db.query("UPDATE posts SET votes=votes + $1 WHERE id = $2 RETURNING votes", [delta, id]);
+    return result.rows[0];
+  }
 }
 
 module.exports = Post;

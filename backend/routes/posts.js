@@ -95,11 +95,8 @@ router.get("/:id", async function (req, res, next) {
 router.post("/:id/vote/:direction", async function (req, res, next) {
   try {
     let delta = req.params.direction === "up" ? +1 : -1;
-    const result = await db.query("UPDATE posts SET votes=votes + $1 WHERE id = $2 RETURNING votes", [
-      delta,
-      req.params.id,
-    ]);
-    return res.json(result.rows[0]);
+    const result = await Post.sendVote(delta, req.params.id);
+    return res.json(result);
   } catch (err) {
     return next(err);
   }
