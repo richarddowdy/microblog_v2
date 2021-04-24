@@ -144,14 +144,10 @@ router.post("/", async function (req, res, next) {
 router.put("/:id", async function (req, res, next) {
   try {
     const { title, body, description } = req.body;
-    const result = await db.query(
-      `UPDATE posts SET title=$1, description=$2, body=$3
-        WHERE id = $4 
-        RETURNING id, title, description, body, votes`,
-      [title, description, body, req.params.id]
-    );
-    return res.json(result.rows[0]);
+    const newPost = await Post.updatePost(req.params.id, title, body, description);
+    return res.json(newPost);
   } catch (err) {
+    console.log(err);
     return next(err);
   }
 });

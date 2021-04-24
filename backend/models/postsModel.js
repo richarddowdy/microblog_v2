@@ -8,15 +8,20 @@ class Post {
 
   static async createPost() {}
 
-  static async updatePost() {}
+  static async updatePost(id, title, body, description) {
+    const result = await db.query(
+      `UPDATE posts SET title=$1, description=$2, body=$3
+        WHERE id = $4 
+        RETURNING id, title, description, body, votes`,
+      [title, description, body, id]
+    );
+    console.log(result.rows[0]);
+    return result.rows[0];
+  }
 
   static async deletePost(id) {
-    try {
-      await db.query("DELETE FROM posts WHERE id = $1", [id]);
-      return "deleted";
-    } catch (err) {
-      throw new ExpressError();
-    }
+    await db.query("DELETE FROM posts WHERE id = $1", [id]);
+    return "deleted";
   }
 
   static async sendVote() {}
