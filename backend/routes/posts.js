@@ -5,6 +5,7 @@ const express = require("express");
 const router = new express.Router();
 const process = require("process");
 const { authenticateJWT } = require("../middleware/auth");
+const Post = require("../models/postsModel");
 const ExpressError = require("../helpers/expressError");
 
 /** GET /   get overview of posts
@@ -163,9 +164,10 @@ router.put("/:id", async function (req, res, next) {
 
 router.delete("/:id", async (req, res, next) => {
   try {
-    await db.query("DELETE FROM posts WHERE id = $1", [req.params.id]);
-    return res.json({ message: "deleted" });
+    const message = await Post.deletePost(req.params.id);
+    return res.json({ message });
   } catch (err) {
+    console.log(err);
     return next(err);
   }
 });
