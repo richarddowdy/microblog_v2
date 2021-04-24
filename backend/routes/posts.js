@@ -24,19 +24,8 @@ const ExpressError = require("../helpers/expressError");
 
 router.get("/", async function (req, res, next) {
   try {
-    const result = await db.query(
-      `SELECT p.id,
-              p.title,
-              p.description,
-              p.votes,
-              p.user_id,
-              u.username
-      FROM posts p 
-      JOIN users u ON p.user_id = u.id
-      ORDER BY p.id
-      `
-    );
-    return res.json(result.rows);
+    const posts = await Post.findAll();
+    return res.json(posts);
   } catch (err) {
     return next(err);
   }

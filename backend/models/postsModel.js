@@ -2,7 +2,21 @@ const db = require("../db");
 const ExpressError = require("../helpers/expressError");
 
 class Post {
-  static async findAll() {}
+  static async findAll() {
+    const result = await db.query(
+      `SELECT p.id,
+              p.title,
+              p.description,
+              p.votes,
+              p.user_id,
+              u.username
+      FROM posts p 
+      JOIN users u ON p.user_id = u.id
+      ORDER BY p.id
+      `
+    );
+    return result.rows;
+  }
 
   static async findOne() {}
 
