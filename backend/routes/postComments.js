@@ -3,8 +3,7 @@
 const db = require("../db");
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const process = require("process");
-const Comments = require("../models/commentsModel");
+const Comment = require("../models/commentsModel");
 
 /** GET /        get comments for post
  *
@@ -14,8 +13,8 @@ const Comments = require("../models/commentsModel");
 
 router.get("/", async function (req, res, next) {
   try {
-    const result = await db.query("SELECT id, text FROM comments WHERE post_id = $1 ORDER BY id", [req.params.post_id]);
-    return res.json(result.rows);
+    const comments = await Comment.findAll();
+    return res.json(comments);
   } catch (err) {
     return next(err);
   }
@@ -31,12 +30,8 @@ router.post("/", async function (req, res, next) {
   const postId = req.params.post_id;
   const { text, userId, author } = req.body;
   try {
-    const result = await db.query(
-      `INSERT INTO comments (text, post_id, user_id) VALUES ($1, $2, $3) 
-        RETURNING id, text`,
-      [text, postId, userId]
-    );
-    return res.json({ ...result.rows[0], author });
+    const newComment = await Comment.createComment(text, postId, userId);
+    return res.json({ ...newComment, author });
   } catch (err) {
     return next(err);
   }
@@ -49,12 +44,10 @@ router.post("/", async function (req, res, next) {
  */
 
 router.put("/:id", async function (req, res, next) {
+  // Currently no UI for this.
   try {
-    const result = await db.query("UPDATE comments SET text=$1 WHERE id = $2 RETURNING id, text", [
-      req.body.text,
-      req.params.id,
-    ]);
-    return res.json(result.rows[0]);
+    const updatedComment = await Comment.updateComment(req.body.text, req.body.id);
+    return res.json(updatedComment);
   } catch (err) {
     return next(err);
   }
@@ -68,7 +61,7 @@ router.put("/:id", async function (req, res, next) {
 
 router.delete("/:id", async function (req, res, next) {
   try {
-    const message = await Comments.delete(req.params.id);
+    const message = await Comment.delete(req.params.id);
     return res.json({ message });
   } catch (err) {
     return next(err);
