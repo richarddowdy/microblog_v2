@@ -6,28 +6,24 @@ const router = new express.Router();
 const ExpressError = require("../helpers/expressError");
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
-const bcrypt = require("bcrypt")
-const { BCRYPT_WORK_FACTOR } = require("../config")
+const bcrypt = require("bcrypt");
+const { BCRYPT_WORK_FACTOR } = require("../config");
 const jsonscema = require("jsonschema");
 const userSchema = require("../schema/userSchema.json");
-const { ensureCorrectUser, ensureLoggedIn, ensureAdmin } = require("../middleware/auth");
-const process = require('process');
+const process = require("process");
 process.env.NODE_ENV = "test";
-
 
 router.get("/", async function (req, res, next) {
   try {
-    const result = await db.query(
-      `SELECT id, username, is_admin FROM users ORDER BY id;`
-    );
+    const result = await db.query(`SELECT id, username, is_admin FROM users ORDER BY id;`);
     return res.json(result.rows);
   } catch (err) {
     return next(err);
   }
-})
+});
 
 router.get("/:id", async function (req, res, next) {
-  console.log("ID HIT")
+  console.log("ID HIT");
   try {
     const result = await db.query(
       `SELECT u.id, 
@@ -41,60 +37,57 @@ router.get("/:id", async function (req, res, next) {
       GROUP BY u.id
       ORDER BY u.id`,
       [req.params.id]
-    )
+    );
     return res.json(result.rows[0]);
   } catch (err) {
     return next(err);
   }
-})
-
-
+});
 
 router.post("/", async function (req, res, next) {
-  console.log("creating a news user")
+  console.log("creating a news user");
   try {
-    let result = jsonscema.validate(req.body, userSchema)
+    let result = jsonscema.validate(req.body, userSchema);
     if (!result.valid) {
-      let listOfErrors = result.errors.map(error => error.stack);
+      let listOfErrors = result.errors.map((error) => error.stack);
       let error = new ExpressError(listOfErrors, 400);
       return next(error);
     }
 
-    const { username, password } = req.body
+    const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
     console.log("passwords", password, hashedPassword);
 
     let createdUser;
     // this can be cleaned up by moving all db queries to MODELS
-    try{
+    try {
       const userResult = await db.query(
         `INSERT INTO users (username, password)
         VALUES ($1, $2)
         RETURNING id, username, is_admin`,
         [username, hashedPassword]
-      )
-      createdUser = userResult.rows[0]
+      );
+      createdUser = userResult.rows[0];
     } catch {
-      throw new ExpressError(
-        'Sorry, that username is already taken',
-        400
-      ); 
+      throw new ExpressError("Sorry, that username is already taken.", 400);
     }
     console.log(createdUser);
 
-    const TOKEN = jwt.sign({
-      id: createdUser.id,
-      username: createdUser.username,
-      is_admin: createdUser.is_admin
-    }, SECRET_KEY);
+    const TOKEN = jwt.sign(
+      {
+        id: createdUser.id,
+        username: createdUser.username,
+        is_admin: createdUser.is_admin,
+      },
+      SECRET_KEY
+    );
 
     return res.status(201).json({ user: createdUser, token: TOKEN });
-
   } catch (err) {
-    console.log("Oops, something went wrong. Please refresh the page and try again.", err)
-    return next(err)
+    console.log("Oops, something went wrong. Please refresh the page and try again.", err);
+    return next(err);
   }
-})
+});
 
 router.patch("/:id", async function (req, res, next) {
   const { id } = req.params;
@@ -106,28 +99,27 @@ router.patch("/:id", async function (req, res, next) {
       WHERE id = $1
       RETURNING *`,
       [id, username, password]
-    )
+    );
     // return res.json(result.rows[0])
   } catch (err) {
     return next(err);
   }
-})
+});
 
 router.delete("/:id", async function (req, res, next) {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const result = await db.query(
       `DELETE FROM users 
       WHERE id = $1
       RETURNING username`,
       [req.params.id]
-    )
-    deletedUsername = result.rows[0].username
-    return res.json({ message: `User ${deletedUsername} Deleted`, username: deletedUsername })
+    );
+    deletedUsername = result.rows[0].username;
+    return res.json({ message: `User ${deletedUsername} Deleted`, username: deletedUsername });
   } catch (err) {
     return next(err);
   }
-})
-
+});
 
 module.exports = router;
