@@ -3,7 +3,6 @@
 const db = require("../db");
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const process = require("process");
 const Comment = require("../models/commentsModel");
 
 /** GET /        get comments for post
