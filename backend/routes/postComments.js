@@ -14,8 +14,8 @@ const Comment = require("../models/commentsModel");
 
 router.get("/", async function (req, res, next) {
   try {
-    const result = await db.query("SELECT id, text FROM comments WHERE post_id = $1 ORDER BY id", [req.params.post_id]);
-    return res.json(result.rows);
+    const comments = await Comment.findAll();
+    return res.json(comments);
   } catch (err) {
     return next(err);
   }

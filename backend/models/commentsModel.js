@@ -2,7 +2,10 @@ const db = require("../db");
 const ExpressError = require("../helpers/expressError");
 
 class Comment {
-  static async findAll() {}
+  static async findAll() {
+    const result = await db.query("SELECT id, text FROM comments WHERE post_id = $1 ORDER BY id", [req.params.post_id]);
+    return result.rows;
+  }
 
   static async createComment(text, postId, userId) {
     const result = await db.query(
