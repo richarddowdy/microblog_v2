@@ -8,8 +8,9 @@ import { decode } from "jsonwebtoken";
 import { loginUser } from "./actions/userActions";
 import { authError } from "./actions/errorActions";
 import acceptablePasswordLength from "./helpers/authHelpers";
+import "./LoginPage.css";
 
-function LoginForm({ login, signUp }) {
+function LoginForm({ signUp }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const errorMessage = useSelector((st) => st.errors.loginError);
@@ -52,32 +53,30 @@ function LoginForm({ login, signUp }) {
   };
 
   return (
-    <>
-      <form className="col-lg-4 col-md-6 col-8 mt-3 mx-auto" onSubmit={handleSubmit}>
-        <label>Username:</label>
-        <input
-          className="form-control"
-          type="text"
-          name="username"
-          id="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <label>Password:</label>
-        <input
-          className="form-control"
-          type="password"
-          name="password"
-          id="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        {errorMessage ? <div className="mt-2 alert alert-danger">{errorMessage}</div> : null}
-        <button className="btn btn-dark mt-3">Submit</button>
-      </form>
-    </>
+    <form className="col-lg-4 col-md-6 col-8 mt-3 mx-auto" onSubmit={handleSubmit}>
+      <label>Username:</label>
+      <input
+        className="form-control"
+        type="text"
+        name="username"
+        id="username"
+        value={formData.username}
+        onChange={handleChange}
+        required
+      />
+      <label>Password:</label>
+      <input
+        className="form-control"
+        type="password"
+        name="password"
+        id="password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
+      {errorMessage ? <div className="mt-2 alert alert-danger">{errorMessage}</div> : null}
+      <button className="btn btn-dark mt-3">Submit</button>
+    </form>
   );
 }
 
