@@ -56,6 +56,22 @@ router.get("/:id", async function (req, res, next) {
   }
 });
 
+/** POST /[id]/vote/(up|down)    Update up/down as post
+ *
+ * => { votes: updated-vote-count }
+ *
+ */
+
+router.post("/:id/vote/:direction", async function (req, res, next) {
+  try {
+    let delta = req.params.direction === "up" ? +1 : -1;
+    const result = await Post.sendVote(delta, req.params.id);
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+});
+
 /** POST /     add a new post
  *
  * { title, description, body }  =>  { id, title, description, body, votes }
@@ -104,22 +120,6 @@ router.delete("/:id", async (req, res, next) => {
     console.log(err);
     return next(err);
   }
-
-  /** POST /[id]/vote/(up|down)    Update up/down as post
-   *
-   * => { votes: updated-vote-count }
-   *
-   */
-
-  router.post("/:id/vote/:direction", async function (req, res, next) {
-    try {
-      let delta = req.params.direction === "up" ? +1 : -1;
-      const result = await Post.sendVote(delta, req.params.id);
-      return res.json(result);
-    } catch (err) {
-      return next(err);
-    }
-  });
 });
 
 module.exports = router;
