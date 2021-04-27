@@ -75,15 +75,21 @@ class User {
 
   /** Given a username, return data about user. */
 
-  static async findOne(username) {
-    const userRes = await db.query(
-      `SELECT id, username, is_admin
-        FROM users 
-        WHERE username = $1`,
-      [username]
+  static async findOne(id) {
+    const response = await db.query(
+      `SELECT u.id, u.username, u.first_name, u.last_name, u.email
+      JSON_AGG(DISTINCT p.id) AS posts,
+      JSON_AGG(DISTINCT c.id) AS comments
+      FROM users u
+      LEFT JOIN posts p ON p.user_id = u.id
+      LEFT JOIN comments c ON c.user_id = u.id
+      WHERE u.id = $1
+      GROUP BY u.id
+      ORDER BY u.id`,
+      [id]
     );
 
-    const user = userRes.rows[0];
+    const user = response.rows[0];
 
     if (!user) {
       throw new ExpressError(`There exists no user '${username}'`, 404);
@@ -116,20 +122,20 @@ class User {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     }
-
+    // TODO: data here is probably the fields that are being updated
     let { query, values } = partialUpdate("users", data, "username", username);
 
     const result = await db.query(query, values);
     const user = result.rows[0];
 
     if (!user) {
-      throw new ExpressError(`There exists no user '${username}'`, 404);
+      throw new ExpressError(`There is no user '${username}'`, 404);
     }
 
     delete user.password;
     delete user.is_admin;
 
-    return result.rows[0];
+    return result.rows[0]; // TODO: should this be user instead?
   }
 
   // /** Delete given user from database; returns undefined. */
