@@ -7,6 +7,9 @@ CREATE DATABASE "microblog";
 CREATE TABLE users (id SERIAL PRIMARY KEY,
                     username TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
+                    first_name TEXT,
+                    last_name TEXT,
+                    email TEXT,
                     is_admin BOOLEAN NOT NULL DEFAULT 'false');
 
 CREATE TABLE posts (id SERIAL PRIMARY KEY, 
@@ -23,9 +26,9 @@ CREATE TABLE comments (id SERIAL PRIMARY KEY,
 
 
 
-INSERT INTO users (username, password, is_admin) VALUES
-    ('adminUser', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', true),
-    ('normalUser', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', false);
+INSERT INTO users (username, password, first_name, last_name, email, is_admin) VALUES
+    ('adminUser', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', "James", "Young", true),
+    ('normalUser', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', "Kim", "Westin", false);
     -- adminUser password = "admin" normalUser password = "password"
 
 INSERT INTO posts (title, description, body, user_id) VALUES
