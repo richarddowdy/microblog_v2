@@ -11,6 +11,7 @@ const { BCRYPT_WORK_FACTOR } = require("../config");
 const jsonscema = require("jsonschema");
 const userSchema = require("../schema/userSchema.json");
 const process = require("process");
+const User = require("../models/usersModel");
 process.env.NODE_ENV = "test";
 
 router.get("/", async function (req, res, next) {
@@ -108,14 +109,7 @@ router.patch("/:id", async function (req, res, next) {
 
 router.delete("/:id", async function (req, res, next) {
   try {
-    const id = req.params.id;
-    const result = await db.query(
-      `DELETE FROM users 
-      WHERE id = $1
-      RETURNING username`,
-      [req.params.id]
-    );
-    deletedUsername = result.rows[0].username;
+    deletedUsername = User.delete(req.params.id);
     return res.json({ message: `User ${deletedUsername} Deleted`, username: deletedUsername });
   } catch (err) {
     return next(err);

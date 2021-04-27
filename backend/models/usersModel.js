@@ -45,10 +45,7 @@ class User {
     );
 
     if (duplicateCheck.rows[0]) {
-      throw new ExpressError(
-        `There already exists a user with username '${data.username}`,
-        400
-      );
+      throw new ExpressError(`There already exists a user with username '${data.username}`, 400);
     }
 
     const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
@@ -58,14 +55,7 @@ class User {
           (username, password, first_name, last_name, email, photo_url) 
         VALUES ($1, $2, $3, $4, $5, $6) 
         RETURNING username, password, first_name, last_name, email, photo_url`,
-      [
-        data.username,
-        hashedPassword,
-        data.first_name,
-        data.last_name,
-        data.email,
-        data.photo_url
-      ]
+      [data.username, hashedPassword, data.first_name, data.last_name, data.email, data.photo_url]
     );
 
     return result.rows[0];
@@ -102,7 +92,7 @@ class User {
     // TODO: Change this to posts and/or comments
 
     // const userJobsRes = await db.query(
-    //     `SELECT j.title, j.company_handle, a.state 
+    //     `SELECT j.title, j.company_handle, a.state
     //       FROM applications AS a
     //         JOIN jobs AS j ON j.id = a.job_id
     //       WHERE a.username = $1`,
@@ -122,40 +112,41 @@ class User {
   //  *
   //  */
 
-  // static async update(username, data) {
-  //   if (data.password) {
-  //     data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
-  //   }
+  static async update(username, data) {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+    }
 
-  //   let { query, values } = partialUpdate("users", data, "username", username);
+    let { query, values } = partialUpdate("users", data, "username", username);
 
-  //   const result = await db.query(query, values);
-  //   const user = result.rows[0];
+    const result = await db.query(query, values);
+    const user = result.rows[0];
 
-  //   if (!user) {
-  //     throw new ExpressError(`There exists no user '${username}'`, 404);
-  //   }
+    if (!user) {
+      throw new ExpressError(`There exists no user '${username}'`, 404);
+    }
 
-  //   delete user.password;
-  //   delete user.is_admin;
+    delete user.password;
+    delete user.is_admin;
 
-  //   return result.rows[0];
-  // }
+    return result.rows[0];
+  }
 
   // /** Delete given user from database; returns undefined. */
 
-  // static async remove(username) {
-  //   let result = await db.query(
-  //     `DELETE FROM users 
-  //       WHERE username = $1
-  //       RETURNING username`,
-  //     [username]
-  //   );
+  static async delete(id) {
+    let result = await db.query(
+      `DELETE FROM users 
+        WHERE username = $1
+        RETURNING username`,
+      [id]
+    );
 
-  //   if (result.rows.length === 0) {
-  //     throw new ExpressError(`There exists no user '${username}'`, 404);
-  //   }
-  // }
+    if (result.rows.length === 0) {
+      throw new ExpressError(`There is no user '${username}'`, 404);
+    }
+    return result.rows[0].username;
+  }
 
   static async adminStatus(username) {
     try {
@@ -171,7 +162,41 @@ class User {
       return next(err);
     }
   }
-
 }
 
 module.exports = User;
+
+// static async register(data) {
+//   const duplicateCheck = await db.query(
+//     `SELECT username
+//       FROM users
+//       WHERE username = $1`,
+//     [data.username]
+//   );
+
+//   if (duplicateCheck.rows[0]) {
+//     throw new ExpressError(
+//       `There already exists a user with username '${data.username}`,
+//       400
+//     );
+//   }
+
+//   const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+
+//   const result = await db.query(
+//     `INSERT INTO users
+//         (username, password, first_name, last_name, email, photo_url)
+//       VALUES ($1, $2, $3, $4, $5, $6)
+//       RETURNING username, password, first_name, last_name, email, photo_url`,
+//     [
+//       data.username,
+//       hashedPassword,
+//       data.first_name,
+//       data.last_name,
+//       data.email,
+//       data.photo_url
+//     ]
+//   );
+
+//   return result.rows[0];
+// }
