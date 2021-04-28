@@ -1,6 +1,6 @@
 const db = require("../db");
 const bcrypt = require("bcrypt");
-// const partialUpdate = require("../helpers/partialUpdate");
+const partialUpdate = require("../helpers/partialUpdate");
 const ExpressError = require("../helpers/expressError");
 
 const BCRYPT_WORK_FACTOR = 10;
@@ -34,7 +34,7 @@ class User {
     const user = response.rows[0];
 
     if (!user) {
-      throw new ExpressError(`There exists no user '${username}'`, 404);
+      throw new ExpressError(`There is no user '${username}'`, 404);
     }
 
     // TODO: do i still need this?
@@ -62,7 +62,7 @@ class User {
     );
 
     if (duplicateCheck.rows[0]) {
-      throw new ExpressError(`There already exists a user with username '${data.username}`, 400);
+      throw new ExpressError(`There already is a user with username '${data.username}`, 400);
     }
 
     const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
