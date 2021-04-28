@@ -16,8 +16,8 @@ process.env.NODE_ENV = "test";
 
 router.get("/", async function (req, res, next) {
   try {
-    const result = await db.query(`SELECT id, username, is_admin FROM users ORDER BY id;`);
-    return res.json(result.rows);
+    const users = await User.findAll();
+    return res.json(users);
   } catch (err) {
     return next(err);
   }

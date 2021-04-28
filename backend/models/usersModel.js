@@ -10,6 +10,11 @@ const BCRYPT_WORK_FACTOR = 10;
 class User {
   /** authenticate user with username, password. Returns user or throws err. */
 
+  static async findAll() {
+    const result = await db.query(`SELECT id, username, is_admin FROM users ORDER BY id;`);
+    return result.rows;
+  }
+
   static async authenticate(data) {
     // try to find the user first
     const result = await db.query(
