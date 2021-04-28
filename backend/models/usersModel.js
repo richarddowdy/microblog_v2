@@ -8,38 +8,50 @@ const BCRYPT_WORK_FACTOR = 10;
 /** Related functions for users. */
 
 class User {
-  /** authenticate user with username, password. Returns user or throws err. */
+  /** Find all users. */
 
   static async findAll() {
     const result = await db.query(`SELECT id, username, is_admin FROM users ORDER BY id;`);
     return result.rows;
   }
 
-  static async authenticate(data) {
-    // try to find the user first
-    const result = await db.query(
-      `SELECT id,
-              username, 
-              password, 
-              is_admin
-        FROM users 
-        WHERE username = $1`,
-      [data.username]
+  /** Given a username, return data about user. */
+
+  static async findOne(id) {
+    const response = await db.query(
+      `SELECT u.id, u.username, u.first_name, u.last_name, u.email
+      JSON_AGG(DISTINCT p.id) AS posts,
+      JSON_AGG(DISTINCT c.id) AS comments
+      FROM users u
+      LEFT JOIN posts p ON p.user_id = u.id
+      LEFT JOIN comments c ON c.user_id = u.id
+      WHERE u.id = $1
+      GROUP BY u.id
+      ORDER BY u.id`,
+      [id]
     );
 
-    const user = result.rows[0];
+    const user = response.rows[0];
 
-    if (user) {
-      // compare hashed password to a new hash from password
-      const isValid = await bcrypt.compare(data.password, user.password);
-      if (isValid) {
-        return user;
-      }
+    if (!user) {
+      throw new ExpressError(`There exists no user '${username}'`, 404);
     }
-    throw new ExpressError("Invalid Username or Password", 401);
+
+    // TODO: do i still need this?
+
+    // const userJobsRes = await db.query(
+    //     `SELECT j.title, j.company_handle, a.state
+    //       FROM applications AS a
+    //         JOIN jobs AS j ON j.id = a.job_id
+    //       WHERE a.username = $1`,
+    //     [username]
+    //   );
+
+    //   user.jobs = userJobsRes.rows;
+    return user;
   }
 
-  // /** Register user with data. Returns new user data. */
+  /** Register user with data. Returns new user data. */
 
   static async register(data) {
     const duplicateCheck = await db.query(
@@ -66,62 +78,14 @@ class User {
     return result.rows[0];
   }
 
-  // /** Find all users. */
-
-  // static async findAll() {
-  //   const result = await db.query(
-  //     `SELECT username, first_name, last_name, email
-  //       FROM users
-  //       ORDER BY username`
-  //   );
-
-  //   return result.rows;
-  // }
-
-  /** Given a username, return data about user. */
-
-  static async findOne(id) {
-    const response = await db.query(
-      `SELECT u.id, u.username, u.first_name, u.last_name, u.email
-      JSON_AGG(DISTINCT p.id) AS posts,
-      JSON_AGG(DISTINCT c.id) AS comments
-      FROM users u
-      LEFT JOIN posts p ON p.user_id = u.id
-      LEFT JOIN comments c ON c.user_id = u.id
-      WHERE u.id = $1
-      GROUP BY u.id
-      ORDER BY u.id`,
-      [id]
-    );
-
-    const user = response.rows[0];
-
-    if (!user) {
-      throw new ExpressError(`There exists no user '${username}'`, 404);
-    }
-
-    // TODO: Change this to posts and/or comments
-
-    // const userJobsRes = await db.query(
-    //     `SELECT j.title, j.company_handle, a.state
-    //       FROM applications AS a
-    //         JOIN jobs AS j ON j.id = a.job_id
-    //       WHERE a.username = $1`,
-    //     [username]
-    //   );
-
-    //   user.jobs = userJobsRes.rows;
-    return user;
-  }
-
-  // /** Update user data with `data`.
-  //  *
-  //  * This is a "partial update" --- it's fine if data doesn't contain
-  //  * all the fields; this only changes provided ones.
-  //  *
-  //  * Return data for changed user.
-  //  *
-  //  */
+  /** Update user data with `data`.
+   *
+   * This is a "partial update" --- it's fine if data doesn't contain
+   * all the fields; this only changes provided ones.
+   *
+   * Return data for changed user.
+   *
+   */
 
   static async update(username, data) {
     if (data.password) {
@@ -143,7 +107,7 @@ class User {
     return result.rows[0]; // TODO: should this be user instead?
   }
 
-  // /** Delete given user from database; returns undefined. */
+  /** Delete given user from database; returns undefined. */
 
   static async delete(id) {
     let result = await db.query(
@@ -158,6 +122,34 @@ class User {
     }
     return result.rows[0].username;
   }
+
+  /** Authenticate user with username, password. Returns user or throws err. */
+
+  static async authenticate(data) {
+    // try to find the user first
+    const result = await db.query(
+      `SELECT id,
+              username, 
+              password, 
+              is_admin
+        FROM users 
+        WHERE username = $1`,
+      [data.username]
+    );
+
+    const user = result.rows[0];
+
+    if (user) {
+      // compare hashed password to a new hash from password
+      const isValid = await bcrypt.compare(data.password, user.password);
+      if (isValid) {
+        return user;
+      }
+    }
+    throw new ExpressError("Invalid Username or Password", 401);
+  }
+
+  /**  Checks if users is an admin - returns boolean */
 
   static async adminStatus(username) {
     try {
