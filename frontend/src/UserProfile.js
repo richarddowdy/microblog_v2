@@ -5,6 +5,7 @@ import axios from "axios";
 import { BASE_API_URL } from "./actionCreators";
 import { useParams } from "react-router";
 import CommentsForm from "./CommentsForm";
+import ProfileForm from "./ProfileForm";
 
 function UserProfile({}) {
   let userId = useParams().id;
@@ -19,7 +20,7 @@ function UserProfile({}) {
   useEffect(() => {
     async function fetchUserInformation() {
       let result = await axios.get(`${BASE_API_URL}/users/${userId}`);
-      console.log(result);
+      console.log("API CALL", result);
       setUserData(result.data);
     }
     async function fetchUserTitles(userId) {
@@ -38,7 +39,8 @@ function UserProfile({}) {
   return (
     <>
       <h2 className="m-3">{username}'s Profile</h2>
-        {/* Users info? email? bio? about? */}
+      {/* Users info? email? bio? about? */}
+      <ProfileForm userId={userId} />
       <h2 className="m-3">Posts Made by {username}</h2>
       <div className="d-flex flex-wrap justify-content-around">
         {userTitles.length

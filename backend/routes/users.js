@@ -44,7 +44,7 @@ router.get("/:id", async function (req, res, next) {
     //   ORDER BY u.id`,
     //   [req.params.id]
     // );
-    const user = User.findOne(id);
+    const user = await User.findOne(req.params.id);
 
     return res.json(user);
   } catch (err) {
