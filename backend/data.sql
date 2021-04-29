@@ -4,7 +4,7 @@ CREATE DATABASE "microblog";
 
 \c "microblog"
 
-CREATE TABLE users (id SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,
                     username TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
                     first_name TEXT,
@@ -12,14 +12,14 @@ CREATE TABLE users (id SERIAL PRIMARY KEY,
                     email TEXT,
                     is_admin BOOLEAN NOT NULL DEFAULT 'false');
 
-CREATE TABLE posts (id SERIAL PRIMARY KEY, 
+CREATE TABLE IF NOT EXISTS posts (id SERIAL PRIMARY KEY, 
                     title TEXT NOT NULL, 
                     description TEXT NOT NULL,
                     body TEXT, 
                     votes INT NOT NULL DEFAULT 0,
                     user_id INT NOT NULL REFERENCES users ON DELETE CASCADE);
                     
-CREATE TABLE comments (id SERIAL PRIMARY KEY, 
+CREATE TABLE IF NOT EXISTS comments (id SERIAL PRIMARY KEY, 
                        text TEXT NOT NULL, 
                        post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
                        user_id INT NOT NULL REFERENCES users ON DELETE CASCADE);
@@ -27,9 +27,9 @@ CREATE TABLE comments (id SERIAL PRIMARY KEY,
 
 
 INSERT INTO users (username, password, first_name, last_name, email, is_admin) VALUES
-    ('adminUser', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', "James", "Young", true),
-    ('normalUser', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', "Kim", "Westin", false);
-    -- adminUser password = "admin" normalUser password = "password"
+    ('adminUser', '$2a$12$SmFQcI.5cZsUKSdc3t.3d.o.dlzgts9Wwiig1p8l7Qoe35YHkIrKG', 'James', 'Young', 'testadmin@email.com', true),
+    ('normalUser', '$2a$12$/FTSkojdK6VhZbNtoUgVwOtmIObAhbKd9nhz7oJ5UEeXGcYIagPwC', 'Kim', 'Westin', 'testUser@email.com', false);
+    -- adminUser password = 'admin' normalUser password = 'password'
 
 INSERT INTO posts (title, description, body, user_id) VALUES
     ('First Post', 'Best post ever!', 'Everyone loves posting first. I win!', 1),

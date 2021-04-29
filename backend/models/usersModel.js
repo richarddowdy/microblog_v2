@@ -19,20 +19,14 @@ class User {
 
   static async findOne(id) {
     const response = await db.query(
-      `SELECT u.id, u.username, u.first_name, u.last_name, u.email
-      JSON_AGG(DISTINCT p.id) AS posts,
-      JSON_AGG(DISTINCT c.id) AS comments
-      FROM users u
-      LEFT JOIN posts p ON p.user_id = u.id
-      LEFT JOIN comments c ON c.user_id = u.id
-      WHERE u.id = $1
-      GROUP BY u.id
-      ORDER BY u.id`,
+      `SELECT username, first_name, last_name, email
+      FROM users 
+      WHERE id = $1`,
       [id]
     );
 
     const user = response.rows[0];
-
+    console.log(user);
     if (!user) {
       throw new ExpressError(`There is no user '${username}'`, 404);
     }

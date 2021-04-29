@@ -9,20 +9,20 @@ import ProfileForm from "./ProfileForm";
 
 function UserProfile({}) {
   let userId = useParams().id;
-  const [userData, setUserData] = useState({
-    id: "",
-    username: "",
-    Comments: [],
-    posts: [],
-  });
+  // const [userData, setUserData] = useState({
+  //   id: "",
+  //   username: "",
+  //   Comments: [],
+  //   posts: [],
+  // });
   const [userTitles, setUserTitles] = useState([]);
 
   useEffect(() => {
-    async function fetchUserInformation() {
-      let result = await axios.get(`${BASE_API_URL}/users/${userId}`);
-      console.log("API CALL", result);
-      setUserData(result.data);
-    }
+    // async function fetchUserInformation() {
+    //   let result = await axios.get(`${BASE_API_URL}/users/${userId}`);
+    //   // console.log("API CALL", result);
+    //   setUserData(result.data);
+    // }
     async function fetchUserTitles(userId) {
       let result = await axios.get(`${BASE_API_URL}/posts`);
       console.log("USER TITLES QUERY", result.data, typeof userId, userId);
@@ -30,18 +30,18 @@ function UserProfile({}) {
       console.log("THIS PERSON'S POSTS", userTitles);
       setUserTitles(usersTitles);
     }
-    fetchUserInformation();
+    // fetchUserInformation();
     fetchUserTitles(userId);
   }, []);
 
-  const { username, posts } = userData;
-  console.log("PROFILE DATA", userData, posts);
+  // const { username, posts } = userData;
+  // console.log("PROFILE DATA", userData, posts);
   return (
     <>
-      <h2 className="m-3">{username}'s Profile</h2>
+      <h2 className="m-3">{}'s Profile</h2>
       {/* Users info? email? bio? about? */}
       <ProfileForm userId={userId} />
-      <h2 className="m-3">Posts Made by {username}</h2>
+      <h2 className="m-3">Posts Made by {}</h2>
       <div className="d-flex flex-wrap justify-content-around">
         {userTitles.length
           ? userTitles.map((p) => {
