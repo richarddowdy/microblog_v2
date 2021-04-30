@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { BASE_API_URL } from "./actionCreators";
+import { Form, Col } from "react-bootstrap";
 import UpdatePasswordModal from "./UpdatePasswordModal";
 
 const ProfileForm = ({ userId }) => {
@@ -15,7 +16,6 @@ const ProfileForm = ({ userId }) => {
     lastName: "",
     email: "",
     username: "",
-    password: "",
   });
 
   useEffect(() => {
@@ -43,84 +43,66 @@ const ProfileForm = ({ userId }) => {
   return (
     <>
       <UpdatePasswordModal show={show} handleClose={handleClose} handleShow={handleShow} />
-      <form className="m-5" onSubmit={handleSubmit}>
-        <div className="form-row">
-          <div className="col-xs-12 col-sm-3">
-            <label className="sr-only" htmlFor="firstname">
-              Username
-            </label>
-            <input
-              onChange={handleChange}
-              value={formData.username}
-              type="text"
-              name="username"
-              className="form-control mb-4"
-              id="username"
-              placeholder="Username"
-            />
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="col-xs-12 col-sm-3">
-            <label className="sr-only" htmlFor="firstname">
-              First Name
-            </label>
-            <input
+      <Form className="p-5" onSubmit={handleSubmit}>
+        <Form.Row>
+          <Form.Group as={Col} controlId="formGridFirstName" xs={12} md={6}>
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
               onChange={handleChange}
               value={formData.firstName}
               type="text"
               name="firstName"
               className="form-control mb-4"
-              id="firstname"
+              // id="firstname"
               placeholder="First Name"
             />
-          </div>
-          <div className="col-xs-12 col-sm-3">
-            <label className="sr-only" htmlFor="lastname">
-              Last Name
-            </label>
-            <input
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridLastName" xs={12} md={6}>
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
               onChange={handleChange}
               value={formData.lastName}
               type="text"
               name="lastName"
               className="form-control mb-4"
-              id="lastname"
+              // id="lastname"
               placeholder="Last Name"
             />
-          </div>
-        </div>
-        <div className="form-row ">
-          <div className="col-xs-12 col-sm-6">
-            <label className="sr-only" htmlFor="email">
-              email
-            </label>
-            <input
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col} controlId="formGridUsername" xs={12} md={4}>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              onChange={handleChange}
+              value={formData.username}
+              type="text"
+              name="username"
+              className="form-control mb-4"
+              // id="username"
+              placeholder="Username"
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridEmail" xs={12} md={8}>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
               onChange={handleChange}
               value={formData.email}
               type="text"
               name="email"
               className="form-control mb-4"
-              id="email"
+              // id="email"
               placeholder="example@email.com"
             />
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="col mb-4">
-            <Button variant="secondary" onClick={handleShow}>
-              Change Password
-            </Button>
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="col">
-            <button type="submit" className="btn btn-primary mb-4">
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
+          </Form.Group>
+        </Form.Row>
+
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </>
   );
 };
