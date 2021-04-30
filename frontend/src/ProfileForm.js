@@ -98,9 +98,11 @@ const ProfileForm = ({ userId }) => {
             />
           </Form.Group>
         </Form.Row>
-
-        <Button variant="primary" type="submit">
+        <Button className="d-block mb-4" variant="primary" type="submit">
           Submit
+        </Button>
+        <Button variant="secondary" onClick={handleShow}>
+          Change Password
         </Button>
       </Form>
     </>

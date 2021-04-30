@@ -1,19 +1,19 @@
-import React from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
-import Home from './Home';
-import PostContainer from './PostContainer';
-import UserProfile from './UserProfile';
-import NewPost from './NewPost.js';
-import LoginPage from './LoginPage';
-import NotFound from './NotFound';
-import PrivateRoute from './PrivateRoute';
+import React from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
+import Home from "./Home";
+import PostContainer from "./PostContainer";
+import UserProfile from "./UserProfile";
+import NewPost from "./NewPost.js";
+import LoginPage from "./LoginPage";
+import NotFound from "./NotFound";
+import PrivateRoute from "./PrivateRoute";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 function Routes() {
-let profile = useQuery().get('profile');
+  const profile = useQuery().get("profile");
 
   return (
     <Switch>
@@ -36,7 +36,7 @@ let profile = useQuery().get('profile');
         <NotFound />
       </Route>
     </Switch>
-  )
-};
+  );
+}
 
 export default Routes;
