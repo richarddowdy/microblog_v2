@@ -1,80 +1,78 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 
 const UpdatePasswordModal = ({ show, handleClose, handleShow }) => {
   // const [show, setShow] = useState(false);
 
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
+  const initialState = {
+    currentPassword: "",
+    newPassword: "",
+    repeatNewPassword: "",
+  };
+
+  const [formData, setFormData] = useState(initialState);
+
+  const handleChange = (evt) => {
+    evt.preventDefault();
+    const { name, value } = evt.target;
+    setFormData((formData) => ({
+      ...formData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    console.log(formData);
+    setFormData(initialState);
+  };
 
   return (
-    <>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form className="m-auto">
-            <div className="form-group row">
-              <div className="col-xs-12 ">
-                <label className="" htmlFor="currentPassword">
-                  Current Password:
-                </label>
-                <input
-                // onChange={handleChange}
-                // value={formData.currentPassword}
-                // type="password"
-                // name="currentPassword"
-                // className="form-control mb-4"
-                // id="currentPassword"
-                // placeholder="currentPassword"
-                />
-              </div>
-            </div>
-            <div className="form-group row">
-              <div className="col-xs-12 ">
-                <label className="" htmlFor="newPassword">
-                  New Password:
-                </label>
-                <input
-                // onChange={handleChange}
-                // value={formData.newPassword}
-                // type="password"
-                // name="newPassword"
-                // className="form-control mb-4"
-                // id="newPassword"
-                // placeholder="newPassword"
-                />
-              </div>
-            </div>
-            <div className="form-group row">
-              <div className="col-xs-12 ">
-                <label className="" htmlFor="repeat">
-                  Repeat New Password:
-                </label>
-                <input
-                // onChange={handleChange}
-                // value={formData.repeat}
-                // type="password"
-                // name="repeat"
-                // className="form-control mb-4"
-                // id="repeat"
-                // placeholder="repeat"
-                />
-              </div>
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Change Password</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form className="m-4" onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label htmlFor="password">Current Password</Form.Label>
+            <Form.Control
+              onChange={handleChange}
+              value={formData.currentPassword}
+              type="password"
+              name="currentPassword"
+              id="currentPassword"
+              placeholder="Current Password"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="newPassword">New Password</Form.Label>
+            <Form.Control
+              onChange={handleChange}
+              value={formData.newPassword}
+              type="password"
+              name="newPassword"
+              id="newPassword"
+              placeholder="New Password"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="repeatNewPassword">Confirm New Password</Form.Label>
+            <Form.Control
+              onChange={handleChange}
+              value={formData.repeatNewPassword}
+              type="password"
+              name="repeatNewPassword"
+              id="repeatNewPassword"
+              placeholder="Confirm New Password"
+            />
+          </Form.Group>
+          <Button type="submit">Submit</Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 };
 
