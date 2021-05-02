@@ -82,9 +82,6 @@ class User {
    */
 
   static async update(username, data) {
-    if (data.password) {
-      data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
-    }
     // TODO: data here is probably the fields that are being updated
     let { query, values } = partialUpdate("users", data, "username", username);
 
@@ -99,9 +96,34 @@ class User {
     delete user.is_admin;
 
     return result.rows[0]; // TODO: should this be user instead?
+  } //TODO fix comment
+
+  /** Change password, requires current password; return undefined */ static async updatePassword(data) {
+    const { userId, currentPassword, newPassword } = data;
+
+    if (newPassword.length <= 6) {
+      throw new ExpressError("Password must be at least 6 characters long.");
+    }
+    let passwordHashInDB = await db.query("SELECT password FROM users WHERE id=$1", [userId]);
+    passwordHashInDB = passwordHashInDB.rows[0].password;
+    if (passwordHashInDB) {
+      const isValid = await bcrypt.compare(currentPassword, passwordHashInDB);
+      if (isValid) {
+        const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_WORK_FACTOR);
+        let result = await db.query(`UPDATE users SET password=$1 WHERE id = $2 returning password`, [
+          hashedPassword,
+          userId,
+        ]);
+        if (result.rows.length === 0) {
+          throw new ExpressError("Unable to update password.");
+        }
+        return true;
+      }
+    }
+    throw new ExpressError("Current password is incorrect, aborting.", 401);
   }
 
-  /** Delete given user from database; returns undefined. */
+  /** Delete given user from database; returns username. */
 
   static async delete(id) {
     let result = await db.query(
