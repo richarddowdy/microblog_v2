@@ -2,8 +2,12 @@ const db = require("../db");
 const bcrypt = require("bcrypt");
 const partialUpdate = require("../helpers/partialUpdate");
 const ExpressError = require("../helpers/expressError");
+const jsonscema = require("jsonschema");
+const userSchema = require("../schema/userSchema.json");
+const jwt = require("jsonwebtoken");
 
 const BCRYPT_WORK_FACTOR = 10;
+const { SECRET_KEY } = require("../config");
 
 /** Related functions for users. */
 
@@ -19,57 +23,58 @@ class User {
 
   static async findOne(id) {
     const response = await db.query(
-      `SELECT username, first_name, last_name, email
+      `SELECT username, first_name, last_name, email, is_admin
       FROM users 
       WHERE id = $1`,
       [id]
     );
-
     const user = response.rows[0];
-    console.log(user);
     if (!user) {
       throw new ExpressError(`There is no user '${username}'`, 404);
     }
-
-    // TODO: do i still need this?
-
-    // const userJobsRes = await db.query(
-    //     `SELECT j.title, j.company_handle, a.state
-    //       FROM applications AS a
-    //         JOIN jobs AS j ON j.id = a.job_id
-    //       WHERE a.username = $1`,
-    //     [username]
-    //   );
-
-    //   user.jobs = userJobsRes.rows;
     return user;
   }
 
   /** Register user with data. Returns new user data. */
 
   static async register(data) {
-    const duplicateCheck = await db.query(
-      `SELECT username 
-        FROM users 
-        WHERE username = $1`,
-      [data.username]
-    );
-
-    if (duplicateCheck.rows[0]) {
-      throw new ExpressError(`There already is a user with username '${data.username}`, 400);
+    let result = jsonscema.validate(data, userSchema);
+    if (!result.valid) {
+      let listOfErrors = result.errors.map((error) => error.stack);
+      let error = new ExpressError(listOfErrors, 400);
+      return next(error);
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+    const { username, password } = data;
+    if (password.length <= 6) {
+      throw new ExpressError("Password must be at least 6 characters long.");
+    }
 
-    const result = await db.query(
-      `INSERT INTO users 
-          (username, password, first_name, last_name, email, photo_url) 
-        VALUES ($1, $2, $3, $4, $5, $6) 
-        RETURNING username, password, first_name, last_name, email, photo_url`,
-      [data.username, hashedPassword, data.first_name, data.last_name, data.email, data.photo_url]
+    const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+
+    let user;
+
+    try {
+      const userResult = await db.query(
+        `INSERT INTO users (username, password)
+        VALUES ($1, $2)
+        RETURNING id, username, is_admin`,
+        [username, hashedPassword]
+      );
+      user = userResult.rows[0];
+    } catch {
+      throw new ExpressError("Sorry, that username is already taken.", 400);
+    }
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+        is_admin: user.is_admin,
+      },
+      SECRET_KEY
     );
-
-    return result.rows[0];
+    return { token, user };
   }
 
   /** Update user data with `data`.
