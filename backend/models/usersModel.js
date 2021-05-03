@@ -132,6 +132,9 @@ class User {
   /** Delete given user from database; returns username. */
 
   static async delete(username) {
+    if (username === "adminUser") {
+      throw new ExpressError("Cannot delete that admin account");
+    } // this will prevent someone from deleting my admin account
     let result = await db.query(
       `DELETE FROM users 
         WHERE username = $1
