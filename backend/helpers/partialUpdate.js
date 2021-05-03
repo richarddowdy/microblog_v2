@@ -8,13 +8,15 @@
  * - id: current record ID
  *
  * Returns object containing a DB query as a string, and array of
- * string values to be updated
+ * string values to be updated.  Does not allow password to be
+ * updated here
  *
  */
 
 function sqlForPartialUpdate(table, items, key, id) {
   // keep track of item indexes
   // store all the columns we want to update and associate with vals
+  delete items.password;
 
   let idx = 1;
   let columns = [];

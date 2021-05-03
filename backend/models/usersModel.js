@@ -42,11 +42,11 @@ class User {
     if (!result.valid) {
       let listOfErrors = result.errors.map((error) => error.stack);
       let error = new ExpressError(listOfErrors, 400);
-      return next(error);
+      throw error;
     }
 
     const { username, password } = data;
-    if (password.length <= 6) {
+    if (password.length < 6) {
       throw new ExpressError("Password must be at least 6 characters long.");
     }
 
@@ -87,7 +87,6 @@ class User {
    */
 
   static async update(username, data) {
-    // TODO: data here is probably the fields that are being updated
     let { query, values } = partialUpdate("users", data, "username", username);
 
     const result = await db.query(query, values);
@@ -100,10 +99,12 @@ class User {
     delete user.password;
     delete user.is_admin;
 
-    return result.rows[0]; // TODO: should this be user instead?
-  } //TODO fix comment
+    return user;
+  }
 
-  /** Change password, requires current password; return undefined */ static async updatePassword(data) {
+  //TODO fix comment
+  /** Change password, requires current password; return undefined */
+  static async updatePassword(data) {
     const { userId, currentPassword, newPassword } = data;
 
     if (newPassword.length <= 6) {
