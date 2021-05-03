@@ -133,8 +133,9 @@ class User {
 
   static async delete(username) {
     if (username === "adminUser") {
+      // Prevent someone from deleting my admin account
       throw new ExpressError("Cannot delete that admin account");
-    } // this will prevent someone from deleting my admin account
+    }
     let result = await db.query(
       `DELETE FROM users 
         WHERE username = $1
@@ -193,38 +194,3 @@ class User {
 }
 
 module.exports = User;
-
-// static async register(data) {
-//   const duplicateCheck = await db.query(
-//     `SELECT username
-//       FROM users
-//       WHERE username = $1`,
-//     [data.username]
-//   );
-
-//   if (duplicateCheck.rows[0]) {
-//     throw new ExpressError(
-//       `There already exists a user with username '${data.username}`,
-//       400
-//     );
-//   }
-
-//   const hashedPassword = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
-
-//   const result = await db.query(
-//     `INSERT INTO users
-//         (username, password, first_name, last_name, email, photo_url)
-//       VALUES ($1, $2, $3, $4, $5, $6)
-//       RETURNING username, password, first_name, last_name, email, photo_url`,
-//     [
-//       data.username,
-//       hashedPassword,
-//       data.first_name,
-//       data.last_name,
-//       data.email,
-//       data.photo_url
-//     ]
-//   );
-
-//   return result.rows[0];
-// }
