@@ -131,12 +131,12 @@ class User {
 
   /** Delete given user from database; returns username. */
 
-  static async delete(id) {
+  static async delete(username) {
     let result = await db.query(
       `DELETE FROM users 
         WHERE username = $1
         RETURNING username`,
-      [id]
+      [username]
     );
 
     if (result.rows.length === 0) {

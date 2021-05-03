@@ -97,10 +97,10 @@ router.patch("/:id/updatePassword", async function (req, res, next) {
   }
 });
 
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:username", async function (req, res, next) {
   try {
-    deletedUsername = User.delete(req.params.id);
-    return res.json({ message: `User ${deletedUsername} Deleted`, username: deletedUsername });
+    deletedUsername = await User.delete(req.params.username);
+    return res.json({ message: `User '${deletedUsername}' was deleted`, username: deletedUsername });
   } catch (err) {
     return next(err);
   }
