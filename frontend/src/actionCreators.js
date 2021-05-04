@@ -192,10 +192,10 @@ export function logoutUser() {
   };
 }
 
-export function getCurrentUserFromApi(username) {
+export function getCurrentUserFromApi(token) {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${BASE_API_URL}/${username}`);
+      const res = await axios.get(`${BASE_API_URL}/currentUser`, { params: { token } });
       const user = res.data;
       dispatch(loginUser(user));
     } catch (err) {

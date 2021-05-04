@@ -29,10 +29,10 @@ function App() {
       // console.log("entire store", store);
       try {
         // let tokenInfo = decode(token);
-        let { is_admin, username } = decode(token);
+        // let { is_admin, username } = decode(token);
         // console.log("current User", username);// TODO: complete persistance of current user
         // console.log("entire token", tokenInfo);// TODO: complete persistance of current user
-        dispatch(getCurrentUserFromApi(username)); //TODO
+        dispatch(getCurrentUserFromApi(token)); //TODO
         // console.log(tokenUser);
         // dispatch(currentUser({...tokenUser, is_admin}));
       } catch (err) {

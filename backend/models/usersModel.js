@@ -151,7 +151,7 @@ class User {
 
   /** Authenticate user with username, password. Returns user or throws err. */
 
-  static async authenticate(data) {
+  static async login(data) {
     // try to find the user first
     const result = await db.query(
       `SELECT id,
@@ -173,6 +173,20 @@ class User {
       }
     }
     throw new ExpressError("Invalid Username or Password", 401);
+  }
+
+  /** Takes in the jwt from frontend, decodes it and returns current user */
+
+  static async authenticate(token) {
+    const decoded = jwt.decode(token);
+    const result = await db.query(
+      `SELECT id, username, is_admin 
+        FROM users 
+        WHERE username = $1`,
+      [decoded.username]
+    );
+    let currentUser = result.rows[0];
+    return currentUser;
   }
 
   /**  Checks if users is an admin - returns boolean */
