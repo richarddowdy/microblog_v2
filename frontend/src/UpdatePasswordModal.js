@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const UpdatePasswordModal = ({ show, handleClose, handleShow }) => {
   // const [show, setShow] = useState(false);
@@ -25,6 +26,10 @@ const UpdatePasswordModal = ({ show, handleClose, handleShow }) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    if (formData.newPassword !== formData.repeatNewPassword) {
+      toast.error("The new passwords do not match each other.");
+      return;
+    }
     console.log(formData);
     setFormData(initialState);
   };

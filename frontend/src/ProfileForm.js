@@ -11,17 +11,21 @@ const ProfileForm = ({ userId }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [formData, setFormData] = useState({
+  const initialState = {
     firstName: "",
     lastName: "",
     email: "",
     username: "",
-  });
+  };
+
+  const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
     async function fetchUserInformation() {
       let result = await axios.get(`${BASE_API_URL}/users/${userId}`);
-      setFormData({ ...formData, ...result.data, firstName: result.data.first_name, lastName: result.data.last_name });
+      const { username, first_name, last_name, email } = result.data;
+      // console.log(result.data);
+      setFormData({ username, email, firstName: first_name, lastName: last_name });
     }
     fetchUserInformation();
   }, []);

@@ -5,24 +5,24 @@ CREATE DATABASE "microblog";
 \c "microblog"
 
 CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,
-                    username TEXT NOT NULL UNIQUE,
-                    password TEXT NOT NULL,
-                    first_name TEXT,
-                    last_name TEXT,
-                    email TEXT,
-                    is_admin BOOLEAN NOT NULL DEFAULT 'false');
+                                  username TEXT NOT NULL UNIQUE,
+                                  password TEXT NOT NULL,
+                                  first_name TEXT DEFAULT '',
+                                  last_name TEXT DEFAULT '',
+                                  email TEXT DEFAULT '',
+                                  is_admin BOOLEAN NOT NULL DEFAULT 'false');
 
 CREATE TABLE IF NOT EXISTS posts (id SERIAL PRIMARY KEY, 
-                    title TEXT NOT NULL, 
-                    description TEXT NOT NULL,
-                    body TEXT, 
-                    votes INT NOT NULL DEFAULT 0,
-                    user_id INT NOT NULL REFERENCES users ON DELETE CASCADE);
+                                  title TEXT NOT NULL, 
+                                  description TEXT NOT NULL,
+                                  body TEXT DEFAULT '', 
+                                  votes INT NOT NULL DEFAULT 0,
+                                  user_id INT NOT NULL REFERENCES users ON DELETE CASCADE);
                     
 CREATE TABLE IF NOT EXISTS comments (id SERIAL PRIMARY KEY, 
-                       text TEXT NOT NULL, 
-                       post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
-                       user_id INT NOT NULL REFERENCES users ON DELETE CASCADE);
+                                     text TEXT NOT NULL, 
+                                     post_id INT NOT NULL REFERENCES posts ON DELETE CASCADE,
+                                     user_id INT NOT NULL REFERENCES users ON DELETE CASCADE);
 
 
 

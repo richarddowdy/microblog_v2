@@ -23,7 +23,7 @@ class User {
 
   static async findOne(id) {
     const response = await db.query(
-      `SELECT username, first_name, last_name, email, is_admin
+      `SELECT username, first_name, last_name, email
       FROM users 
       WHERE id = $1`,
       [id]
@@ -46,7 +46,7 @@ class User {
     }
 
     const { username, password } = data;
-    if (password.length < 6) {
+    if (password.length <= 6) {
       throw new ExpressError("Password must be at least 6 characters long.");
     }
 
@@ -104,14 +104,17 @@ class User {
 
   //TODO fix comment
   /** Change password, requires current password; return undefined */
-  static async updatePassword(data) {
-    const { userId, currentPassword, newPassword } = data;
+  static async updatePassword(data, userId) {
+    const { currentPassword, newPassword, repeatNewPassword } = data;
+    if (newPassword !== repeatNewPassword) {
+      throw new ExpressError("New passwords must match each other.");
+    }
 
     if (newPassword.length <= 6) {
       throw new ExpressError("Password must be at least 6 characters long.");
     }
-    let passwordHashInDB = await db.query("SELECT password FROM users WHERE id=$1", [userId]);
-    passwordHashInDB = passwordHashInDB.rows[0].password;
+    let pwLookup = await db.query(`SELECT password FROM users WHERE id=$1`, [userId]);
+    const passwordHashInDB = pwLookup.rows[0].password;
     if (passwordHashInDB) {
       const isValid = await bcrypt.compare(currentPassword, passwordHashInDB);
       if (isValid) {

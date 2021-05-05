@@ -87,11 +87,10 @@ router.patch("/:id", async function (req, res, next) {
 
 router.patch("/:id/updatePassword", async function (req, res, next) {
   data = req.body;
-  console.log(data);
+  userId = req.params.id;
   try {
-    updateSuccess = await User.updatePassword(data);
-    // console.log(updateSuccess);
-    return res.json({ success: updateSuccess });
+    updateSuccess = await User.updatePassword(data, userId);
+    return res.json({ success: "updateSuccess" });
   } catch (err) {
     return next(err);
   }
