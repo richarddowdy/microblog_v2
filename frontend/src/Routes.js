@@ -23,7 +23,7 @@ function Routes() {
       <Route exact path="/posts/:id">
         <PostContainer />
       </Route>
-      <Route exact path="/users/:id">
+      <Route exact path="/user/:id">
         <UserProfile />
       </Route>
       <PrivateRoute exact path="/new">

@@ -22,7 +22,10 @@ function NavBar() {
         <NavLink to="/" className="mr-4 font-weight-bold navbar-link">Blog</NavLink>
         <NavLink to="/new" className="mr-4 font-weight-bold navbar-link">Add a new post</NavLink>
       {currentUser.id ?   
-      <NavLink to="/" className="font-weight-bold navbar-link" onClick={() => dispatch(logoutUser())}>Logout</NavLink>
+      <>
+        <NavLink to={`/user/${currentUser.id}`} className="mr-4 font-weight-bold navbar-link" >Profile</NavLink>
+        <NavLink to="/" className="font-weight-bold navbar-link" onClick={() => dispatch(logoutUser())}>Logout</NavLink>
+      </>
       :
       <NavLink to="/login" className="font-weight-bold navbar-link">Login / Sign UP</NavLink>
       }
