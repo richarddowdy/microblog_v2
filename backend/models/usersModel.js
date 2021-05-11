@@ -86,12 +86,20 @@ class User {
    *
    */
 
-  static async update(username, data) {
-    let { query, values } = partialUpdate("users", data, "username", username);
+  static async update(data) {
+    let dbFriendlyData = {
+      id: data.userId,
+      username: data.username,
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+    }
 
+    let { query, values } = partialUpdate("users", dbFriendlyData, "id", data.userId);
+    
     const result = await db.query(query, values);
     const user = result.rows[0];
-
+   
     if (!user) {
       throw new ExpressError(`There is no user '${username}'`, 404);
     }

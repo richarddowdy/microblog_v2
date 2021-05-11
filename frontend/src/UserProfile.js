@@ -8,9 +8,13 @@ function UserProfile() {
   const currentUser = useSelector((st) => st.user);
   const userId = useParams().id;
 
-  if (!currentUser.id || (Number(userId) !== currentUser.id)) { // gotta watch this, prettier will remove nested perens
+  if (!currentUser.id || (Number(userId) !== currentUser.id)) {
+    // gotta watch this, prettier will remove nested perens
     return <Redirect to="/" />;
   }
+  // if (!currentUser.id || (Number(userId) !== currentUser.id)) { // This is the correct way to do this. Prettier will mess this up.
+  //   return <Redirect to="/" />;
+  // }
 
   return (
     <>

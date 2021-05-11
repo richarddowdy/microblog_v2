@@ -63,10 +63,6 @@ router.post("/", async function (req, res, next) {
 });
 
 router.patch("/:id", async function (req, res, next) {
-  const { id } = req.params;
-  const { username } = req.body;
-  // const { username, password } = req.body;
-  const data = {}; // TODO: probably the fields being updated.
   try {
     // const result = db.query(
     //   `UPDATE users
@@ -77,7 +73,7 @@ router.patch("/:id", async function (req, res, next) {
     // );
     // return res.json(result.rows[0])
     // const updatedUser = await User.update(username, { password });
-    const updatedUser = await User.update(username, req.body);
+    const updatedUser = await User.update(req.body);
     // console.log(updatedUser);
     return res.json(updatedUser);
   } catch (err) {

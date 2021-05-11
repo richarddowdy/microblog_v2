@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { BASE_API_URL } from "./actionCreators";
 import { Form, Col } from "react-bootstrap";
 import UpdatePasswordModal from "./UpdatePasswordModal";
+import { toast } from "react-toastify";
 
 const ProfileForm = ({ userId }) => {
   const [show, setShow] = useState(false);
@@ -25,7 +26,7 @@ const ProfileForm = ({ userId }) => {
       let result = await axios.get(`${BASE_API_URL}/users/${userId}`);
       const { username, first_name, last_name, email } = result.data;
       // console.log(result.data);
-      setFormData({ username, email, firstName: first_name, lastName: last_name });
+      setFormData({ userId, username, email, firstName: first_name, lastName: last_name });
     }
     fetchUserInformation();
   }, []);
@@ -42,6 +43,16 @@ const ProfileForm = ({ userId }) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     console.log(formData);
+    async function updateUserData(formData) {
+      try{
+      const result = await axios.patch(`${BASE_API_URL}/users/${userId}`, formData);
+      console.log(result);
+        toast.success("User data updated successfully.")
+      } catch (err) {
+        toast.error("Unable to update user info.")
+      }
+    }
+      updateUserData(formData)
   };
 
   return (
