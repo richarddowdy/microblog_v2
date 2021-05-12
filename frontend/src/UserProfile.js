@@ -10,7 +10,6 @@ function UserProfile() {
 
   // prettier-ignore
   if (!currentUser.id || (Number(userId) !== currentUser.id)) {
-    // gotta watch this, prettier will remove nested perens
     return <Redirect to="/" />;
   }
 
