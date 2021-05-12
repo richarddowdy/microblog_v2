@@ -5,10 +5,6 @@ import { toast } from "react-toastify";
 import { BASE_API_URL } from "./actionCreators";
 
 const UpdatePasswordModal = ({ show, handleClose, userId }) => {
-  // const [show, setShow] = useState(false);
-
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
   const initialState = {
     currentPassword: "",
     newPassword: "",
@@ -32,7 +28,7 @@ const UpdatePasswordModal = ({ show, handleClose, userId }) => {
       toast.error("The new passwords do not match each other.");
       return;
     }
-    try{
+    try {
       const result = await axios.patch(`${BASE_API_URL}/users/${userId}/updatePassword`, formData);
       toast.success("Password updated successfully.");
     } catch (err) {

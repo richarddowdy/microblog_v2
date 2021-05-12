@@ -44,15 +44,15 @@ const ProfileForm = ({ userId }) => {
     evt.preventDefault();
     // console.log(formData);
     async function updateUserData(formData) {
-      try{
-      const result = await axios.patch(`${BASE_API_URL}/users/${userId}`, formData);
-      console.log(result);
-        toast.success("User data updated successfully.")
+      try {
+        const result = await axios.patch(`${BASE_API_URL}/users/${userId}`, formData);
+        console.log(result);
+        toast.success("User data updated successfully.");
       } catch (err) {
-        toast.error("Unable to update user info.")
+        toast.error("Unable to update user info.");
       }
     }
-    updateUserData(formData)
+    updateUserData(formData);
   };
 
   return (
