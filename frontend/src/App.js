@@ -18,13 +18,13 @@ function App() {
   const dispatch = useDispatch();
   const store = useSelector((st) => st);
   let currentUser = useSelector((st) => st.user);
-  console.log("currentUser", currentUser);
-  console.log("entire store", store);
+  // console.log("currentUser", currentUser);
+  // console.log("entire store", store);
 
   // let currentUser;
   // console.log(token);
   useEffect(() => {
-    console.log("effect Running");
+    // console.log("effect Running");
     async function getCurrentUser() {
       // console.log("entire store", store);
       try {
@@ -36,7 +36,7 @@ function App() {
         // console.log(tokenUser);
         // dispatch(currentUser({...tokenUser, is_admin}));
       } catch (err) {
-        console.log("no token");
+        // console.log("no token");
         // dispatch(removeCurrentUser());
       }
       //   dispatch(loadComplete(true));

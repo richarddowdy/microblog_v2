@@ -25,12 +25,11 @@ router.get("/:id", async function (req, res, next) {
 });
 
 router.post("/", async function (req, res, next) {
-  console.log("creating a news user");
+  // console.log("creating a news user");
   try {
     const { user, token } = await User.register(req.body);
     return res.status(201).json({ user, token });
   } catch (err) {
-    console.log("Oops, something went wrong. Please refresh the page and try again.", err);
     return next(err);
   }
 });

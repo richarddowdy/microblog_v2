@@ -32,7 +32,7 @@ function LoginForm({ signUp }) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log("clicked login/signup");
+    // console.log("clicked login/signup");
     let authType = signUp ? "users" : "login";
     try {
       dispatch(authError(""));
@@ -41,7 +41,6 @@ function LoginForm({ signUp }) {
         return;
       }
       let res = await axios.post(`${BASE_API_URL}/${authType}`, formData);
-      console.log("NEW LOGIN RESPONSE", res);
       const token = res.data.token;
       const user = decode(token);
       localStorage.setItem("_token", token);

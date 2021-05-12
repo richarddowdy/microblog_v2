@@ -1,15 +1,13 @@
-import { LOGIN_USER, LOGOUT_USER, CURRENT_USER } from '../actionTypes';
+import { LOGIN_USER, LOGOUT_USER, CURRENT_USER } from "../actionTypes";
 
-export function loginUser(user){
-  console.log("login action", user);
+export function loginUser(user) {
   return { type: LOGIN_USER, user };
 }
 
-export function userLogout(){
-  console.log("LOGOUT")
+export function userLogout() {
   return { type: LOGOUT_USER };
 }
 
-export function currentUser(user){
+export function currentUser(user) {
   return { type: CURRENT_USER, user };
 }

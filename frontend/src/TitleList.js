@@ -3,22 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import TitleCard from "./TitleCard";
 import { getAllTitlesFromApi } from "./actionCreators";
 
-function TitleList({profile}) {
+function TitleList({ profile }) {
   const dispatch = useDispatch();
 
   let titles = useSelector((st) => st.titles);
 
   useEffect(() => {
     async function fetchAllTitles() {
-      console.log("fetching");
+      // console.log("fetching");
       dispatch(getAllTitlesFromApi());
     }
     fetchAllTitles();
   }, [dispatch]);
 
-
-  if(profile){
-    titles = titles.filter((post) => post.username === profile)
+  if (profile) {
+    titles = titles.filter((post) => post.username === profile);
     return (
       <div className="d-flex flex-wrap justify-content-around">
         {titles.length ? (
