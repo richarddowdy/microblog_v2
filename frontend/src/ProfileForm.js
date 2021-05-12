@@ -42,7 +42,7 @@ const ProfileForm = ({ userId }) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(formData);
+    // console.log(formData);
     async function updateUserData(formData) {
       try{
       const result = await axios.patch(`${BASE_API_URL}/users/${userId}`, formData);
@@ -52,12 +52,12 @@ const ProfileForm = ({ userId }) => {
         toast.error("Unable to update user info.")
       }
     }
-      updateUserData(formData)
+    updateUserData(formData)
   };
 
   return (
     <>
-      <UpdatePasswordModal show={show} handleClose={handleClose} handleShow={handleShow} />
+      <UpdatePasswordModal show={show} handleClose={handleClose} handleShow={handleShow} userId={userId} />
       <Form className="p-5" onSubmit={handleSubmit}>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridFirstName" xs={12} md={6}>

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { BASE_API_URL } from "./actionCreators";
 
-const UpdatePasswordModal = ({ show, handleClose, handleShow }) => {
+const UpdatePasswordModal = ({ show, handleClose, userId }) => {
   // const [show, setShow] = useState(false);
 
   // const handleClose = () => setShow(false);
@@ -24,14 +26,21 @@ const UpdatePasswordModal = ({ show, handleClose, handleShow }) => {
     }));
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
     if (formData.newPassword !== formData.repeatNewPassword) {
       toast.error("The new passwords do not match each other.");
       return;
     }
-    console.log(formData);
-    setFormData(initialState);
+    try{
+      const result = await axios.patch(`${BASE_API_URL}/users/${userId}/updatePassword`, formData);
+      toast.success("Password updated successfully.");
+    } catch (err) {
+      toast.error("Password not updated.");
+    } finally {
+      // console.log(formData);
+      setFormData(initialState);
+    }
   };
 
   return (
