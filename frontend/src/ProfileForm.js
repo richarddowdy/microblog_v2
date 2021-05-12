@@ -68,7 +68,6 @@ const ProfileForm = ({ userId }) => {
               type="text"
               name="firstName"
               className="form-control mb-4"
-              // id="firstname"
               placeholder="First Name"
             />
           </Form.Group>
@@ -81,7 +80,6 @@ const ProfileForm = ({ userId }) => {
               type="text"
               name="lastName"
               className="form-control mb-4"
-              // id="lastname"
               placeholder="Last Name"
             />
           </Form.Group>
@@ -95,7 +93,6 @@ const ProfileForm = ({ userId }) => {
               type="text"
               name="username"
               className="form-control mb-4"
-              // id="username"
               placeholder="Username"
             />
           </Form.Group>
@@ -108,7 +105,6 @@ const ProfileForm = ({ userId }) => {
               type="text"
               name="email"
               className="form-control mb-4"
-              // id="email"
               placeholder="example@email.com"
             />
           </Form.Group>

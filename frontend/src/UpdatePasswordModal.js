@@ -31,6 +31,7 @@ const UpdatePasswordModal = ({ show, handleClose, userId }) => {
     try {
       const result = await axios.patch(`${BASE_API_URL}/users/${userId}/updatePassword`, formData);
       toast.success("Password updated successfully.");
+      handleClose();
     } catch (err) {
       toast.error("Password not updated.");
     } finally {
