@@ -43,7 +43,7 @@ function App() {
     }
     // dispatch(loadComplete(false));
     if (!currentUser.username) {
-      console.log("fetching current user");
+      // console.log("fetching current user");
       getCurrentUser();
       // dispatch(currentUser({}))
     }

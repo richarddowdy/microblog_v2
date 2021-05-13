@@ -142,22 +142,35 @@ class User {
 
   /** Delete given user from database; returns username. */
 
-  static async delete(username) {
+  static async delete(data) {
+    const { userId, username, password } = data;
     if (username === "adminUser") {
       // Prevent someone from deleting my admin account
       throw new ExpressError("Cannot delete that admin account");
     }
-    let result = await db.query(
+
+    const result1 = await db.query(`SELECT username, password FROM users WHERE id = $1`, [userId]);
+    let user = result1.rows[0];
+    if (!user) {
+      throw new ExpressError("No such user.", 404);
+    }
+    const passwordHashInDB = user.password;
+    const isValid = await bcrypt.compare(password, passwordHashInDB);
+    if (!isValid) {
+      throw new ExpressError("Wrong username or password", 401);
+    }
+
+    let result2 = await db.query(
       `DELETE FROM users 
         WHERE username = $1
         RETURNING username`,
       [username]
     );
 
-    if (result.rows.length === 0) {
+    if (result2.rows.length === 0) {
       throw new ExpressError(`There is no user '${username}'`, 404);
     }
-    return result.rows[0].username;
+    return result2.rows[0].username;
   }
 
   /** Authenticate user with username, password. Returns user or throws err. */

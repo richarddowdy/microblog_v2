@@ -5,12 +5,17 @@ import { BASE_API_URL } from "./actionCreators";
 import { Form, Col } from "react-bootstrap";
 import UpdatePasswordModal from "./UpdatePasswordModal";
 import { toast } from "react-toastify";
+import DeleteUserModal from "./DeleteUserModal";
 
 const ProfileForm = ({ userId }) => {
-  const [show, setShow] = useState(false);
+  const [show, setShowPasswordModal] = useState(false);
+  const [showDeleteModal, setShowDeleteUserModal] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClosePasswordModal = () => setShowPasswordModal(false);
+  const handleShowPasswordModal = () => setShowPasswordModal(true);
+
+  const handleCloseDeleteUserModal = () => setShowDeleteUserModal(false);
+  const handleShowDeleteUserModal = () => setShowDeleteUserModal(true);
 
   const initialState = {
     firstName: "",
@@ -56,7 +61,18 @@ const ProfileForm = ({ userId }) => {
 
   return (
     <>
-      <UpdatePasswordModal show={show} handleClose={handleClose} handleShow={handleShow} userId={userId} />
+      <UpdatePasswordModal
+        show={show}
+        handleClose={handleClosePasswordModal}
+        handleShow={handleShowPasswordModal}
+        userId={userId}
+      />
+      <DeleteUserModal
+        show={showDeleteModal}
+        handleClose={handleCloseDeleteUserModal}
+        handleShow={handleShowDeleteUserModal}
+        userId={userId}
+      />
       <Form className="p-5" onSubmit={handleSubmit}>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridFirstName" xs={12} md={6}>
@@ -111,8 +127,11 @@ const ProfileForm = ({ userId }) => {
         <Button className="d-block mb-4" variant="primary" type="submit">
           Submit
         </Button>
-        <Button variant="secondary" onClick={handleShow}>
+        <Button className="mr-4" variant="secondary" onClick={handleShowPasswordModal}>
           Change Password
+        </Button>
+        <Button variant="danger" onClick={handleShowDeleteUserModal}>
+          Delete User
         </Button>
       </Form>
     </>
