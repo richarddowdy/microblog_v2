@@ -110,8 +110,8 @@ class User {
     return user;
   }
 
-  //TODO fix comment
-  /** Change password, requires current password; return undefined */
+  /** Change password, requires current password. */
+
   static async updatePassword(data, userId) {
     const { currentPassword, newPassword, repeatNewPassword } = data;
     if (newPassword !== repeatNewPassword) {
