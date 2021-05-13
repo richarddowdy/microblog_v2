@@ -9,11 +9,7 @@ function NavBar() {
   const currentUser = useSelector((st) => st.user);
   const dispatch = useDispatch();
   
-  // useEffect(() => {
-    
-  // }, [user])
-  
-  // console.log("Navbar", user);
+  // TODO Fix this unresponsive mess - mobile looks terrible
   return (
     <div style={{height: "200px"}} className="navbar text-dark">
       <NavLink to="/" className=" app-brand text-dark">Microblog</NavLink>
@@ -21,11 +17,14 @@ function NavBar() {
       <div style={{display: "block"}} className="text-light col-12">
         <NavLink to="/" className="mr-4 font-weight-bold navbar-link">Blog</NavLink>
         <NavLink to="/new" className="mr-4 font-weight-bold navbar-link">Add a new post</NavLink>
-      {currentUser.id ?   
-      <NavLink to="/" className="font-weight-bold navbar-link" onClick={() => dispatch(logoutUser())}>Logout</NavLink>
-      :
-      <NavLink to="/login" className="font-weight-bold navbar-link">Login / Sign UP</NavLink>
-      }
+        {currentUser.id ?   
+        <>
+          <NavLink to={`/user/${currentUser.id}`} className="mr-4 font-weight-bold navbar-link" >Profile</NavLink>
+          <NavLink to="/" className="font-weight-bold navbar-link" onClick={() => dispatch(logoutUser())}>Logout</NavLink>
+        </>
+        :
+        <NavLink to="/login" className="font-weight-bold navbar-link">Login / Sign UP</NavLink>
+        }
       </div>
     </div>
   );

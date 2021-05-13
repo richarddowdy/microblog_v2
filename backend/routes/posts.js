@@ -101,7 +101,6 @@ router.put("/:id", async function (req, res, next) {
     const newPost = await Post.updatePost(req.params.id, title, body, description);
     return res.json(newPost);
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 });
@@ -117,7 +116,6 @@ router.delete("/:id", async (req, res, next) => {
     const message = await Post.deletePost(req.params.id);
     return res.json({ message });
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 });

@@ -18,32 +18,32 @@ function App() {
   const dispatch = useDispatch();
   const store = useSelector((st) => st);
   let currentUser = useSelector((st) => st.user);
-  console.log("currentUser", currentUser);
-  console.log("entire store", store);
+  // console.log("currentUser", currentUser);
+  // console.log("entire store", store);
 
   // let currentUser;
   // console.log(token);
   useEffect(() => {
-    console.log("effect Running");
+    // console.log("effect Running");
     async function getCurrentUser() {
       // console.log("entire store", store);
       try {
         // let tokenInfo = decode(token);
-        let { is_admin, username } = decode(token);
+        // let { is_admin, username } = decode(token);
         // console.log("current User", username);// TODO: complete persistance of current user
         // console.log("entire token", tokenInfo);// TODO: complete persistance of current user
-        dispatch(getCurrentUserFromApi(username)); //TODO
+        dispatch(getCurrentUserFromApi(token)); //TODO
         // console.log(tokenUser);
         // dispatch(currentUser({...tokenUser, is_admin}));
       } catch (err) {
-        console.log("no token");
+        // console.log("no token");
         // dispatch(removeCurrentUser());
       }
       //   dispatch(loadComplete(true));
     }
     // dispatch(loadComplete(false));
     if (!currentUser.username) {
-      console.log("fetching current user");
+      // console.log("fetching current user");
       getCurrentUser();
       // dispatch(currentUser({}))
     }
