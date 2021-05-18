@@ -26,5 +26,5 @@ module.exports = {
   BCRYPT_WORK_FACTOR,
   SECRET_KEY,
   PORT,
-  DB_URI
+  DB_URI,
 };
