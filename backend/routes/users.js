@@ -35,6 +35,7 @@ router.post("/", async function (req, res, next) {
 });
 
 router.patch("/:id", async function (req, res, next) {
+  //TODO: add middleware, correctuser
   try {
     const updatedUser = await User.update(req.body);
     // console.log(updatedUser);
@@ -45,6 +46,7 @@ router.patch("/:id", async function (req, res, next) {
 });
 
 router.patch("/:id/updatePassword", async function (req, res, next) {
+  //TODO: add middleware, correctuser
   data = req.body;
   userId = req.params.id;
   try {
@@ -56,6 +58,7 @@ router.patch("/:id/updatePassword", async function (req, res, next) {
 });
 
 router.delete("/:username", async function (req, res, next) {
+  //TODO: add middleware, correctuser
   try {
     deletedUsername = await User.delete(req.body);
     return res.json({ message: `User '${deletedUsername}' was deleted`, username: deletedUsername });

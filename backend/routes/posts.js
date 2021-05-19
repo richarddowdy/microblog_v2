@@ -79,6 +79,7 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
  */
 
 router.post("/", async function (req, res, next) {
+  // TODO: add middleware isLoggedIn
   // console.log("trying to make a new post");
   // console.log(req.body);
   try {
@@ -96,6 +97,7 @@ router.post("/", async function (req, res, next) {
  */
 
 router.put("/:id", async function (req, res, next) {
+  //TODO: add middleware, correctuser
   try {
     const { title, body, description } = req.body;
     const newPost = await Post.updatePost(req.params.id, title, body, description);
@@ -112,6 +114,7 @@ router.put("/:id", async function (req, res, next) {
  */
 
 router.delete("/:id", async (req, res, next) => {
+  //TODO: add middleware, correctuser or isAdmin
   try {
     const message = await Post.deletePost(req.params.id);
     return res.json({ message });
