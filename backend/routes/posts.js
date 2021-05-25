@@ -4,7 +4,7 @@ const db = require("../db");
 const express = require("express");
 const router = new express.Router();
 const process = require("process");
-const { authenticateJWT } = require("../middleware/auth");
+const { authenticateJWT, ensureLoggedIn } = require("../middleware/auth");
 const Post = require("../models/postsModel");
 const ExpressError = require("../helpers/expressError");
 
@@ -78,11 +78,12 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
  *
  */
 
-router.post("/", async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
   // TODO: add middleware isLoggedIn
   // console.log("trying to make a new post");
   // console.log(req.body);
   try {
+    console.log("BODY", req.body);
     const response = await Post.createPost(req.body);
     return res.status(201).json(response);
   } catch (err) {

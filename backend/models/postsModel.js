@@ -43,17 +43,17 @@ class Post {
     return result.rows[0];
   }
 
-  static async createPost({ title, body, description, userId }) {
+  static async createPost({ title, body, description, user }) {
     const result = await db.query(
       `INSERT INTO posts (title, description, body, user_id) 
         VALUES ($1, $2, $3, $4) 
         RETURNING id, title, description, body, votes, user_id`,
-      [title, description, body, userId]
+      [title, description, body, user.id]
     );
 
     if (!result.rows[0]) throw new ExpressError("Unable to create new post. Please refresh and try again.", 500);
 
-    let username = await db.query(`SELECT username FROM users u WHERE u.id = $1`, [userId]);
+    let username = await db.query(`SELECT username FROM users u WHERE u.id = $1`, [user.id]);
     username = username.rows[0];
     return { ...result.rows[0], ...username };
   }
