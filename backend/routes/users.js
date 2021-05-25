@@ -4,6 +4,7 @@ const express = require("express");
 const router = new express.Router();
 const process = require("process");
 const User = require("../models/usersModel");
+const { ensureCorrectUser } = require("../middleware/auth");
 process.env.NODE_ENV = "test";
 
 router.get("/", async function (req, res, next) {
@@ -57,8 +58,7 @@ router.patch("/:id/updatePassword", async function (req, res, next) {
   }
 });
 
-router.delete("/:username", async function (req, res, next) {
-  //TODO: add middleware, correctuser
+router.delete("/:username", ensureCorrectUser, async function (req, res, next) {
   try {
     deletedUsername = await User.delete(req.body);
     return res.json({ message: `User '${deletedUsername}' was deleted`, username: deletedUsername });
