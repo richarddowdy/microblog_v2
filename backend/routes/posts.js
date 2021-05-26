@@ -79,8 +79,6 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
  */
 
 router.post("/", ensureLoggedIn, async function (req, res, next) {
-  // TODO: add middleware isLoggedIn
-  // console.log("trying to make a new post");
   // console.log(req.body);
   try {
     console.log("BODY", req.body);
