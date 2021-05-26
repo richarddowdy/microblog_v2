@@ -27,6 +27,7 @@ router.get("/", async function (req, res, next) {
  */
 
 router.post("/", async function (req, res, next) {
+  //TODO: add middleware, isLoggedIn
   const postId = req.params.post_id;
   const { text, userId, author } = req.body;
   try {
@@ -44,6 +45,8 @@ router.post("/", async function (req, res, next) {
  */
 
 router.put("/:id", async function (req, res, next) {
+  //TODO: add middleware, isLoggedIn
+
   // Currently no UI for this.
   try {
     const updatedComment = await Comment.updateComment(req.body.text, req.body.id);
@@ -60,6 +63,7 @@ router.put("/:id", async function (req, res, next) {
  */
 
 router.delete("/:id", async function (req, res, next) {
+  //TODO: add middleware, isLoggedIn
   try {
     const message = await Comment.delete(req.params.id);
     return res.json({ message });

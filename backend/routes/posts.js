@@ -4,7 +4,7 @@ const db = require("../db");
 const express = require("express");
 const router = new express.Router();
 const process = require("process");
-const { authenticateJWT } = require("../middleware/auth");
+const { authenticateJWT, ensureLoggedIn } = require("../middleware/auth");
 const Post = require("../models/postsModel");
 const ExpressError = require("../helpers/expressError");
 
@@ -78,10 +78,10 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
  *
  */
 
-router.post("/", async function (req, res, next) {
-  // console.log("trying to make a new post");
+router.post("/", ensureLoggedIn, async function (req, res, next) {
   // console.log(req.body);
   try {
+    console.log("BODY", req.body);
     const response = await Post.createPost(req.body);
     return res.status(201).json(response);
   } catch (err) {
@@ -96,6 +96,7 @@ router.post("/", async function (req, res, next) {
  */
 
 router.put("/:id", async function (req, res, next) {
+  //TODO: add middleware, correctuser
   try {
     const { title, body, description } = req.body;
     const newPost = await Post.updatePost(req.params.id, title, body, description);
@@ -112,6 +113,7 @@ router.put("/:id", async function (req, res, next) {
  */
 
 router.delete("/:id", async (req, res, next) => {
+  //TODO: add middleware, correctuser or isAdmin
   try {
     const message = await Post.deletePost(req.params.id);
     return res.json({ message });

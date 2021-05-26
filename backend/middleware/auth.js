@@ -6,7 +6,7 @@ function authenticateJWT(req, res, next) {
     const tokenFromBody = req.body._token;
     const payload = jwt.verify(tokenFromBody, SECRET_KEY);
     req.user = payload;
-    // console.log("this is the payload",payload);
+    // console.log("this is the payload", payload, req.user);
     return next();
   } catch (err) {
     return next();
@@ -14,7 +14,7 @@ function authenticateJWT(req, res, next) {
 }
 
 function ensureLoggedIn(req, res, next) {
-  if (!req.user) {
+  if (!req.body.user) {
     return next({ status: 401, message: "Unauthorized" });
   } else {
     return next();
@@ -23,28 +23,13 @@ function ensureLoggedIn(req, res, next) {
 
 function ensureCorrectUser(req, res, next) {
   try {
-    if (req.user.username === req.params.username) {
+    if (req.body.username === req.params.username) {
       return next();
     } else {
       return next({ status: 401, message: "Unauthorized" });
     }
   } catch (err) {
     return next({ status: 401, message: "Unauthorized" });
-  }
-}
-
-function ensureAdmin(req, res, next) {
-  try {
-    if (req.user.is_admin === true) {
-      return next();
-    } else {
-      return next({
-        status: 401,
-        message: "Unauthorized",
-      });
-    }
-  } catch (err) {
-    return next(err);
   }
 }
 
