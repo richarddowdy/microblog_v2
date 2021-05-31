@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS "microblog";
+-- DROP DATABASE IF EXISTS "microblog";
 
-CREATE DATABASE "microblog";
+-- CREATE DATABASE "microblog";
 
-\c "microblog"
+-- \c "microblog"
 
 CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,
                                   username TEXT NOT NULL UNIQUE,
