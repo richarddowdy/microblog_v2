@@ -9,7 +9,7 @@ const usersRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const cors = require("cors");
 
-const ExpressError = require("./helpers/ExpressError");
+const ExpressError = require("./helpers/expressError");
 
 const app = express();
 
