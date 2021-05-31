@@ -37,5 +37,4 @@ module.exports = {
   authenticateJWT,
   ensureLoggedIn,
   ensureCorrectUser,
-  ensureAdmin,
 };
