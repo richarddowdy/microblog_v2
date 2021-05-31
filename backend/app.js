@@ -3,6 +3,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const router = new express.Router();
 const postsRoutes = require("./routes/posts");
 const postCommentsRoutes = require("./routes/postComments");
 const usersRoutes = require("./routes/users");
