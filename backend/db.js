@@ -6,7 +6,7 @@ const { DB_URI } = require("./config");
 // const client = new Client(process.env.DATABASE_URL || "postgresql:///microblog");
 const db = new Client({
   connectionString: DB_URI,
-  ssl: true,
+  ssl: { rejectUnauthorized: false },
 });
 
 db.connect();
