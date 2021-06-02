@@ -193,6 +193,7 @@ export function logoutUser() {
 }
 
 export function getCurrentUserFromApi(token) {
+  if (!token) return;
   return async function (dispatch) {
     try {
       const res = await axios.get(`${BASE_API_URL}/currentUser`, { params: { token } });
