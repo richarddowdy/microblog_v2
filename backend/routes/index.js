@@ -19,10 +19,11 @@ if (process.env.NODE_ENV === "production") {
   // Serve the static assets in the frontend's build folder
   router.use(express.static(path.resolve("frontend/build")));
   // Serve the frontend's index.html file at all other routes NOT starting with /api
-  router.get(/^(?!\/?api).*/, (req, res) => {
-    res.cookie("XSRF-TOKEN", req.csrfToken());
-    res.sendFile(path.resolve(__dirname, "../../frontend", "build", "index.html"));
-  });
+
+  // router.get(/^(?!\/?api).*/, (req, res) => {
+  //   // res.cookie("XSRF-TOKEN", req.csrfToken());
+  //   res.sendFile(path.resolve(__dirname, "../../frontend", "build", "index.html"));
+  // });
 }
 // Add a XSRF-TOKEN cookie in development
 if (process.env.NODE_ENV !== "production") {
