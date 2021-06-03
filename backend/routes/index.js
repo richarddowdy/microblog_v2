@@ -1,8 +1,6 @@
 // backend/routes/index.js
 const express = require("express");
 const router = express.Router();
-// const apiRouter = require("./api");
-// router.use("/api", apiRouter);
 
 /*
 Code block pulled from https://bryanguner.medium.com/deploy-react-app-to-heroku-using-postgres-express-70b7ea807986
