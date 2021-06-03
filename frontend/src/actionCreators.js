@@ -161,26 +161,6 @@ export function postNewUserToApi(userData) {
   };
 }
 
-// This has been moved to the login component
-// export function userLoginToApi(userData, signUp=false) {
-//   return async function (dispatch) {
-//     try {
-//       let authType = signUp ? "users" : "login";
-//       const res = await axios.post(`${BASE_API_URL}/${authType}`, userData);
-//       console.log(res)
-//       const token = res.data.token;
-//       const user = decode(token);
-//       console.log("just logged in to this account" ,user)
-
-//       localStorage.setItem("_token", token);
-//       dispatch(loginUser(user));
-//     } catch (err) { //TODO
-//       console.log(err.response.data) // <- this is the proper way to catch errors from backend
-//       dispatch(invalid_login(err.response.data.message));
-//     }
-//   };
-// }
-
 export function logoutUser() {
   return function (dispatch) {
     try {
