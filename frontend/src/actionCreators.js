@@ -15,8 +15,11 @@ import { decode } from "jsonwebtoken";
 import { invalid_login } from "./actions/errorActions";
 import { toast } from "react-toastify";
 
-export const BASE_API_URL = `${window.location.origin}/api`;
-// export const BASE_API_URL = "http://localhost:5000/api";
+let BASE_API_URL;
+process.env.NODE_ENV === "production"
+  ? (BASE_API_URL = `${window.location.origin}/api`)
+  : (BASE_API_URL = "http://localhost:5000/api");
+export { BASE_API_URL };
 
 export function getAllTitlesFromApi() {
   return async function (dispatch) {

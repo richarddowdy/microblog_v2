@@ -24,7 +24,7 @@ function App() {
         // console.log(tokenUser);
         // dispatch(currentUser({...tokenUser, is_admin})); // TODO someday maybe?
       } catch (err) {
-        console.error("no token");
+        // console.error("no token");
         dispatch(logoutUser());
       }
     }

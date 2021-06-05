@@ -1,4 +1,7 @@
 const db = require("../db");
+const ExpressError = require("../helpers/expressError");
+const jsonscema = require("jsonschema");
+const commentSchema = require("../schema/commentSchema.json");
 
 class Comment {
   static async findAll() {
@@ -6,7 +9,17 @@ class Comment {
     return result.rows;
   }
 
-  static async createComment(text, postId, userId) {
+  static async createComment(data) {
+    const { text, postId, userId } = data;
+    data.postId = +postId;
+    data.userId = +userId;
+    const schemaResult = jsonscema.validate(data, commentSchema);
+    if (!schemaResult.valid) {
+      let listOfErrors = schemaResult.errors.map((error) => error.stack);
+      let error = new ExpressError(listOfErrors, 400);
+      throw error;
+    }
+
     const result = await db.query(
       `INSERT INTO comments (text, post_id, user_id) VALUES ($1, $2, $3) 
         RETURNING id, text`,

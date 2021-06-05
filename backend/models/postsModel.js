@@ -1,5 +1,7 @@
 const db = require("../db");
 const ExpressError = require("../helpers/expressError");
+const jsonscema = require("jsonschema");
+const postSchema = require("../schema/postSchema.json");
 
 class Post {
   static async findAll() {
@@ -44,6 +46,13 @@ class Post {
   }
 
   static async createPost({ title, body, description, user }) {
+    let schemaResult = jsonscema.validate({ title, body, description }, postSchema);
+    if (!schemaResult.valid) {
+      let listOfErrors = schemaResult.errors.map((error) => error.stack);
+      let error = new ExpressError(listOfErrors, 400);
+      throw error;
+    }
+
     const result = await db.query(
       `INSERT INTO posts (title, description, body, user_id) 
         VALUES ($1, $2, $3, $4) 
