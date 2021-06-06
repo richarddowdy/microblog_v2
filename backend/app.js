@@ -3,32 +3,32 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const indexRoute = require("./routes/index");
 const postsRoutes = require("./routes/posts");
 const postCommentsRoutes = require("./routes/postComments");
 const usersRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const cors = require("cors");
 
-const ExpressError = require('./helpers/ExpressError');
-
+const ExpressError = require("./helpers/expressError");
 
 const app = express();
 
 app.use(morgan("tiny"));
 app.use(bodyParser.json());
 
-const {authenticateJWT} = require("./middleware/auth")
+const { authenticateJWT } = require("./middleware/auth");
 
 app.use(authenticateJWT);
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use("/", indexRoute);
 app.use("/api/users", usersRoutes);
 app.use("/api/posts/:post_id/comments", postCommentsRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api", authRoutes); // "/login"
-
 
 /** 404 handler */
 
@@ -47,9 +47,8 @@ app.use(function (err, req, res, next) {
 
   return res.json({
     status: err.status,
-    message: err.message
+    message: err.message,
   });
 });
-
 
 module.exports = app;

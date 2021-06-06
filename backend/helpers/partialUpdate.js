@@ -24,7 +24,7 @@ function sqlForPartialUpdate(table, items, key, id) {
   let idx = 1;
   let columns = [];
 
-  // filter out keys that start with "_" -- we don't want these in DB
+  // filter out keys that start with "_" -- don't want these in DB
   for (let key in items) {
     if (key.startsWith("_") || key.startsWith("id")) {
       delete items[key];

@@ -28,10 +28,11 @@ router.get("/", async function (req, res, next) {
 
 router.post("/", async function (req, res, next) {
   //TODO: add middleware, isLoggedIn
-  const postId = req.params.post_id;
-  const { text, userId, author } = req.body;
+  // const postId = req.params.post_id;
+  const { author } = req.body;
+  const data = { ...req.body, postId: req.params.post_id };
   try {
-    const newComment = await Comment.createComment(text, postId, userId);
+    const newComment = await Comment.createComment(data);
     return res.json({ ...newComment, author });
   } catch (err) {
     return next(err);
