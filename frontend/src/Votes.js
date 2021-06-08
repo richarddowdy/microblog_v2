@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { sendUpVoteToApi, sendDownVoteToApi } from "./actionCreators";
+import "./Votes.css";
 
 function Votes({ postId, votes }) {
   const dispatch = useDispatch();
@@ -16,8 +17,8 @@ function Votes({ postId, votes }) {
   return (
     <>
       <span className="mr-3">{votes} Votes</span>
-      <i className="far fa-thumbs-up text-success mr-3 pointer" onClick={() => handleUpVote(postId)}></i>
-      <i className="far fa-thumbs-down text-danger pointer" onClick={() => handleDownVote(postId)}></i>
+      <i className="far fa-thumbs-up mr-3 up_vote pointer" onClick={() => handleUpVote(postId)}></i>
+      <i className="far fa-thumbs-down down_vote pointer" onClick={() => handleDownVote(postId)}></i>
     </>
   );
 }
