@@ -11,18 +11,22 @@ h2 {
   font-weight: 400;
 }
 
-.post-controls { 
-  float: right
+.post-controls {
+  float: right;
 }
 
 .api-buttons {
   text-align: right;
 }
 
+.edit_icon {
+  color: goldenrod;
+}
+
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 800px) {
   h1 {
-    font-size: 40px
+    font-size: 40px;
   }
   h2 {
     font-size: 25px;
@@ -34,4 +38,3 @@ h2 {
     text-align: left;
   }
 }
-
