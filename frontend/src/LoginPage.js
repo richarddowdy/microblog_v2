@@ -8,32 +8,31 @@ function LoginPage() {
   return (
     <div className="login">
       <LoginForm signUp={isSignUp} />
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex mt-5 text-center">
         {isSignUp ? (
-          <>
-            <span className="my-auto">Already have an account? Click here to sign in.</span>
+          <div className="m-auto">
+            <p className="px-3">Already have an account? Click here to sign in.</p>
             <button
-              className="better-button btn btn-outline-primary m-3"
+              className="better-button btn btn-outline-primary mb-5"
               onClick={() => {
                 setIsSignUp(false);
               }}
             >
               Login
             </button>
-          </>
+          </div>
         ) : (
-          <>
-            <span className="my-auto">Don't have an account with here yet? Click here to sign up!</span>
+          <div className="m-auto">
+            <p className="px-3">Don't have an account with here yet? Click here to sign up!</p>
             <button
-              className="better-button btn btn-outline-primary m-3"
-              // style={{ fontSize: "1rem", text: "" }}
+              className="better-button btn btn-outline-primary mb-5"
               onClick={() => {
                 setIsSignUp(true);
               }}
             >
               Sign Up
             </button>
-          </>
+          </div>
         )}
       </div>
     </div>

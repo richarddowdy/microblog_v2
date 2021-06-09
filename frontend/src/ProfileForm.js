@@ -6,6 +6,7 @@ import { Form, Col } from "react-bootstrap";
 import UpdatePasswordModal from "./UpdatePasswordModal";
 import { toast } from "react-toastify";
 import DeleteUserModal from "./DeleteUserModal";
+import "./ProfileForm.css";
 
 const ProfileForm = ({ userId }) => {
   const [show, setShowPasswordModal] = useState(false);
@@ -130,7 +131,7 @@ const ProfileForm = ({ userId }) => {
         <Button className="mr-4" variant="secondary" onClick={handleShowPasswordModal}>
           Change Password
         </Button>
-        <Button variant="danger" onClick={handleShowDeleteUserModal}>
+        <Button className="push-down" variant="danger" onClick={handleShowDeleteUserModal}>
           Delete User
         </Button>
       </Form>

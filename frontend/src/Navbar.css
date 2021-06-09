@@ -1,12 +1,15 @@
 .navbar {
-  background-image: url(http://www.techelium.in/wp-content/uploads/2015/10/blog-banner.jpg);
+  background: url("images/banner_image.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .app-brand {
   text-decoration: none;
   font-size: 70px;
   display: block;
-  color: white;
+  color: black;
 }
 
 .app-brand:hover {
@@ -15,7 +18,7 @@
 
 .navbar-link {
   font-size: 26px;
-  color: white;
+  color: black;
 }
 
 nav a {
@@ -48,11 +51,28 @@ nav a:hover:before {
   transform: scaleX(1);
 }
 
+.link-margin {
+  margin-right: 20px;
+}
+
 @media only screen and (max-width: 800px) {
   .app-brand {
     font-size: 60px;
+    color: white;
   }
   .navbar-link {
     font-size: 18px;
+  }
+  .link-margin {
+    margin-right: 12px;
+  }
+  .navbar-link:not(:last-child)::after {
+    content: "";
+    border: 3px solid black;
+    border-width: 1px 1px 0 0;
+    position: absolute;
+    right: -6px;
+    top: 0;
+    height: 100%;
   }
 }
