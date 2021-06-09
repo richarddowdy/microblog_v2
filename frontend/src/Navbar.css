@@ -54,6 +54,7 @@ nav a:hover:before {
 @media only screen and (max-width: 800px) {
   .app-brand {
     font-size: 60px;
+    color: white;
   }
   .navbar-link {
     font-size: 18px;
