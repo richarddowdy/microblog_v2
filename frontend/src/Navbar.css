@@ -1,12 +1,15 @@
 .navbar {
-  background-image: url(http://www.techelium.in/wp-content/uploads/2015/10/blog-banner.jpg);
+  background: url("images/banner_image.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .app-brand {
   text-decoration: none;
   font-size: 70px;
   display: block;
-  color: white;
+  color: black;
 }
 
 .app-brand:hover {
@@ -15,7 +18,7 @@
 
 .navbar-link {
   font-size: 26px;
-  color: white;
+  color: black;
 }
 
 nav a {
