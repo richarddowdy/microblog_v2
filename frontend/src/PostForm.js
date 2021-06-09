@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 function PostForm({ post, save, cancel }) {
-
   const [formData, setFormData] = useState({
     title: post.title,
     description: post.description,
@@ -24,7 +23,7 @@ function PostForm({ post, save, cancel }) {
 
   return (
     <div className="">
-      <form className="col-8 m-auto" onSubmit={handleSubmit}>
+      <form className="col-8 m-auto pb-5" onSubmit={handleSubmit}>
         <hr />
         <div className="form-group">
           <label htmlFor="title">Title:</label>

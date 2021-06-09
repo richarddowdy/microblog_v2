@@ -9,7 +9,7 @@ function NavBar() {
   const dispatch = useDispatch();
 
   return (
-    <nav style={{ height: "200px" }} className="navbar">
+    <nav style={{ height: "220px" }} className="navbar">
       <NavLink to="/" className="app-brand">
         Microblog
       </NavLink>
@@ -23,16 +23,16 @@ function NavBar() {
         <i className="fab fa-github fa-3x"></i>
         <span className="d-block">Github Repo</span>
       </a>
-      <div style={{ display: "block" }} className="text-light col-12">
-        <NavLink to="/" className="mr-4 font-weight-bold navbar-link">
+      <div style={{ display: "block" }} className="text-light col-12 p-0">
+        <NavLink to="/" className="link-margin font-weight-bold navbar-link divider">
           Blog
         </NavLink>
-        <NavLink to="/new" className="mr-4 font-weight-bold navbar-link">
+        <NavLink to="/new" className="link-margin font-weight-bold navbar-link divider">
           Add New post
         </NavLink>
         {currentUser.id ? (
           <>
-            <NavLink to={`/user/${currentUser.id}`} className="mr-4 font-weight-bold navbar-link">
+            <NavLink to={`/user/${currentUser.id}`} className="link-margin font-weight-bold navbar-link">
               Profile
             </NavLink>
             <NavLink to="/" className="font-weight-bold navbar-link" onClick={() => dispatch(logoutUser())}>

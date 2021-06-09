@@ -51,6 +51,10 @@ nav a:hover:before {
   transform: scaleX(1);
 }
 
+.link-margin {
+  margin-right: 20px;
+}
+
 @media only screen and (max-width: 800px) {
   .app-brand {
     font-size: 60px;
@@ -58,5 +62,17 @@ nav a:hover:before {
   }
   .navbar-link {
     font-size: 18px;
+  }
+  .link-margin {
+    margin-right: 12px;
+  }
+  .navbar-link:not(:last-child)::after {
+    content: "";
+    border: 3px solid black;
+    border-width: 1px 1px 0 0;
+    position: absolute;
+    right: -6px;
+    top: 0;
+    height: 100%;
   }
 }
