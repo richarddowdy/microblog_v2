@@ -1,6 +1,6 @@
-# Microblog
-
 No longer live due to Heroku free tier being gone.
+
+# Microblog
 
 Microblog is an anonymous blogging app that allows users to create blog posts and create comments on any post. 
 
